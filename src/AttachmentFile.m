@@ -485,8 +485,8 @@
 						ERR(@"FSCatalogInfo set error(0x%02X,err=%d,%@)", info->fdFlags, osError, self.path);
 					} else {
                         
-                        FSVolumeRefNum num = fsSpec.vRefNum;
-						FSFlushVolume(num);
+//                        FSVolumeRefNum num = fsSpec.vRefNum;
+//						FSFlushVolume(num);
 					}
 				}
 			}

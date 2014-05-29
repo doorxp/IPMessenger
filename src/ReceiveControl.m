@@ -191,12 +191,14 @@
 		[op setCanChooseFiles:NO];
 		[op setCanChooseDirectories:YES];
 		[op setPrompt:NSLocalizedString(@"RecvDlg.Attach.SelectBtn", nil)];
-		[op beginSheetForDirectory:nil
-							  file:nil
-					modalForWindow:window
-					 modalDelegate:self
-					didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-					   contextInfo:sender];
+
+        [op beginSheetModalForWindow:window
+                   completionHandler:^(NSInteger result)
+        {
+            [self sheetDidEnd:op
+                   returnCode:result
+                  contextInfo:sender];
+        }];
 	} else if (sender == attachSheetCancelButton) {
 		[downloader stopDownload];
 	} else {
@@ -215,7 +217,7 @@
 	if (info == attachSaveButton) {
 		if (code == NSOKButton) {
 			NSFileManager*	fileManager	= [NSFileManager defaultManager];
-			NSString*		directory	= [(NSOpenPanel*)sheet directory];
+			NSString*		directory	= [[(NSOpenPanel*)sheet directoryURL] relativePath];
 			NSIndexSet*		indexes		= [attachTable selectedRowIndexes];
 			NSUInteger		index;
 			[downloader release];

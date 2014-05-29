@@ -74,7 +74,7 @@
 {
 	_start		= [[NSDate alloc] init];
 	_totalStep	= aTotalStep;
-	self.lines	= [NSString stringWithFormat:@"0 / %d", _totalStep];
+	self.lines	= [NSString stringWithFormat:@"0 / %ld", _totalStep];
 	[_progressBar setMaxValue:aTotalStep];
 	[_progressBar setDoubleValue:0];
 	[_progressBar setIndeterminate:NO];

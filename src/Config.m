@@ -157,7 +157,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	NSMutableDictionary*	mutableDic;
 	NSString*				str;
 	float					fVal;
-	NSUInteger				i;
+	unsigned int				i;
 	NSSize					size;
 
 	DBG(@"======== Init Config start ========");
@@ -330,10 +330,10 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	self.receiveWindowSize			= size;
 	#if IPMSG_LOG_DBG
 		// デバッグ用ログ出力
-		NSUInteger	count;
+		unsigned int	count=0;
 
 		objc_property_t* props = class_copyPropertyList([self class], &count);
-		DBG(@"properties[%u]=(", count);
+		DBG(@"properties[%lu]=(", (unsigned long)count);
 		for (i = 0; i < count; i++) {
 			const char*	name;
 			id			val;
@@ -531,7 +531,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		}
 		return [_broadcastIPList objectAtIndex:index - hostnum];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 	return nil;
 }
@@ -553,7 +553,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[_broadcastIPList sortUsingSelector:@selector(compare:)];
 		[self updateBroadcastAddresses];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%p)", exception, index);
 	}
 }
 
@@ -564,7 +564,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[_broadcastHostList sortUsingSelector:@selector(compare:)];
 		[self updateBroadcastAddresses];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%p)", exception, index);
 	}
 }
 
@@ -579,7 +579,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		}
 		[self updateBroadcastAddresses];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 }
 
@@ -705,7 +705,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	@try {
 		return [[_absenceList objectAtIndex:index] objectForKey:@"Title"];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 	return nil;
 }
@@ -715,7 +715,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	@try {
 		return [[_absenceList objectAtIndex:index] objectForKey:@"Message"];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 	return nil;
 }
@@ -729,7 +729,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 			}
 		}
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%p)", exception, index);
 	}
 	return NO;
 }

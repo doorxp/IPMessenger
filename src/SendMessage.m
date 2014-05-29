@@ -80,7 +80,7 @@
 // オブジェクト文字列表現
 - (NSString*)description
 {
-	return [NSString stringWithFormat:@"SendMessage:PacketNo=%d", self.packetNo];
+	return [NSString stringWithFormat:@"SendMessage:PacketNo=%ld", self.packetNo];
 }
 
 // オブジェクトコピー

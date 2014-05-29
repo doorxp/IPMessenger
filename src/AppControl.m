@@ -599,7 +599,7 @@
 									defaultButton:ok 
 								  alternateButton:nil
 									  otherButton:nil
-						informativeTextWithFormat:message];
+						informativeTextWithFormat:@"%@",message];
 			[alert setAlertStyle:NSCriticalAlertStyle];
 			[alert runModal];
 		}
@@ -616,7 +616,7 @@
 								defaultButton:ok
 							  alternateButton:nil
 								  otherButton:nil
-					informativeTextWithFormat:converter.backupPath];
+					informativeTextWithFormat:@"%@",converter.backupPath];
 		[alert setAlertStyle:NSInformationalAlertStyle];
 		[alert runModal];
 	}

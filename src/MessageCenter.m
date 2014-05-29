@@ -305,7 +305,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	}
 
 	// メッセージヘッダ部編集
-	NSString*	header	= [NSString stringWithFormat:@"%d:%ld:%@:%@:%ld:",
+	NSString*	header	= [NSString stringWithFormat:@"%d:%ld:%@:%@:%u:",
 								IPMSG_VERSION, mid, NSUserName(), myHostName, cmd];
 	const char*	str		= [header GB18030String];
 	NSUInteger	len		= strlen(str);
@@ -364,7 +364,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	return [self sendTo:toUser
 			  messageID:mid
 				command:cmd
-				message:[NSString stringWithFormat:@"%d", num]
+				message:[NSString stringWithFormat:@"%ld", num]
 				 option:nil];
 }
 
@@ -449,11 +449,11 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		NSNumber*			messageID		= [NSNumber numberWithInt:msg.packetNo];
 		for (Attachment* info in msg.attachments) {
 			info.fileID	= [NSNumber numberWithInteger:count];
-			[buffer appendFormat:@"%d:%@:%llX:%X:%X:",
+			[buffer appendFormat:@"%ld:%@:%llX:%f:%X:",
 								count,
 								info.file.name,
 								info.file.size,
-								(UInt32)[info.file.modifyTime timeIntervalSince1970],
+								[info.file.modifyTime timeIntervalSince1970],
 								info.file.attribute];
 			NSString* ext = [info.file makeExtendAttribute];
 			if ([ext length] > 0) {
@@ -1173,7 +1173,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	CFRelease(value);
 
 	if (myIPAddress != newAddr) {
-		DBG(@"IPAddress changed (%d.%d.%d.%d -> %d.%d.%d.%d)",
+		DBG(@"IPAddress changed (%ld.%ld.%ld.%ld -> %ld.%ld.%ld.%ld)",
 				((oldAddr >> 24) & 0x00FF), ((oldAddr >> 16) & 0x00FF),
 				((oldAddr >> 8) & 0x00FF), (oldAddr & 0x00FF),
 				((newAddr >> 24) & 0x00FF), ((newAddr >> 16) & 0x00FF),

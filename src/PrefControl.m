@@ -490,12 +490,22 @@
 		}
 		[sp setPrompt:NSLocalizedString(@"Log.File.SaveSheet.OK", nil)];
 		// シート表示
-		[sp beginSheetForDirectory:[orgPath stringByDeletingLastPathComponent]
-							  file:[orgPath lastPathComponent]
-					modalForWindow:panel
-					 modalDelegate:self
-					didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-					   contextInfo:sender];
+//		[sp beginSheetForDirectory:[orgPath stringByDeletingLastPathComponent]
+//							  file:[orgPath lastPathComponent]
+//					modalForWindow:panel
+//					 modalDelegate:self
+//					didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+//					   contextInfo:sender];
+        sp.directoryURL =
+        [NSURL URLWithString:[orgPath stringByDeletingLastPathComponent]];
+        sp.nameFieldStringValue = [orgPath lastPathComponent];
+        
+        [sp beginSheetModalForWindow:panel
+                   completionHandler:^(NSInteger result) {
+                       [self sheetDidEnd:sp
+                              returnCode:result
+                             contextInfo:sender];
+                   }];
 	}
 	// その他（バグ）
 	else {
@@ -801,7 +811,7 @@
 	else if (info == logStdPathRefButton) {
 		if (code == NSOKButton) {
 			NSSavePanel*	sp = (NSSavePanel*)sheet;
-			NSString*		fn = [[sp filename] stringByAbbreviatingWithTildeInPath];
+			NSString*		fn = [[[sp URL] relativePath] stringByAbbreviatingWithTildeInPath];
 			[Config sharedConfig].standardLogFile = fn;
 			[logStdPathField setStringValue:fn];
 		}
@@ -810,7 +820,7 @@
 	else if (info == logAltPathRefButton) {
 		if (code == NSOKButton) {
 			NSSavePanel*	sp = (NSSavePanel*)sheet;
-			NSString*		fn = [[sp filename] stringByAbbreviatingWithTildeInPath];
+			NSString*		fn = [[[sp URL] relativePath] stringByAbbreviatingWithTildeInPath];
 			[Config sharedConfig].alternateLogFile = fn;
 			[logAltPathField setStringValue:fn];
 		}

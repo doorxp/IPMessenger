@@ -301,7 +301,10 @@
 		result = DL_STOP;
 	}
 	[listener downloadDidFinished:result];
-	[lock unlock];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [lock unlock];
+    });
+	
 	DBG(@"stop download thread.");
 	[pool release];
 }

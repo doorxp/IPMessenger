@@ -113,7 +113,7 @@
 - (void)appendUser:(UserInfo*)info {
 	if (info) {
 		[lock lock];
-		int index = [userList indexOfObject:info];
+		NSUInteger index = [userList indexOfObject:info];
 		if (index == NSNotFound) {
 			// なければ追加
 			[userList addObject:info];
@@ -134,7 +134,7 @@
 - (void)setVersion:(NSString*)version ofUser:(UserInfo*)user {
 	if (user) {
 		[lock lock];
-		int index = [userList indexOfObject:user];
+		NSUInteger index = [userList indexOfObject:user];
 		if (index != NSNotFound) {
 			// あれば設定
 			user.version = version;
@@ -148,7 +148,7 @@
 - (void)removeUser:(UserInfo*)info {
 	if (info) {
 		[lock lock];
-		int index = [userList indexOfObject:info];
+		NSUInteger index = [userList indexOfObject:info];
 		if (index != NSNotFound) {
 			// あれば削除
 			[userList removeObjectAtIndex:index];

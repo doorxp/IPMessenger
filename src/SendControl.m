@@ -151,12 +151,19 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		[attachDelButton setEnabled:NO];
 		// シート表示
 		[op setCanChooseDirectories:YES];
-		[op beginSheetForDirectory:nil
-							  file:nil
-					modalForWindow:window
-					 modalDelegate:self
-					didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-					   contextInfo:sender];
+        [op beginSheetModalForWindow:window
+                   completionHandler:^(NSInteger result)
+         {
+            [self sheetDidEnd:op
+                   returnCode:result
+                  contextInfo:sender];
+        }];
+//		[op beginSheetForDirectory:nil
+//							  file:nil
+//					modalForWindow:window
+//					 modalDelegate:self
+//					didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+//					   contextInfo:sender];
 	}
 	// 添付削除ボタン
 	else if (sender == attachDelButton) {
@@ -477,7 +484,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 				cfg.sendSearchByLogOnName = newVal;
 				break;
 			default:
-				ERR(@"unknown tag(%d)", [sender tag]);
+				ERR(@"unknown tag(%ld)", [sender tag]);
 				break;
 		}
 		[self updateUserSearch:self];
