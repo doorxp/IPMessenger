@@ -21,7 +21,7 @@
 	self = [super init];
 
 	// nibファイルロード
-	if (![[NSBundle mainBundle] loadNibNamed:@"PortChangeDialog.nib" owner:self topLevelObjects:nil]) {
+	if (![NSBundle loadNibNamed:@"PortChangeDialog.nib" owner:self]) {
 		[self autorelease];
 		return nil;
 	}

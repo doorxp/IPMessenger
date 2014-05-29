@@ -20,7 +20,7 @@
 
 @interface RecvMessage()
 @property(assign,readwrite)	NSInteger			packetNo;
-@property(assign,readwrite)	NSDate*				receiveDate;
+@property(nonatomic, retain)	NSDate*				receiveDate;
 @property(readwrite)		struct sockaddr_in	fromAddress;
 @end
 
@@ -72,7 +72,7 @@
 	}
 
 	// メンバ初期化
-	self.receiveDate	= [[NSDate date] retain];
+	self.receiveDate	= [NSDate date];
 	self.fromAddress	= addr;
 
 	fromUser		= nil;

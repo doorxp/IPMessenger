@@ -372,10 +372,11 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 				(strcmp(name, "_defaultAbsences") == 0)) {
 				TRC(@"\t%s=(", name);
 				for (dic in val) {
-					NSString* t = [dic objectForKey:@"Title"];
-					NSString* m = [dic objectForKey:@"Message"];
+					NSString* t __unused = [dic objectForKey:@"Title"];
+					NSString* m __unused = [dic objectForKey:@"Message"];
 					str = [m stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
 					TRC(@"\t\t\"%@\"（\"%@\"）", t, str);
+#pragma unused(str)
 				}
 				TRC(@"\t);");
 			} else {

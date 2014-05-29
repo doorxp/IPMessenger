@@ -41,9 +41,8 @@
 		[self autorelease];
 		return nil;
 	}
-    
-    
-	if (![[NSBundle mainBundle] loadNibNamed:@"ReceiveWindow.nib" owner:self topLevelObjects:nil]) {
+
+	if (![NSBundle loadNibNamed:@"ReceiveWindow.nib" owner:self]) {
 		[self autorelease];
 		return nil;
 	}
@@ -383,6 +382,9 @@
 	}
 	// 送信ダイアログ作成
 	sendCtl = [[SendControl alloc] initWithSendMessage:quotMsg recvMessage:recvMsg];
+    [[WindowManager sharedManager] setReplyWindow:sendCtl
+                                           forKey:recvMsg];
+    [sendCtl autorelease];
 }
 
 /*----------------------------------------------------------------------------*

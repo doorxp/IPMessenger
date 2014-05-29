@@ -22,12 +22,12 @@
 - (id)initWithBuffer:(NSString*)buf needReadModTime:(BOOL)flag;
 - (void)readExtendAttribute:(NSString*)str;
 - (NSMutableDictionary*)fileAttributes;
-@property(assign,readwrite)	NSString*	name;
-@property(assign,readwrite)	NSString*	path;
+@property(nonatomic,retain)	NSString*	name;
+@property(nonatomic,retain)	NSString*	path;
 @property(assign,readwrite)	UInt64		size;
 @property(assign,readwrite)	UInt32		attribute;
-@property(retain,readwrite)	NSDate*		createTime;
-@property(retain,readwrite)	NSDate*		modifyTime;
+@property(nonatomic,retain)	NSDate*		createTime;
+@property(nonatomic,retain)	NSDate*		modifyTime;
 @end
 
 /*============================================================================*
@@ -101,8 +101,8 @@
 	NSMutableString* uncomp = [NSMutableString stringWithString:[path lastPathComponent]];
 	CFStringNormalize((CFMutableStringRef)uncomp, kCFStringNormalizationFormC);
 //	CFStringFold((CFMutableStringRef)uncomp, kCFCompareCaseInsensitive | kCFCompareDiacriticInsensitive | kCFCompareWidthInsensitive, NULL);
-	self.name		= [[NSString alloc] initWithString:uncomp];
-	self.path		= [path copy];
+	self.name		= [[[NSString alloc] initWithString:uncomp] autorelease];
+	self.path		= [[path copy] autorelease];
 	self.size		= [[attrs objectForKey:NSFileSize] unsignedLongLongValue];
 	self.createTime	= [attrs objectForKey:NSFileCreationDate];
 	self.modifyTime	= [attrs objectForKey:NSFileModificationDate];
@@ -245,9 +245,9 @@
 	if (self) {
 		// ファイルパス
 		if ([self isParentDirectory]) {
-			self.path = [[dir stringByDeletingLastPathComponent] retain];
+			self.path = [dir stringByDeletingLastPathComponent];
 		} else {
-			self.path = [[dir stringByAppendingPathComponent:self.name] retain];
+			self.path = [dir stringByAppendingPathComponent:self.name];
 		}
 	}
 	return self;
@@ -295,7 +295,7 @@
 		ERR(@"filePath already exist(%@,dir=%@)", self.path, dir);
 		return;
 	}
-	self.path = [[dir stringByAppendingPathComponent:self.name] retain];
+	self.path = [dir stringByAppendingPathComponent:self.name];
 }
 
 /*----------------------------------------------------------------------------*

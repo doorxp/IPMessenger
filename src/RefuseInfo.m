@@ -141,7 +141,6 @@
 	}
 	NSString* tgt = NSLocalizedString(s, nil);
 
-	s = @"";
 	switch (self.condition) {
 	case IP_REFUSE_MATCH:	s = @"Refuse.Desc.Match";		break;
 	case IP_REFUSE_CONTAIN:	s = @"Refuse.Desc.Contain";		break;
