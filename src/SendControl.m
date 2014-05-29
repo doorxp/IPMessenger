@@ -66,7 +66,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	attachmentsDic		= [[NSMutableDictionary alloc] init];
 
 	// Nibファイルロード
-	if (![NSBundle loadNibNamed:@"SendWindow.nib" owner:self]) {
+	if (![[NSBundle mainBundle] loadNibNamed:@"SendWindow.nib" owner:self topLevelObjects:nil]) {
 		[self autorelease];
 		return nil;
 	}

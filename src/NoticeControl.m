@@ -26,7 +26,7 @@
 
 	self = [super init];
 	// nibファイルロード
-	if (![NSBundle loadNibNamed:@"NoticeDialog.nib" owner:self]) {
+	if (![[NSBundle mainBundle] loadNibNamed:@"NoticeDialog.nib" owner:self topLevelObjects:nil]) {
 		[self autorelease];
 		return nil;
 	}

@@ -41,8 +41,9 @@
 		[self autorelease];
 		return nil;
 	}
-
-	if (![NSBundle loadNibNamed:@"ReceiveWindow.nib" owner:self]) {
+    
+    
+	if (![[NSBundle mainBundle] loadNibNamed:@"ReceiveWindow.nib" owner:self topLevelObjects:nil]) {
 		[self autorelease];
 		return nil;
 	}

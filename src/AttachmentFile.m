@@ -132,6 +132,8 @@
 	if (![self isDirectory]) {
 		FSRef		fsRef;
 		OSStatus	osStatus;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		osStatus = FSPathMakeRef((const UInt8*)[self.path UTF8String], &fsRef, NULL);
 		if (osStatus != noErr) {
 			ERR(@"FSRef make error(%@,status=%d)", self.path, osStatus);
@@ -157,6 +159,7 @@
 			}
 		}
 	}
+#pragma clang diagnostic pop
 	// ファイル名エスケープ（":"→"::"）
 	range = [self.name rangeOfString:@":"];
 	if (range.location != NSNotFound) {
@@ -464,6 +467,8 @@
 		if (finderFlags != 0) {
 			FSRef		fsRef;
 			OSStatus	osStatus;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			osStatus = FSPathMakeRef((const UInt8*)[self.path UTF8String], &fsRef, NULL);
 			if (osStatus != noErr) {
 				ERR(@"FSRef make error(%@,status=%d)", self.path, osStatus);
@@ -490,6 +495,7 @@
 					}
 				}
 			}
+#pragma clang diagnostic pop
 		}
 	}
 }
