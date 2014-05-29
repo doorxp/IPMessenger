@@ -52,6 +52,7 @@
 - (IBAction)checkboxChanged:(id)sender;
 
 - (IBAction)searchUser:(id)sender;
+- (IBAction)selectUser:(id)sender;
 - (IBAction)updateUserSearch:(id)sender;
 - (IBAction)searchMenuItemSelected:(id)sender;
 

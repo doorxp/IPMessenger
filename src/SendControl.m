@@ -66,7 +66,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	attachmentsDic		= [[NSMutableDictionary alloc] init];
 
 	// Nibファイルロード
-	if (![[NSBundle mainBundle] loadNibNamed:@"SendWindow.nib" owner:self topLevelObjects:nil]) {
+	if (![NSBundle loadNibNamed:@"SendWindow.nib" owner:self]) {
 		[self autorelease];
 		return nil;
 	}
@@ -587,6 +587,11 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		// 検索フィールドにフォーカスがなければフォーカスを移動
 		[window makeFirstResponder:searchField];
 	}
+}
+
+- (IBAction)selectUser:(id)sender
+{
+    [window makeFirstResponder:userTable];
 }
 
 - (IBAction)updateUserSearch:(id)sender

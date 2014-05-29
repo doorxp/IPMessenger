@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1050" identifier="macosx"/>
+        <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
@@ -102,6 +102,11 @@
                             <menuItem title="Refresh UserList" keyEquivalent="r" id="1068">
                                 <connections>
                                     <action selector="updateUserList:" target="-1" id="1070"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Select UserList" keyEquivalent="t" id="oLy-gV-WZi">
+                                <connections>
+                                    <action selector="selectUser:" target="-1" id="CU4-4L-7VD"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1069">
@@ -383,11 +388,11 @@
                         <tabViewItems>
                             <tabViewItem label="General" identifier="general" id="258">
                                 <view key="view" id="248">
-                                    <rect key="frame" x="10" y="25" width="489" height="316"/>
+                                    <rect key="frame" x="10" y="29" width="489" height="312"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="750" id="252">
-                                            <rect key="frame" x="13" y="276" width="82" height="17"/>
+                                            <rect key="frame" x="13" y="272" width="82" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="User :" id="1197">
                                                 <font key="font" metaFont="system"/>
@@ -396,7 +401,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="301">
-                                            <rect key="frame" x="13" y="235" width="82" height="17"/>
+                                            <rect key="frame" x="13" y="231" width="82" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Group :" id="1199">
                                                 <font key="font" metaFont="system"/>
@@ -405,7 +410,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="282">
-                                            <rect key="frame" x="100" y="274" width="369" height="22"/>
+                                            <rect key="frame" x="100" y="270" width="369" height="22"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1198">
                                                 <font key="font" metaFont="system"/>
@@ -417,7 +422,7 @@
                                             </connections>
                                         </textField>
                                         <button verticalHuggingPriority="750" id="244">
-                                            <rect key="frame" x="158" y="180" width="173" height="32"/>
+                                            <rect key="frame" x="158" y="176" width="173" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="push" title="Password Setting..." bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="1196">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -428,7 +433,7 @@
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" id="582">
-                                            <rect key="frame" x="100" y="233" width="369" height="22"/>
+                                            <rect key="frame" x="100" y="229" width="369" height="22"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1200">
                                                 <font key="font" metaFont="system"/>
@@ -440,7 +445,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="705">
-                                            <rect key="frame" x="111" y="259" width="188" height="14"/>
+                                            <rect key="frame" x="111" y="255" width="188" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Do not use ( : ) or reserved characters" id="1201">
                                                 <font key="font" metaFont="label"/>
@@ -449,7 +454,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="706">
-                                            <rect key="frame" x="111" y="218" width="188" height="14"/>
+                                            <rect key="frame" x="111" y="214" width="188" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Do not use ( : ) or reserved characters" id="1202">
                                                 <font key="font" metaFont="label"/>
@@ -458,7 +463,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button id="1056">
-                                            <rect key="frame" x="14" y="127" width="181" height="18"/>
+                                            <rect key="frame" x="14" y="123" width="181" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Show icon in menu bar" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1210">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -565,7 +570,7 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="253" id="1179">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
+                                                <font key="font" metaFont="menu"/>
                                                 <menu key="menu" title="OtherViews" id="292">
                                                     <items>
                                                         <menuItem title="None" state="on" id="253"/>
@@ -1080,7 +1085,8 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="1157">
                                                             <font key="font" metaFont="smallSystem"/>
-                                                            <string key="title">If the following conditions are met, user is not displayed in the user list.You are not displayed on the other user's list, either.</string>
+                                                            <string key="title">If the following conditions are met, user is not displayed in the user list.
+You are not displayed on the other user's list, either.</string>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
@@ -1753,7 +1759,7 @@ Gw
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <popUpButtonCell key="cell" type="push" title="User" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="393" id="1242">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
+                                        <font key="font" metaFont="menu"/>
                                         <menu key="menu" title="OtherViews" id="387">
                                             <items>
                                                 <menuItem title="User" state="on" id="393"/>
@@ -1779,7 +1785,7 @@ Gw
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                     <popUpButtonCell key="cell" type="push" title="Matches" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="396" id="1241">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
+                                        <font key="font" metaFont="menu"/>
                                         <menu key="menu" title="OtherViews" id="379">
                                             <items>
                                                 <menuItem title="Matches" state="on" id="396"/>
