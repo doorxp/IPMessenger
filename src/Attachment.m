@@ -129,7 +129,7 @@
 // オブジェクト概要
 - (NSString*)description
 {
-	return [NSString stringWithFormat:@"AttachmentItem[FileID:%@,File:%@,Users:%d]",
+	return [NSString stringWithFormat:@"AttachmentItem[FileID:%@,File:%@,Users:%ld]",
 							self.fileID, [self.file name], [_sentUsers count]];
 }
 

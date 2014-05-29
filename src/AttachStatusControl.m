@@ -139,7 +139,7 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 		return [NSString stringWithFormat:@"Message[ID:%@]", item];
 	} else if ([item isKindOfClass:[Attachment class]]) {
 		Attachment*	sendAttach = item;
-		return [NSString stringWithFormat:@"%@ (Remain Users:%d)",
+		return [NSString stringWithFormat:@"%@ (Remain Users:%lu)",
 						[[sendAttach file] name], [sendAttach numberOfUsers]];
 	} else if ([item isKindOfClass:[UserInfo class]]) {
 		UserInfo* user = item;

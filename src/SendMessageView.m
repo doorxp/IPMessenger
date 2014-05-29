@@ -31,7 +31,7 @@
  * ファイルドロップ処理（添付ファイル）
  *----------------------------------------------------------------------------*/
 
-- (unsigned int)draggingEntered:(id <NSDraggingInfo>)sender
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
 	if (![AttachmentServer isAvailable]) {
 		return NSDragOperationNone;
@@ -41,7 +41,7 @@
 	return NSDragOperationGeneric;
 }
 
-- (unsigned int)draggingUpdated:(id <NSDraggingInfo>)sender
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender
 {
 	if (![AttachmentServer isAvailable]) {
 		return NSDragOperationNone;

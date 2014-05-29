@@ -60,7 +60,7 @@
 		return nil;
 	}
 	if (len <= 0) {
-		ERR(@"parameter error(len is %d)", len);
+		ERR(@"parameter error(len is %lu)", (unsigned long)len);
 		[self release];
 		return nil;
 	}
@@ -125,7 +125,7 @@
 		return nil;
 	}
 	if (strtol(tok, NULL, 10) != IPMSG_VERSION) {
-		ERR(@"msg:version invalid(%d)", strtol(tok, NULL, 10));
+		ERR(@"msg:version invalid(%ld)", strtol(tok, NULL, 10));
 		[self release];
 		return nil;
 	}
@@ -292,7 +292,7 @@
 					if (attach) {
 						[array addObject:attach];
 					} else {
-						ERR(@"attach str parse error.(%s)", str);
+						ERR(@"attach str parse error.(%@)", str);
 					}
 				}
 				if ([array count] > 0) {
@@ -311,7 +311,7 @@
 				int				i;
 				continueCount	= [[lists objectAtIndex:0] intValue];
 				if ([lists count] < (unsigned)(totalCount * 7 + 2)) {
-					WRN(@"hostlist:invalid data(items=%d,totalCount=%d,%@)", [lists count], totalCount, self);
+					WRN(@"hostlist:invalid data(items=%lu,totalCount=%d,%@)", (unsigned long)[lists count], totalCount, self);
 					totalCount = ([lists count] - 2) / 7;
 				}
 				for (i = 0; i < totalCount; i++) {
@@ -481,7 +481,7 @@
 
 // オブジェクト文字列表現
 - (NSString*)description {
-	return [NSString stringWithFormat:@"RecvMessage:command=0x%08X,PacketNo=%d,from=%@", command, self.packetNo, fromUser];
+	return [NSString stringWithFormat:@"RecvMessage:command=0x%08lX,PacketNo=%ld,from=%@", command, self.packetNo, fromUser];
 }
 
 // オブジェクトコピー

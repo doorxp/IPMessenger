@@ -86,8 +86,8 @@
 	NSUInteger		remainStep	= _totalStep - aStep;
 	double			stepPerSec	= (double)aStep / interval;
 	NSInteger		remainSec	= (NSInteger)((double)remainStep / stepPerSec) + 1;
-	self.lines		= [NSString stringWithFormat:@"%d / %d", aStep, _totalStep];
-	self.remainTime	= [NSString stringWithFormat:@"%d:%02d", remainSec / 60, remainSec % 60];
+	self.lines		= [NSString stringWithFormat:@"%lu / %lu", (unsigned long)aStep, (unsigned long)_totalStep];
+	self.remainTime	= [NSString stringWithFormat:@"%ld:%02ld", remainSec / 60, remainSec % 60];
 	[_progressBar setDoubleValue:aStep];
 }
 

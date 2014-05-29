@@ -668,7 +668,7 @@ typedef struct {
 				}
 				break;
 			default:	// その他
-				ERR(@"invalid command([0x%08X],%@)", GET_MODE(recvData.command), file.path);
+				ERR(@"invalid command([0x%08lX],%@)", GET_MODE(recvData.command), file.path);
 				break;
 			}
 			break;
@@ -761,12 +761,12 @@ typedef struct {
 											   file.attribute,
 											   [file makeExtendAttribute]];
 	NSUInteger	len	= strlen((utf8 ? [dh1 UTF8String] : [dh1 GB18030String]));
-	NSString*	dh2	= [NSString stringWithFormat:@"%04X:%@", len + 5, dh1];
+	NSString*	dh2	= [NSString stringWithFormat:@"%04lX:%@", len + 5, dh1];
 	const char*	dat	= utf8 ? [dh2 UTF8String] : [dh2 GB18030String];
 
 	// ファイルヘッダ送信
 	if (send(sock, dat, strlen(dat), 0) < 0) {
-		ERR(@"header send error(%s)", dh2);
+		ERR(@"header send error(%@)", dh2);
 		return NO;
 	}
 

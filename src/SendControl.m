@@ -211,7 +211,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	} else if (info == attachAddButton) {
 		if (code == NSOKButton) {
 			NSOpenPanel*	op = (NSOpenPanel*)sheet;
-			NSString*		fn = [op filename];
+			//NSString*		fn = [op filename];
+            NSString*		fn = [[op URL] relativePath];
 			[self appendAttachmentByPath:fn];
 		}
 		[sheet orderOut:self];

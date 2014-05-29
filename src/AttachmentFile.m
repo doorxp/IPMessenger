@@ -628,23 +628,23 @@
 	NSMutableArray* array = [NSMutableArray arrayWithCapacity:10];
 	if (self.createTime) {
 		unsigned val = (unsigned)[self.createTime timeIntervalSince1970];
-		[array addObject:[NSString stringWithFormat:@"%X=%X", IPMSG_FILE_CREATETIME, val]];
+		[array addObject:[NSString stringWithFormat:@"%lX=%X", IPMSG_FILE_CREATETIME, val]];
 	}
 	if (self.modifyTime) {
 		unsigned val = (unsigned)[self.modifyTime timeIntervalSince1970];
-		[array addObject:[NSString stringWithFormat:@"%X=%X", IPMSG_FILE_MTIME, val]];
+		[array addObject:[NSString stringWithFormat:@"%lX=%X", IPMSG_FILE_MTIME, val]];
 	}
 	if (permission != 0) {
-		[array addObject:[NSString stringWithFormat:@"%X=%X", IPMSG_FILE_PERM, permission]];
+		[array addObject:[NSString stringWithFormat:@"%lX=%X", IPMSG_FILE_PERM, permission]];
 	}
 	if (hfsFileType != 0) {
-		[array addObject:[NSString stringWithFormat:@"%X=%X", IPMSG_FILE_FILETYPE, hfsFileType]];
+		[array addObject:[NSString stringWithFormat:@"%lX=%X", IPMSG_FILE_FILETYPE, hfsFileType]];
 	}
 	if (hfsCreator != 0) {
-		[array addObject:[NSString stringWithFormat:@"%X=%X", IPMSG_FILE_CREATOR, hfsCreator]];
+		[array addObject:[NSString stringWithFormat:@"%lX=%X", IPMSG_FILE_CREATOR, hfsCreator]];
 	}
 	if (finderFlags != 0) {
-		[array addObject:[NSString stringWithFormat:@"%X=%X", IPMSG_FILE_FINDERINFO, finderFlags]];
+		[array addObject:[NSString stringWithFormat:@"%lX=%X", IPMSG_FILE_FINDERINFO, finderFlags]];
 	}
 	if ([array count] > 0) {
 		return [array componentsJoinedByString:@":"];

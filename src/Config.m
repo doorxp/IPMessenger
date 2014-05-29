@@ -754,7 +754,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[dic setObject:msg forKey:@"Message"];
 		[_absenceList insertObject:dic atIndex:index];
 	} @catch (NSException* exception) {
-		ERR(@"%@(title=%@,msg=%@,index=%u)", exception, title, msg, index);
+		ERR(@"%@(title=%@,msg=%@,index=%ld)", exception, title, msg, index);
 	}
 }
 
@@ -766,7 +766,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[dic setObject:msg forKey:@"Message"];
 		[_absenceList replaceObjectAtIndex:index withObject:dic];
 	} @catch (NSException* exception) {
-		ERR(@"%@(title=%@,msg=%@,index=%u)", exception, title, msg, index);
+		ERR(@"%@(title=%@,msg=%@,index=%lu)", exception, title, msg, index);
 	}
 }
 
@@ -778,7 +778,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[_absenceList insertObject:obj atIndex:index - 1];
 		[obj release];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 }
 
@@ -790,7 +790,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[_absenceList insertObject:obj atIndex:index + 1];
 		[obj release];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 }
 
@@ -799,7 +799,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	@try {
 		[_absenceList removeObjectAtIndex:index];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 }
 
@@ -844,7 +844,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	@try {
 		return [_refuseList objectAtIndex:index];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 	return nil;
 }
@@ -863,7 +863,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	@try {
 		[_refuseList insertObject:info atIndex:index];
 	} @catch (NSException* exception) {
-		ERR(@"%@(info=%@,index=%u)", exception, info, index);
+		ERR(@"%@(info=%@,index=%lu)", exception, info, index);
 	}
 }
 
@@ -872,7 +872,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	@try {
 		[_refuseList replaceObjectAtIndex:index withObject:info];
 	} @catch (NSException* exception) {
-		ERR(@"%@(info=%@,index=%u)", exception, info, index);
+		ERR(@"%@(info=%@,index=%lu)", exception, info, index);
 	}
 }
 
@@ -884,7 +884,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[_refuseList insertObject:obj atIndex:index - 1];
 		[obj release];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 }
 
@@ -896,7 +896,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[_refuseList insertObject:obj atIndex:index + 1];
 		[obj release];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, index);
 	}
 }
 
@@ -905,7 +905,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	@try {
 		[_refuseList removeObjectAtIndex:index];
 	} @catch (NSException* exception) {
-		ERR(@"%@(index=%u)", exception, index);
+		ERR(@"%@(index=%lu)", exception, (unsigned long)index);
 	}
 }
 
