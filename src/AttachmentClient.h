@@ -63,7 +63,7 @@ typedef enum
 	NSLock*				lock;			// ダウンロード処理中ロック
 	BOOL				stop;			// ダウンロード中止フラグ
 	NSString*			savePath;		// 保存先パス
-	id					listener;		// コールバックオブジェクト
+	id					_listener;		// コールバックオブジェクト
 	NSConnection*		connection;		// ダウンロードスレッドとのコネクション
 	// ステータス管理変数
 	NSDate*				startDate;		// 開始時刻

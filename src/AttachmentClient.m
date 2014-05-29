@@ -53,7 +53,7 @@
 // 初期化
 - (id)initWithRecvMessage:(RecvMessage*)msg saveTo:(NSString*)path {
 	self 			= [super init];
-	listener		= nil;
+	_listener		= nil;
 	message			= [msg retain];
 	stop			= NO;
 	targets			= [[NSMutableArray alloc] init];
@@ -187,7 +187,7 @@
 																   sendPort:[portArray objectAtIndex:1]];
 	self.listener = [conn rootProxy];
     
-	[listener setProtocolForProxy:@protocol(AttachmentClientListener)];
+	[_listener setProtocolForProxy:@protocol(AttachmentClientListener)];
 
 	DBG(@"start download thread.");
 
@@ -199,7 +199,7 @@
 	currentFile		= nil;
 	downloadSize	= 0;
 	percentage		= 0;
-	[listener downloadWillStart];
+	[_listener downloadWillStart];
 	// 添付毎ダウンロードループ
 	for (indexOfTarget = 0; ((indexOfTarget < num) && !stop); indexOfTarget++) {
 		int					sock;
@@ -213,7 +213,7 @@
 			break;
 		}
 
-		[listener downloadIndexOfTargetChanged];
+		[_listener downloadIndexOfTargetChanged];
 
 		// ソケット準備
 		sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -303,11 +303,11 @@
 	if (stop) {
 		result = DL_STOP;
 	}
-	[listener downloadDidFinished:result];
+	[_listener downloadDidFinished:result];
     dispatch_async(dispatch_get_main_queue(), ^{
         [lock unlock];
     });
-	//[conn release];
+	[conn release];
 	DBG(@"stop download thread.");
 	[pool release];
 }
@@ -447,7 +447,7 @@
 		remain = file.size;
 		if (remain > 0) {
 			totalSize += remain;
-			[listener downloadTotalSizeChanged];
+			[_listener downloadTotalSizeChanged];
 			while (remain > 0) {
 				unsigned size = MIN(sizeof(buf), remain);
 				result = [self receiveFrom:sock to:buf maxLength:size];
@@ -560,28 +560,28 @@
 
 - (void)incrementNumberOfFile {
 	numberOfFile++;
-	[listener downloadNumberOfFileChanged];
+	[_listener downloadNumberOfFileChanged];
 }
 
 - (void)incrementNumberOfDirectory {
 	numberOfDir++;
-	[listener downloadNumberOfDirectoryChanged];
+	[_listener downloadNumberOfDirectoryChanged];
 }
 
 - (void)newFileDownloadStart:(NSString*)fileName {
 	currentFile = fileName;
-	[listener downloadFileChanged];
+	[_listener downloadFileChanged];
 }
 
 - (void)newDataDownload:(unsigned)size {
 	if (size > 0) {
 		downloadSize += size;
-		[listener downloadDownloadedSizeChanged];
+		[_listener downloadDownloadedSizeChanged];
 		if (totalSize > 0) {
 			unsigned newPer = ((float)downloadSize / (float)totalSize) * 100 + 0.5;
 			if (newPer != percentage) {
 				percentage = newPer;
-				[listener downloadPercentageChanged];
+				[_listener downloadPercentageChanged];
 			}
 		}
 	}

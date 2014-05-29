@@ -128,7 +128,7 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 		UInt32		addrNum	= (UInt32)inet_addr([addrStr UTF8String]);
 		UInt16		port	= (UInt16)[[itemArray objectAtIndex:index + 4] intValue];
 
-		struct sockaddr_in addr;
+		struct sockaddr_in addr = {0};
 		addr.sin_family			= AF_INET;
 		addr.sin_addr.s_addr	= addrNum;
 		addr.sin_port			= port;

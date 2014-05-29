@@ -381,7 +381,8 @@
 		}
 	}
 	// 送信ダイアログ作成
-	sendCtl = [[SendControl alloc] initWithSendMessage:quotMsg recvMessage:recvMsg];
+	//sendCtl =
+    [[SendControl alloc] initWithSendMessage:quotMsg recvMessage:recvMsg];
 }
 
 /*----------------------------------------------------------------------------*
