@@ -539,7 +539,7 @@
 
 - (void)checkLogConversion:(BOOL)aStdLog path:(NSString*)aPath
 {
-	Config*			config	= [Config sharedConfig];
+	Config*			config __unused	= [Config sharedConfig];
 	NSString*		name	= aStdLog ? @"StdLog" : @"AltLog";
 	LogConverter*	converter;
 

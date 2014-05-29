@@ -382,9 +382,6 @@
 	}
 	// 送信ダイアログ作成
 	sendCtl = [[SendControl alloc] initWithSendMessage:quotMsg recvMessage:recvMsg];
-    [[WindowManager sharedManager] setReplyWindow:sendCtl
-                                           forKey:recvMsg];
-    [sendCtl autorelease];
 }
 
 /*----------------------------------------------------------------------------*

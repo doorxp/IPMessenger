@@ -818,8 +818,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 - (void)windowWillClose:(NSNotification*)aNotification {
 	[[WindowManager sharedManager] removeReplyWindowForKey:receiveMessage];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-// なぜか解放されないので手動で
-[attachDrawer release];
+    // なぜか解放されないので手動で
+    [attachDrawer release];
 	[self release];
 }
 

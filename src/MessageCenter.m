@@ -337,7 +337,8 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	if (msg || opt) {
 		const char*	str1 = (toUser.supportsUTF8) ? [msg UTF8String] : [msg GB18030String];
-		NSUInteger	len1 = strlen(str1);
+		NSUInteger	len1 = 0;
+        if(str1)len1 = strlen(str1);
 		if (opt) {
 			const char*		str2 = (toUser.supportsUTF8) ? [opt UTF8String] : [opt GB18030String];
 			NSUInteger		len2 = strlen(str2);
@@ -827,9 +828,9 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		break;
 	case IPMSG_SENDABSENCEINFO:
 		// 不在情報をダイアログに出す
-		[[NoticeControl alloc] initWithTitle:[fromUser summaryString]
+		[[[NoticeControl alloc] initWithTitle:[fromUser summaryString]
 									 message:appendix
-										date:nil];
+										date:nil] autorelease];
 		break;
 	/*-------- 添付関連 ---------*/
 	case IPMSG_RELEASEFILES:	// 添付破棄通知
