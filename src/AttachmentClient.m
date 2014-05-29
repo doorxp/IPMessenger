@@ -37,7 +37,7 @@
 - (void)incrementNumberOfDirectory;
 - (void)newFileDownloadStart:(NSString*)fileName;
 - (void)newDataDownload:(unsigned)size;
-@property(nonatomic, retain) id					listener;
+
 @end
 
 /*============================================================================*
@@ -186,7 +186,7 @@
 	NSConnection*		conn	= [[NSConnection alloc] initWithReceivePort:[portArray objectAtIndex:0]
 																   sendPort:[portArray objectAtIndex:1]];
 	self.listener = [conn rootProxy];
-    [conn release];
+    
 	[listener setProtocolForProxy:@protocol(AttachmentClientListener)];
 
 	DBG(@"start download thread.");
@@ -307,7 +307,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [lock unlock];
     });
-	
+	//[conn release];
 	DBG(@"stop download thread.");
 	[pool release];
 }

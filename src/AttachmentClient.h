@@ -96,6 +96,6 @@ typedef enum
 - (unsigned long long)downloadSize;
 - (unsigned)percentage;
 - (unsigned)averageSpeed;
-
+@property(nonatomic, retain) id	listener;
 @end
 
