@@ -76,6 +76,7 @@ Do you want close the window?";
 "SendDlg.Search.Target.Group"			= "Group";
 "SendDlg.Search.Target.Host"			= "Host";
 "SendDlg.Search.Target.LogOn"			= "Logon";
+"SendDlg.Search.Target.Alpha"            = "Alpha";
 "SendDlg.Search.Placeholder.Separator"	= ", ";
 "SendDlg.Search.Placeholder.Normal"		= "Search %@";
 "SendDlg.Search.Placeholder.Invalid"	= "No search categories";

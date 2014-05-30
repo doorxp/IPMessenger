@@ -34,7 +34,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -48,7 +48,7 @@
 	<key>SUAllowsAutomaticUpdates</key>
 	<string>NO</string>
 	<key>SUFeedURL</key>
-	<string>http://ishwt.net/files/ipmsg/su/appcast.xml</string>
+	<string>http://192.168.1.129:8889/downloads/Feige-Downloads_files/upload/update.xml.php</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 </dict>

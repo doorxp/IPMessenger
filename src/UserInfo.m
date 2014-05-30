@@ -17,10 +17,11 @@
 #import "Config.h"
 #import "NSStringIPMessenger.h"
 #import "DebugLog.h"
-
+#include "pinyin.h"
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+NSString* const kIPMsgUserInfoUserAlphaPropertyIdentifier	= @"UserAlpha";
 NSString* const kIPMsgUserInfoUserNamePropertyIdentifier	= @"UserName";
 NSString* const kIPMsgUserInfoGroupNamePropertyIdentifier	= @"GroupName";
 NSString* const kIPMsgUserInfoHostNamePropertyIdentifier	= @"HostName";
@@ -29,6 +30,7 @@ NSString* const kIPMsgUserInfoVersionPropertyIdentifer		= @"Version";
 NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 
 @interface UserInfo()
+@property(copy, readwrite) NSString *           userAlpha;
 @property(copy,readwrite)	NSString*			userName;
 @property(copy,readwrite)	NSString*			groupName;
 @property(copy,readwrite)	NSString*			hostName;
@@ -61,6 +63,7 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 @synthesize supportsAttachment	= _attachment;
 @synthesize supportsEncrypt		= _encrypt;
 @synthesize supportsUTF8		= _UTF8;
+@synthesize userAlpha           = _userAlpha;
 
 /*============================================================================*
  * ファクトリ
@@ -101,6 +104,8 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 	self = [super init];
 	if (self) {
 		self.userName			= user;
+        char alpha = pinyinFirstLetter([user characterAtIndex:0]);
+        self.userAlpha          = [[NSString stringWithFormat:@"%c", alpha] uppercaseString];
 		self.groupName			= group;
 		self.hostName			= host;
 		self.logOnName			= logOn;
@@ -134,6 +139,9 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 		addr.sin_port			= port;
 
 		self.userName			= [itemArray objectAtIndex:index + 5];
+        char alpha = pinyinFirstLetter([_userName characterAtIndex:0]);
+        self.userAlpha          = [[NSString stringWithFormat:@"%c", alpha] uppercaseString];
+
 		self.groupName			= [itemArray objectAtIndex:index + 6];
 		self.hostName			= [itemArray objectAtIndex:index + 1];
 		self.logOnName			= [itemArray objectAtIndex:index];
@@ -162,6 +170,7 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 // 解放
 - (void)dealloc
 {
+    [_userAlpha release];
 	[_userName release];
 	[_groupName release];
 	[_hostName release];
@@ -262,6 +271,7 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 	UserInfo* newObj = [[UserInfo allocWithZone:zone] init];
 	if (newObj) {
 		newObj->_userName			= [self->_userName copyWithZone:zone];
+        newObj->_userAlpha			= [self->_userAlpha copyWithZone:zone];
 		newObj->_groupName			= [self->_groupName copyWithZone:zone];
 		newObj->_hostName			= [self->_hostName copyWithZone:zone];
 		newObj->_logOnName			= [self->_logOnName copyWithZone:zone];

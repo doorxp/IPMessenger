@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D1D517A14F1F35400528526 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1D517914F1F35400528526 /* SystemConfiguration.framework */; };
-		1D1D517C14F1F36200528526 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1D517B14F1F36200528526 /* Cocoa.framework */; };
+		5472138D19384A45000FA01B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5472138C19384A45000FA01B /* Security.framework */; };
+		5472138E19384A4B000FA01B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F799D02F10EE736800773B8C /* Cocoa.framework */; };
+		5472138F19384A5C000FA01B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F799CF7E10EE727500773B8C /* SystemConfiguration.framework */; };
+		5472139219384BF6000FA01B /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 5472139019384BF6000FA01B /* pinyin.c */; };
+		5472139319384BF6000FA01B /* pinyin.h in Headers */ = {isa = PBXBuildFile; fileRef = 5472139119384BF6000FA01B /* pinyin.h */; };
 		F7196E9013842A5300BE747B /* LogConvertController.h in Headers */ = {isa = PBXBuildFile; fileRef = F7196E8E13842A5300BE747B /* LogConvertController.h */; };
 		F7196E9113842A5300BE747B /* LogConvertController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7196E8F13842A5300BE747B /* LogConvertController.m */; };
 		F7196FE211C40B5300BA4491 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F79BE0AB11C159E10088D0A5 /* Sparkle.framework */; };
@@ -104,10 +107,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1D1D517914F1F35400528526 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
-		1D1D517B14F1F36200528526 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		1D1D518114F208F800528526 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5472138C19384A45000FA01B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		5472139019384BF6000FA01B /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
+		5472139119384BF6000FA01B /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
 		6417D5BB02EA9BF400A80003 /* ReceiveMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveMessageView.h; sourceTree = "<group>"; };
 		6417D5BC02EA9BF400A80003 /* ReceiveMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReceiveMessageView.m; sourceTree = "<group>"; };
 		6426F20302C59B8700A80003 /* RefuseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefuseInfo.h; sourceTree = "<group>"; };
@@ -206,8 +210,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D1D517C14F1F36200528526 /* Cocoa.framework in Frameworks */,
-				1D1D517A14F1F35400528526 /* SystemConfiguration.framework in Frameworks */,
+				5472138F19384A5C000FA01B /* SystemConfiguration.framework in Frameworks */,
+				5472138E19384A4B000FA01B /* Cocoa.framework in Frameworks */,
+				5472138D19384A45000FA01B /* Security.framework in Frameworks */,
 				F79BE0AC11C159E10088D0A5 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,8 +290,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1D1D517B14F1F36200528526 /* Cocoa.framework */,
-				1D1D517914F1F35400528526 /* SystemConfiguration.framework */,
+				5472138C19384A45000FA01B /* Security.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -368,6 +372,8 @@
 		F5269D4F020433CA01A86403 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				5472139019384BF6000FA01B /* pinyin.c */,
+				5472139119384BF6000FA01B /* pinyin.h */,
 				F5269D580204376601A86403 /* UserManager.h */,
 				F5269D590204376601A86403 /* UserManager.m */,
 				F5269D50020433CA01A86403 /* UserInfo.h */,
@@ -462,6 +468,7 @@
 				F73453310C454622001D5375 /* NSStringIPMessenger.h in Headers */,
 				F73453320C454622001D5375 /* AttachStatusControl.h in Headers */,
 				F73453330C454622001D5375 /* AttachmentFile.h in Headers */,
+				5472139319384BF6000FA01B /* pinyin.h in Headers */,
 				F73453350C454622001D5375 /* RecvMessage.h in Headers */,
 				F7BC02BD1382522900EDBC81 /* LogConverter.h in Headers */,
 				F7196E9013842A5300BE747B /* LogConvertController.h in Headers */,
@@ -553,6 +560,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5472139219384BF6000FA01B /* pinyin.c in Sources */,
 				F73453470C454622001D5375 /* main.m in Sources */,
 				F73453480C454622001D5375 /* SendControl.m in Sources */,
 				F73453490C454622001D5375 /* AppControl.m in Sources */,
@@ -692,7 +700,7 @@
 				INFOPLIST_FILE = resource/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = IPMessenger;
@@ -721,7 +729,7 @@
 				INFOPLIST_FILE = resource/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = IPMessenger;
 				SDKROOT = macosx;

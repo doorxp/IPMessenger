@@ -63,6 +63,7 @@ typedef enum
 	BOOL					_alternateLogEnabled;
 	BOOL					_logWithSelectedRange;
 	NSString*				_alternateLogFile;
+    BOOL					_sndSearchAlpha;
 	BOOL					_sndSearchUser;
 	BOOL					_sndSearchGroup;
 	BOOL					_sndSearchHost;
@@ -121,6 +122,7 @@ typedef enum
 @property(assign,readwrite)	NSSize				sendWindowSize;				// 送信ウィンドウサイズ
 @property(assign,readwrite)	float				sendWindowSplit;			// 送信ウィンドウ分割位置
 @property(assign,readwrite)	BOOL				sendSearchByUserName;		// 送信ユーザ検索（ユーザ名）
+@property(assign,readwrite)	BOOL				sendSearchByUserAlpha;		// 送信ユーザ検索
 @property(assign,readwrite)	BOOL				sendSearchByGroupName;		// 送信ユーザ検索（グループ名）
 @property(assign,readwrite)	BOOL				sendSearchByHostName;		// 送信ユーザ検索（ホスト名）
 @property(assign,readwrite)	BOOL				sendSearchByLogOnName;		// 送信ユーザ検索（ログオン名）

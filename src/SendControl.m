@@ -299,27 +299,27 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	}
 }
 
-// SplitViewのリサイズ制限
-- (float)splitView				:(NSSplitView*)sender
-		  constrainMinCoordinate:(float)proposedMin
-					 ofSubviewAt:(int)offset {
-	if (offset == 0) {
-		// 上側ペインの最小サイズを制限
-		return 90;
-	}
-	return proposedMin;
-}
-
-// SplitViewのリサイズ制限
-- (float)splitView				:(NSSplitView*)sender
-		  constrainMaxCoordinate:(float)proposedMax
-					 ofSubviewAt:(int)offset {
-	if (offset == 0) {
-		// 上側ペインの最大サイズを制限
-		return [sender frame].size.height - [sender dividerThickness] - 2;
-	}
-	return proposedMax;
-}
+//// SplitViewのリサイズ制限
+//- (float)splitView				:(NSSplitView*)sender
+//		  constrainMinCoordinate:(float)proposedMin
+//					 ofSubviewAt:(int)offset {
+//	if (offset == 0) {
+//		// 上側ペインの最小サイズを制限
+//		return 90;
+//	}
+//	return proposedMin;
+//}
+//
+//// SplitViewのリサイズ制限
+//- (float)splitView				:(NSSplitView*)sender
+//		  constrainMaxCoordinate:(float)proposedMax
+//					 ofSubviewAt:(int)offset {
+//	if (offset == 0) {
+//		// 上側ペインの最大サイズを制限
+//		return [sender frame].size.height - [sender dividerThickness] - 2;
+//	}
+//	return proposedMax;
+//}
 
 // SplitViewのリサイズ処理
 - (void)splitView:(NSSplitView*)sender resizeSubviewsWithOldSize:(NSSize)oldSize
@@ -374,7 +374,10 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			return info.logOnName;
 		} else if ([iden isEqualToString:kIPMsgUserInfoVersionPropertyIdentifer]) {
 			return info.version;
-		} else {
+		}else if ([iden isEqualToString:kIPMsgUserInfoUserAlphaPropertyIdentifier]){
+            return info.userAlpha;
+        }
+        else {
 			ERR(@"Unknown TableColumn(%@)", iden);
 		}
 	} else if (aTableView == attachTable) {
@@ -647,6 +650,10 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	if (cfg.sendSearchByLogOnName) {
 		[array addObject:NSLocalizedString(@"SendDlg.Search.Target.LogOn", nil)];
 	}
+    if (cfg.sendSearchByUserAlpha)
+    {
+        [array addObject:NSLocalizedString(@"SendDlg.Search.Target.Alpha", nil)];
+    }
 	NSString* str = @"";
 	if ([array count] > 0) {
 		NSString* sep = NSLocalizedString(@"SendDlg.Search.Placeholder.Separator", nil);
@@ -750,13 +757,15 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[userTable setIntercellSpacing:NSMakeSize(2, 1)];
 
 	// ユーザリストのカラム処理
-	NSArray* array = [NSArray arrayWithObjects:	kIPMsgUserInfoUserNamePropertyIdentifier,
-												kIPMsgUserInfoGroupNamePropertyIdentifier,
-												kIPMsgUserInfoHostNamePropertyIdentifier,
-												kIPMsgUserInfoIPAddressPropertyIdentifier,
-												kIPMsgUserInfoLogOnNamePropertyIdentifier,
-												kIPMsgUserInfoVersionPropertyIdentifer,
-												nil];
+	NSArray* array = [NSArray arrayWithObjects:
+                      kIPMsgUserInfoUserAlphaPropertyIdentifier,
+                      kIPMsgUserInfoUserNamePropertyIdentifier,
+                      kIPMsgUserInfoGroupNamePropertyIdentifier,
+                      kIPMsgUserInfoHostNamePropertyIdentifier,
+                      kIPMsgUserInfoIPAddressPropertyIdentifier,
+                      kIPMsgUserInfoLogOnNamePropertyIdentifier,
+                      kIPMsgUserInfoVersionPropertyIdentifer,
+                      nil];
 	for (i = 0; i < [array count]; i++) {
 		NSString*		identifier	= [array objectAtIndex:i];
 		NSTableColumn*	column		= [userTable tableColumnWithIdentifier:identifier];
