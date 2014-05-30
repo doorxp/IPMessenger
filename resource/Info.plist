@@ -34,11 +34,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1</string>
+	<string>2.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>25FN0</string>
+	<string>26FN0</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2001-2011, doorxp.</string>
 	<key>NSMainNibFile</key>
