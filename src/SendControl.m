@@ -23,10 +23,11 @@
 #import "ReceiveControl.h"
 #import "DebugLog.h"
 
-#define _SEARCH_MENUITEM_TAG_USER		(0)
-#define _SEARCH_MENUITEM_TAG_GROUP		(1)
-#define _SEARCH_MENUITEM_TAG_HOST		(2)
-#define _SEARCH_MENUITEM_TAG_LOGON		(3)
+#define _SEARCH_MENUITEM_TAG_ALPHA		(0)
+#define _SEARCH_MENUITEM_TAG_USER		(1)
+#define _SEARCH_MENUITEM_TAG_GROUP		(2)
+#define _SEARCH_MENUITEM_TAG_HOST		(3)
+#define _SEARCH_MENUITEM_TAG_LOGON		(4)
 
 static NSImage*				attachmentImage		= nil;
 static NSDate*				lastTimeOfEntrySent	= nil;
@@ -475,6 +476,9 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 		[sender setState:newSt];
 		switch ([sender tag]) {
+            case _SEARCH_MENUITEM_TAG_ALPHA:
+                cfg.sendSearchByUserAlpha = newVal;
+                break;
 			case _SEARCH_MENUITEM_TAG_USER:
 				cfg.sendSearchByUserName = newVal;
 				break;
@@ -560,6 +564,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	if (userPredicate) {
 		[users filterUsingPredicate:userPredicate];
 	}
+    
 	[users sortUsingDescriptors:[userTable sortDescriptors]];
 	[selectedUsersLock lock];
 	// ユーザ数設定
@@ -626,6 +631,14 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			}
 			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoLogOnNamePropertyIdentifier, searchWord];
 		}
+        
+        if (cfg.sendSearchByUserAlpha) {
+			if ([fmt length] > 0) {
+				[fmt appendString:@" OR "];
+			}
+			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoUserAlphaPropertyIdentifier, searchWord];
+		}
+
 		[userPredicate release];
 		if ([fmt length] > 0) {
 			userPredicate = [[NSPredicate predicateWithFormat:fmt] retain];
@@ -766,6 +779,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
                       kIPMsgUserInfoLogOnNamePropertyIdentifier,
                       kIPMsgUserInfoVersionPropertyIdentifer,
                       nil];
+    
 	for (i = 0; i < [array count]; i++) {
 		NSString*		identifier	= [array objectAtIndex:i];
 		NSTableColumn*	column		= [userTable tableColumnWithIdentifier:identifier];
@@ -789,6 +803,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_GROUP] setState:config.sendSearchByGroupName ? NSOnState : NSOffState];
 	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_HOST] setState:config.sendSearchByHostName ? NSOnState : NSOffState];
 	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_LOGON] setState:config.sendSearchByLogOnName ? NSOnState : NSOffState];
+    [[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_ALPHA] setState:config.sendSearchByUserAlpha?NSOnState:NSOffState];
+    
 	[[searchField cell] setSearchMenuTemplate:searchMenu];
 	[self updateSearchFieldPlaceholder];
 

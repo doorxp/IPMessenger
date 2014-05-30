@@ -244,6 +244,10 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 	} else if ([key isEqualToString:kIPMsgUserInfoVersionPropertyIdentifer]) {
 		return self.version;
 	}
+    else if ([key isEqualToString:kIPMsgUserInfoUserAlphaPropertyIdentifier])
+    {
+        return self.userAlpha;
+    }
 	return @"";
 }
 

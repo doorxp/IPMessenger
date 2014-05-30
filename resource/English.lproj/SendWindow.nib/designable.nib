@@ -44,7 +44,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>
                             <searchField verticalHuggingPriority="750" id="244">
-                                <rect key="frame" x="147.99999987451653" y="5" width="152" height="19"/>
+                                <rect key="frame" x="148" y="5" width="152" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                 <searchFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search Users" bezelStyle="round" id="245">
                                     <font key="font" metaFont="smallSystem"/>
@@ -116,14 +116,14 @@ DQ
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" autosaveName="SendWindow.UserList" rowHeight="16" headerView="216" id="23">
-                                                        <rect key="frame" x="0.0" y="0.0" width="345" height="63"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="337" height="63"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                         <tableColumns>
-                                                            <tableColumn identifier="UserAlpha" editable="NO" width="20" minWidth="8" maxWidth="1000" id="124">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Alpha">
+                                                            <tableColumn identifier="UserAlpha" editable="NO" width="12" minWidth="8" maxWidth="1000" id="124">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="A">
                                                                     <font key="font" size="11" name="LucidaGrande"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -238,7 +238,7 @@ DQ
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <tableHeaderView key="headerView" id="216">
-                                                <rect key="frame" x="0.0" y="0.0" width="345" height="17"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="337" height="17"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </tableHeaderView>
                                         </scrollView>
@@ -351,7 +351,7 @@ DQ
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" id="yvX-Oi-U8h">
                         <rect key="frame" x="1" y="17" width="178" height="248"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="14" headerView="215" id="166">
                                 <rect key="frame" x="0.0" y="0.0" width="178" height="248"/>
@@ -421,25 +421,31 @@ DQ
         </customView>
         <menu id="247" userLabel="SearchMenu">
             <items>
-                <menuItem title="User" id="248">
+                <menuItem title="Alpha" id="248">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="280"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Group" tag="1" id="249">
+                <menuItem title="User" tag="1" id="wEt-gO-F60">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="searchMenuItemSelected:" target="-2" id="i4R-Bf-Wb0"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Group" tag="2" id="249">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="281"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Host" tag="2" id="250">
+                <menuItem title="Host" tag="3" id="250">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="282"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Logon" tag="3" id="253">
+                <menuItem title="Logon" tag="4" id="253">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="283"/>
