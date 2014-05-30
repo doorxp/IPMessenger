@@ -105,6 +105,10 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 	if (self) {
 		self.userName			= user;
         char alpha = pinyinFirstLetter([user characterAtIndex:0]);
+        if (!isalnum(alpha))
+        {
+            alpha = '#';
+        }
         self.userAlpha          = [[NSString stringWithFormat:@"%c", alpha] uppercaseString];
 		self.groupName			= group;
 		self.hostName			= host;
@@ -140,6 +144,10 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 
 		self.userName			= [itemArray objectAtIndex:index + 5];
         char alpha = pinyinFirstLetter([_userName characterAtIndex:0]);
+        if (!isalnum(alpha))
+        {
+            alpha = '#';
+        }
         self.userAlpha          = [[NSString stringWithFormat:@"%c", alpha] uppercaseString];
 
 		self.groupName			= [itemArray objectAtIndex:index + 6];

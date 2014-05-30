@@ -230,6 +230,10 @@ char pinyinFirstLetter(unsigned short hanzi)
 	}
 	else
 	{
+        if (hanzi == ' ')
+        {
+            return hanzi = '#';
+        }
 		return hanzi;
 	}
 }
