@@ -24,10 +24,11 @@
 #import "DebugLog.h"
 
 #define _SEARCH_MENUITEM_TAG_ALPHA		(0)
-#define _SEARCH_MENUITEM_TAG_USER		(1)
-#define _SEARCH_MENUITEM_TAG_GROUP		(2)
-#define _SEARCH_MENUITEM_TAG_HOST		(3)
-#define _SEARCH_MENUITEM_TAG_LOGON		(4)
+#define _SEARCH_MENUITEM_TAG_PINYING	(1)
+#define _SEARCH_MENUITEM_TAG_USER		(2)
+#define _SEARCH_MENUITEM_TAG_GROUP		(3)
+#define _SEARCH_MENUITEM_TAG_HOST		(4)
+#define _SEARCH_MENUITEM_TAG_LOGON		(5)
 
 static NSImage*				attachmentImage		= nil;
 static NSDate*				lastTimeOfEntrySent	= nil;
@@ -479,6 +480,9 @@ static NSRecursiveLock*		userListColsLock	= nil;
             case _SEARCH_MENUITEM_TAG_ALPHA:
                 cfg.sendSearchByUserAlpha = newVal;
                 break;
+            case _SEARCH_MENUITEM_TAG_PINYING:
+                cfg.sendSearchByPinying = newVal;
+                break;
 			case _SEARCH_MENUITEM_TAG_USER:
 				cfg.sendSearchByUserName = newVal;
 				break;
@@ -638,6 +642,13 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			}
 			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoUserAlphaPropertyIdentifier, searchWord];
 		}
+        
+        if (cfg.sendSearchByPinying) {
+			if ([fmt length] > 0) {
+				[fmt appendString:@" OR "];
+			}
+			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoUserPinYingPropertyIdentifier, searchWord];
+		}
 
 		[userPredicate release];
 		if ([fmt length] > 0) {
@@ -666,6 +677,10 @@ static NSRecursiveLock*		userListColsLock	= nil;
     if (cfg.sendSearchByUserAlpha)
     {
         [array addObject:NSLocalizedString(@"SendDlg.Search.Target.Alpha", nil)];
+    }
+    if (cfg.sendSearchByPinying)
+    {
+        [array addObject:NSLocalizedString(@"SendDlg.Search.Target.PinYing", nil)];
     }
 	NSString* str = @"";
 	if ([array count] > 0) {
@@ -804,6 +819,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_HOST] setState:config.sendSearchByHostName ? NSOnState : NSOffState];
 	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_LOGON] setState:config.sendSearchByLogOnName ? NSOnState : NSOffState];
     [[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_ALPHA] setState:config.sendSearchByUserAlpha?NSOnState:NSOffState];
+    [[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_PINYING] setState:config.sendSearchByPinying?NSOnState:NSOffState];
+//    _SEARCH_MENUITEM_TAG_PINYING
     
 	[[searchField cell] setSearchMenuTemplate:searchMenu];
 	[self updateSearchFieldPlaceholder];

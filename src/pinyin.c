@@ -8,7 +8,7 @@
  */
 #define HANZI_START 19968
 #define HANZI_COUNT 20902
-
+#include <ctype.h>
 static char firstLetterArray[HANZI_COUNT] = 
 "ydkqsxnwzssxjbymgcczqpssqbycdscdqldylybssjgyqzjjfgcclzznwdwzjljpfyynnjjtmynzwzhflzppqhgccyynmjqyxxgd"
 "nnsnsjnjnsnnmlnrxyfsngnnnnqzggllyjlnyzssecykyyhqwjssggyxyqyjtwktjhychmnxjtlhjyqbyxdldwrrjnwysrldzjpc"
@@ -226,14 +226,10 @@ char pinyinFirstLetter(unsigned short hanzi)
 	int index = hanzi - HANZI_START;
 	if (index >= 0 && index <= HANZI_COUNT)
 	{
-		return firstLetterArray[index];
+		hanzi = firstLetterArray[index];
 	}
-	else
-	{
-        if (hanzi == ' ')
-        {
-            return hanzi = '#';
-        }
-		return hanzi;
-	}
+    if (!isalnum(hanzi)) {
+        hanzi = '#';
+    }
+    return hanzi;
 }

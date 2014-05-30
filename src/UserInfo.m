@@ -22,6 +22,7 @@
 #include <arpa/inet.h>
 
 NSString* const kIPMsgUserInfoUserAlphaPropertyIdentifier	= @"UserAlpha";
+NSString* const kIPMsgUserInfoUserPinYingPropertyIdentifier	= @"PinYing";
 NSString* const kIPMsgUserInfoUserNamePropertyIdentifier	= @"UserName";
 NSString* const kIPMsgUserInfoGroupNamePropertyIdentifier	= @"GroupName";
 NSString* const kIPMsgUserInfoHostNamePropertyIdentifier	= @"HostName";
@@ -30,7 +31,8 @@ NSString* const kIPMsgUserInfoVersionPropertyIdentifer		= @"Version";
 NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 
 @interface UserInfo()
-@property(copy, readwrite) NSString *           userAlpha;
+@property(copy, readwrite)  NSString *           userPinying;
+@property(copy, readwrite)  NSString *           userAlpha;
 @property(copy,readwrite)	NSString*			userName;
 @property(copy,readwrite)	NSString*			groupName;
 @property(copy,readwrite)	NSString*			hostName;
@@ -64,6 +66,7 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 @synthesize supportsEncrypt		= _encrypt;
 @synthesize supportsUTF8		= _UTF8;
 @synthesize userAlpha           = _userAlpha;
+@synthesize userPinying         = _userPinying;
 
 /*============================================================================*
  * ファクトリ
@@ -104,12 +107,30 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 	self = [super init];
 	if (self) {
 		self.userName			= user;
-        char alpha = pinyinFirstLetter([user characterAtIndex:0]);
-        if (!isalnum(alpha))
+        char alpha = '#';
+        if(user.length>0)
         {
-            alpha = '#';
+           alpha = pinyinFirstLetter([user characterAtIndex:0]);
         }
         self.userAlpha          = [[NSString stringWithFormat:@"%c", alpha] uppercaseString];
+        if ([self.userAlpha isEqualToString:@"#"])
+        {
+            self.userPinying = @"";
+        }
+        else
+        {
+           self.userPinying = self.userAlpha;
+        }
+        for (int i = 1; i<user.length; i++)
+        {
+            alpha = pinyinFirstLetter([user characterAtIndex:i]);
+            if (alpha == '#')
+            {
+                continue;
+            }
+            self.userPinying = [NSString stringWithFormat:@"%@%c",self.userPinying, alpha];
+        }
+        
 		self.groupName			= group;
 		self.hostName			= host;
 		self.logOnName			= logOn;
@@ -143,12 +164,29 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 		addr.sin_port			= port;
 
 		self.userName			= [itemArray objectAtIndex:index + 5];
-        char alpha = pinyinFirstLetter([_userName characterAtIndex:0]);
-        if (!isalnum(alpha))
+        char alpha = '#';
+        if(_userName.length>0)
         {
-            alpha = '#';
+            alpha = pinyinFirstLetter([_userName characterAtIndex:0]);
         }
         self.userAlpha          = [[NSString stringWithFormat:@"%c", alpha] uppercaseString];
+        if ([self.userAlpha isEqualToString:@"#"])
+        {
+            self.userPinying = @"";
+        }
+        else
+        {
+            self.userPinying = self.userAlpha;
+        }
+        for (int i = 1; i<_userName.length; i++)
+        {
+            alpha = pinyinFirstLetter([_userName characterAtIndex:i]);
+            if (alpha == '#')
+            {
+                continue;
+            }
+            self.userPinying = [NSString stringWithFormat:@"%@%c",self.userPinying, alpha];
+        }
 
 		self.groupName			= [itemArray objectAtIndex:index + 6];
 		self.hostName			= [itemArray objectAtIndex:index + 1];
@@ -255,6 +293,10 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
     else if ([key isEqualToString:kIPMsgUserInfoUserAlphaPropertyIdentifier])
     {
         return self.userAlpha;
+    }
+    else if ([key isEqualToString:kIPMsgUserInfoUserPinYingPropertyIdentifier])
+    {
+        return self.userPinying;
     }
 	return @"";
 }

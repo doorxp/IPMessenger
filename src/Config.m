@@ -73,6 +73,7 @@ static NSString* SNDWIN_SIZE_SPLIT		= @"SendWindowSplitPoint";
 static NSString* SNDWIN_USERLIST_COL	= @"SendWindowUserListColumnDisplay";
 static NSString* SNDSEARCH_USER			= @"SendWindowSearchByUserName";
 static NSString* SNDSEARCH_ALPHA		= @"SendWindowSearchByUserAlpha";
+static NSString* SNDSEARCH_PINYING		= @"SendWindowSearchByPinying";
 static NSString* SNDSEARCH_GROUP		= @"SendWindowSearchByGroupName";
 static NSString* SNDSEARCH_HOST			= @"SendWindowSearchByHostName";
 static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
@@ -201,6 +202,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	[mutableDic setObject:[NSNumber numberWithBool:NO] forKey:SNDSEARCH_HOST];
 	[mutableDic setObject:[NSNumber numberWithBool:NO] forKey:SNDSEARCH_LOGON];
     [mutableDic setObject:[NSNumber numberWithBool:YES] forKey:SNDSEARCH_ALPHA];
+    [mutableDic setObject:[NSNumber numberWithBool:YES] forKey:SNDSEARCH_PINYING];
 	[defaults registerDefaults:mutableDic];
 	#if IPMSG_LOG_TRC
 		// デバッグ用ログ出力
@@ -324,6 +326,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	self.sendSearchByHostName		= [defaults boolForKey:SNDSEARCH_HOST];
 	self.sendSearchByLogOnName		= [defaults boolForKey:SNDSEARCH_LOGON];
     self.sendSearchByUserAlpha      = [defaults boolForKey:SNDSEARCH_ALPHA];
+    self.sendSearchByPinying        = [defaults boolForKey:SNDSEARCH_PINYING];
 	_sendUserListColDisp			= [[NSMutableDictionary alloc] init];
 	dic								= [defaults dictionaryForKey:SNDWIN_USERLIST_COL];
 	if (dic) {
@@ -505,6 +508,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	[def setFloat:self.sendWindowSplit forKey:SNDWIN_SIZE_SPLIT];
 	[def setBool:self.sendSearchByUserName forKey:SNDSEARCH_USER];
     [def setBool:self.sendSearchByUserAlpha forKey:SNDSEARCH_ALPHA];
+    [def setBool:self.sendSearchByPinying forKey:SNDSEARCH_PINYING];
 	[def setBool:self.sendSearchByGroupName forKey:SNDSEARCH_GROUP];
 	[def setBool:self.sendSearchByHostName forKey:SNDSEARCH_HOST];
 	[def setBool:self.sendSearchByLogOnName forKey:SNDSEARCH_LOGON];

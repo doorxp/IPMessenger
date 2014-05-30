@@ -16,6 +16,7 @@
  *============================================================================*/
 
 extern NSString* const kIPMsgUserInfoUserAlphaPropertyIdentifier;
+extern NSString* const kIPMsgUserInfoUserPinYingPropertyIdentifier;
 extern NSString* const kIPMsgUserInfoUserNamePropertyIdentifier;
 extern NSString* const kIPMsgUserInfoGroupNamePropertyIdentifier;
 extern NSString* const kIPMsgUserInfoHostNamePropertyIdentifier;
@@ -30,6 +31,7 @@ extern NSString* const kIPMsgUserInfoVersionPropertyIdentifer;
 @interface UserInfo : NSObject <NSCopying>
 {
     NSString*           _userAlpha;
+    NSString*           _userPinying;
 	NSString*			_userName;
 	NSString*			_groupName;
 	NSString*			_hostName;
@@ -47,6 +49,7 @@ extern NSString* const kIPMsgUserInfoVersionPropertyIdentifer;
 }
 
 @property(copy,readonly)    NSString*   userAlpha;
+@property(copy,readonly)    NSString*   userPinying;
 @property(copy,readonly)	NSString*	userName;			// IPMsgユーザ名（ニックネーム）
 @property(copy,readonly)	NSString*	groupName;			// IPMsgグループ名
 @property(copy,readonly)	NSString*	hostName;			// マシン名

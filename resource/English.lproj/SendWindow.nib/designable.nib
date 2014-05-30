@@ -44,7 +44,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>
                             <searchField verticalHuggingPriority="750" id="244">
-                                <rect key="frame" x="148" y="5" width="152" height="19"/>
+                                <rect key="frame" x="147.99999987451653" y="5" width="152" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                 <searchFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search Users" bezelStyle="round" id="245">
                                     <font key="font" metaFont="smallSystem"/>
@@ -143,7 +143,7 @@ DQ
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                 </tableHeaderCell>
                                                                 <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" id="SgA-Lz-x7n">
-                                                                    <font key="font" metaFont="titleBar" size="12"/>
+                                                                    <font key="font" metaFont="cellTitle"/>
                                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 </textFieldCell>
@@ -427,25 +427,31 @@ DQ
                         <action selector="searchMenuItemSelected:" target="-2" id="280"/>
                     </connections>
                 </menuItem>
-                <menuItem title="User" tag="1" id="wEt-gO-F60">
+                <menuItem title="PinYing" tag="1" id="gTT-4P-iwd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="searchMenuItemSelected:" target="-2" id="PYB-pJ-1nh"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="User" tag="2" id="wEt-gO-F60">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="i4R-Bf-Wb0"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Group" tag="2" id="249">
+                <menuItem title="Group" tag="3" id="249">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="281"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Host" tag="3" id="250">
+                <menuItem title="Host" tag="4" id="250">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="282"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Logon" tag="4" id="253">
+                <menuItem title="Logon" tag="5" id="253">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="searchMenuItemSelected:" target="-2" id="283"/>
