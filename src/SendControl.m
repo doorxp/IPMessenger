@@ -612,6 +612,9 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[userPredicate release];
 	userPredicate = nil;
 	if ([searchWord length] > 0) {
+        
+        NSArray *arr = [searchWord componentsSeparatedByString:@","];
+        
 		Config*				cfg	= [Config sharedConfig];
 		NSMutableString*	fmt	= [NSMutableString string];
 		if (cfg.sendSearchByUserName) {

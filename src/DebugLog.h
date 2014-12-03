@@ -21,7 +21,7 @@
 //		0:出力しない
 //		1:出力する
 #ifndef IPMSG_LOG_TRC
-#define IPMSG_LOG_TRC	0
+#define IPMSG_LOG_TRC	1
 #endif
 
 #ifndef IPMSG_LOG_DBG

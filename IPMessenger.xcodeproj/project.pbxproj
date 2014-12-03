@@ -13,7 +13,7 @@
 		5472139219384BF6000FA01B /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 5472139019384BF6000FA01B /* pinyin.c */; };
 		5472139319384BF6000FA01B /* pinyin.h in Headers */ = {isa = PBXBuildFile; fileRef = 5472139119384BF6000FA01B /* pinyin.h */; };
 		547213B1193879D7000FA01B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 547213A5193879BB000FA01B /* Sparkle.framework */; };
-		547213B219388F90000FA01B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 547213A5193879BB000FA01B /* Sparkle.framework */; };
+		547213B219388F90000FA01B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 547213A5193879BB000FA01B /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F7196E9013842A5300BE747B /* LogConvertController.h in Headers */ = {isa = PBXBuildFile; fileRef = F7196E8E13842A5300BE747B /* LogConvertController.h */; };
 		F7196E9113842A5300BE747B /* LogConvertController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7196E8F13842A5300BE747B /* LogConvertController.m */; };
 		F734531A0C454622001D5375 /* SendControl.h in Headers */ = {isa = PBXBuildFile; fileRef = F5269D350203CE5501A86403 /* SendControl.h */; };
@@ -563,7 +563,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */;
 			compatibilityVersion = "Xcode 3.2";
