@@ -613,49 +613,82 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	userPredicate = nil;
 	if ([searchWord length] > 0) {
         
-        NSArray *arr = [searchWord componentsSeparatedByString:@","];
+        NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@", "];
+        
+        NSArray *arr = [[searchWord stringByTrimmingCharactersInSet:set] componentsSeparatedByCharactersInSet:set];
         
 		Config*				cfg	= [Config sharedConfig];
-		NSMutableString*	fmt	= [NSMutableString string];
+		
+        NSMutableArray *predicates = [NSMutableArray array];
+        
 		if (cfg.sendSearchByUserName) {
-			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoUserNamePropertyIdentifier, searchWord];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(%@,$x,%K contains[c] $x).@count>0", arr, kIPMsgUserInfoUserNamePropertyIdentifier];
+            
+            [predicates addObject:predicate];
+            
+//			[fmt appendFormat:@"%@ contains[c] %@", kIPMsgUserInfoUserNamePropertyIdentifier, arr];
 		}
 		if (cfg.sendSearchByGroupName) {
-			if ([fmt length] > 0) {
-				[fmt appendString:@" OR "];
-			}
-			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoGroupNamePropertyIdentifier, searchWord];
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(%@,$x,%K contains[c] $x).@count>0", arr, kIPMsgUserInfoGroupNamePropertyIdentifier];
+            
+            [predicates addObject:predicate];
+            
+//			if ([fmt length] > 0) {
+//				[fmt appendString:@" OR "];
+//			}
+//			[fmt appendFormat:@"%@ contains[c] %@", kIPMsgUserInfoGroupNamePropertyIdentifier, arr];
 		}
 		if (cfg.sendSearchByHostName) {
-			if ([fmt length] > 0) {
-				[fmt appendString:@" OR "];
-			}
-			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoHostNamePropertyIdentifier, searchWord];
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(%@,$x,%K contains[c] $x).@count>0", arr, kIPMsgUserInfoHostNamePropertyIdentifier];
+            
+            [predicates addObject:predicate];
+            
+//			if ([fmt length] > 0) {
+//				[fmt appendString:@" OR "];
+//			}
+//			[fmt appendFormat:@"%@ contains[c] %@", kIPMsgUserInfoHostNamePropertyIdentifier, arr];
 		}
 		if (cfg.sendSearchByLogOnName) {
-			if ([fmt length] > 0) {
-				[fmt appendString:@" OR "];
-			}
-			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoLogOnNamePropertyIdentifier, searchWord];
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(%@,$x,%K contains[c] $x).@count>0", arr, kIPMsgUserInfoLogOnNamePropertyIdentifier];
+            
+            [predicates addObject:predicate];
+            
+//			if ([fmt length] > 0) {
+//				[fmt appendString:@" OR "];
+//			}
+//			[fmt appendFormat:@"%@ contains[c] %@", kIPMsgUserInfoLogOnNamePropertyIdentifier, arr];
 		}
         
         if (cfg.sendSearchByUserAlpha) {
-			if ([fmt length] > 0) {
-				[fmt appendString:@" OR "];
-			}
-			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoUserAlphaPropertyIdentifier, searchWord];
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(%@,$x,%K contains[c] $x).@count>0", arr, kIPMsgUserInfoUserAlphaPropertyIdentifier];
+            
+            [predicates addObject:predicate];
+            
+//			if ([fmt length] > 0) {
+//				[fmt appendString:@" OR "];
+//			}
+//			[fmt appendFormat:@"%@ contains[c] %@", kIPMsgUserInfoUserAlphaPropertyIdentifier, arr];
 		}
         
         if (cfg.sendSearchByPinying) {
-			if ([fmt length] > 0) {
-				[fmt appendString:@" OR "];
-			}
-			[fmt appendFormat:@"%@ contains[c] '%@'", kIPMsgUserInfoUserPinYingPropertyIdentifier, searchWord];
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SUBQUERY(%@,$x,%K contains[c] $x).@count>0", arr, kIPMsgUserInfoUserPinYingPropertyIdentifier];
+            
+            [predicates addObject:predicate];
+            
+//			if ([fmt length] > 0) {
+//				[fmt appendString:@" OR "];
+//			}
+//			[fmt appendFormat:@"%@ contains[c] %@", kIPMsgUserInfoUserPinYingPropertyIdentifier, arr];
 		}
 
 		[userPredicate release];
-		if ([fmt length] > 0) {
-			userPredicate = [[NSPredicate predicateWithFormat:fmt] retain];
+		if (predicates.count > 0) {
+            userPredicate = [[NSCompoundPredicate orPredicateWithSubpredicates:predicates] retain];
 		}
 	}
 	[self userListChanged:nil];

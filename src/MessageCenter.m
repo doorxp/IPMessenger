@@ -764,7 +764,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 						data:[self entryMessageData]];
 			}
 		}
-		[[NSApp delegate] receiveMessage:msg];
+		[(id)[NSApp delegate] receiveMessage:msg];
 		break;
 	case IPMSG_RECVMSG:		// メッセージ受信確認パケット
 		// 応答待ちメッセージ一覧から受信したメッセージのエントリを削除

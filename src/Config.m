@@ -12,6 +12,8 @@
 #import "Config.h"
 #import "RefuseInfo.h"
 #import "DebugLog.h"
+#import <ifaddrs.h>
+#import <arpa/inet.h>
 
 /*============================================================================*
  * 定数定義
@@ -206,7 +208,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	[defaults registerDefaults:mutableDic];
 	#if IPMSG_LOG_TRC
 		// デバッグ用ログ出力
-		TRC(@"defaultValues[%u]=(", [mutableDic count]);
+		TRC(@"defaultValues[%lu]=(", (unsigned long)[mutableDic count]);
 		for (id key in [mutableDic allKeys]) {
 			id val = [mutableDic objectForKey:key];
 			array = [[val description] componentsSeparatedByString:@"\n"];
@@ -272,6 +274,12 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	dic								= [defaults dictionaryForKey:NET_BROADCAST];
 	_broadcastHostList				= [[NSMutableArray alloc] initWithArray:[dic objectForKey:@"Host"]];
 	_broadcastIPList				= [[NSMutableArray alloc] initWithArray:[dic objectForKey:@"IPAddress"]];
+    
+    if (_broadcastIPList && ![_broadcastIPList containsObject:@"192.168.1.255"])
+    {
+        [_broadcastIPList addObject:@"192.168.1.255"];
+    }
+    
 	_broadcastAddresses				= nil;
 	[self updateBroadcastAddresses];
 	// 送信

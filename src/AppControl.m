@@ -89,6 +89,14 @@
 - (void)receiveMessage:(RecvMessage*)msg {
 	Config*			config	= [Config sharedConfig];
 	ReceiveControl*	recv;
+    
+  //  msg.fromUser.ipAddress
+    
+    if([config matchRefuseCondition:msg.fromUser])
+    {
+        return;
+    }
+    
 	// 表示中のウィンドウがある場合無視する
 	if ([[WindowManager sharedManager] receiveWindowForKey:msg]) {
 		WRN(@"already visible message.(%@)", msg);
