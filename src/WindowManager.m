@@ -85,7 +85,7 @@
  *----------------------------------------------------------------------------*/
 
 // 管理する受信ウィンドウ数を返す
-- (int)numberOfReceiveWindows {
+- (NSInteger)numberOfReceiveWindows {
 	return [receiveDic count];
 }
 
@@ -119,7 +119,7 @@
  *----------------------------------------------------------------------------*/
 
 // 管理する返信ウィンドウ数を返す
-- (int)numberOfReplyWindows {
+- (NSInteger)numberOfReplyWindows {
 	return [replyDic count];
 }
 

@@ -58,9 +58,9 @@
 - (void)shutdownServer;
 
 // 暫定
-- (int)numberOfMessageIDs;
+- (NSUInteger)numberOfMessageIDs;
 - (NSNumber*)messageIDAtIndex:(int)index;
-- (int)numberOfAttachmentsInMessageID:(NSNumber*)mid;
+- (NSUInteger)numberOfAttachmentsInMessageID:(NSNumber*)mid;
 - (Attachment*)attachmentInMessageID:(NSNumber*)mid atIndex:(int)index;
 
 @end

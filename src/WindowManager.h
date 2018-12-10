@@ -24,13 +24,13 @@
 + (WindowManager*)sharedManager;
 
 // 受信ウィンドウ管理
-- (int)numberOfReceiveWindows;
+- (NSInteger)numberOfReceiveWindows;
 - (ReceiveControl*)receiveWindowForKey:(id)aKey;
 - (void)setReceiveWindow:(ReceiveControl*)aWindow forKey:(id)aKey;
 - (void)removeReceiveWindowForKey:(id)aKey;
 
 // 返信ウィンドウ管理
-- (int)numberOfReplyWindows;
+- (NSInteger)numberOfReplyWindows;
 - (SendControl*)replyWindowForKey:(id)aKey;
 - (void)setReplyWindow:(SendControl*)aWindow forKey:(id)aKey;
 - (void)removeReplyWindowForKey:(id)aKey;

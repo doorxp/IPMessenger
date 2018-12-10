@@ -181,21 +181,21 @@
 	if (range.location != NSNotFound) {
 		TRC(@"separate lines (CR+LF)");
 		lines = [content componentsSeparatedByString:@"\r\n"];
-		TRC(@"  -> CR + LF lines=%d", [lines count]);
+        TRC(@"  -> CR + LF lines=%lu", (unsigned long)[lines count]);
 		// 一部だけCR+LFの場合があるのでさらに分解
 		NSMutableArray* work = [NSMutableArray array];
 		for (NSString* line in lines) {
 			[work addObjectsFromArray:[line componentsSeparatedByCharactersInSet:nrSet]];
 		}
 		lines = [NSArray arrayWithArray:work];
-		TRC(@"  -> CR | LF lines=%d", [lines count]);
+        TRC(@"  -> CR | LF lines=%lu", (unsigned long)[lines count]);
 	} else {
 		TRC(@"separate lines (CR or LF)");
 		lines = [content componentsSeparatedByCharactersInSet:nrSet];
 	}
 	NSUInteger	total	= [lines count];
 	NSUInteger	step	= 0;
-	TRC(@"  -> succeeded(%d lines)", total);
+    TRC(@"  -> succeeded(%lu lines)", (unsigned long)total);
 	if (aModalWindow) {
 		[NSApp runModalSession:session];
 	}

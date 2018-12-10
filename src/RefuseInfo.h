@@ -15,25 +15,23 @@
  *============================================================================*/
 
 // 拒否判定対象
-typedef enum
-{
-	IP_REFUSE_USER,			// ユーザ名
-	IP_REFUSE_GROUP,		// グループ名
-	IP_REFUSE_MACHINE,		// マシン名
-	IP_REFUSE_LOGON,		// ログオン名
-	IP_REFUSE_ADDRESS		// IPアドレス
-
-} IPRefuseTarget;
+typedef NS_ENUM(NSInteger, IPRefuseTarget) {
+    
+    IP_REFUSE_USER,            // ユーザ名
+    IP_REFUSE_GROUP,        // グループ名
+    IP_REFUSE_MACHINE,        // マシン名
+    IP_REFUSE_LOGON,        // ログオン名
+    IP_REFUSE_ADDRESS        // IPアドレス
+};
 
 // 拒否判定条件
-typedef enum
-{
-	IP_REFUSE_MATCH,		// 一致する
-	IP_REFUSE_CONTAIN,		// 含む
-	IP_REFUSE_START,		// 始まる
-	IP_REFUSE_END			// 終わる
+typedef NS_ENUM(NSInteger, IPRefuseCondition) {
+    IP_REFUSE_MATCH,        // 一致する
+    IP_REFUSE_CONTAIN,        // 含む
+    IP_REFUSE_START,        // 始まる
+    IP_REFUSE_END            // 終わる
+};
 
-} IPRefuseCondition;
 
 /*============================================================================*
  * クラス定義

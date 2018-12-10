@@ -15,6 +15,7 @@
 #import "UserManager.h"
 #import "LogManager.h"
 #import "DebugLog.h"
+#import "AppControl.h"
 
 #include <unistd.h>
 #include <netinet/in.h>
@@ -199,7 +200,7 @@
 	}
 	// ブロードキャストアドレス削除ボタン
 	else if (sender == netBroadDeleteButton) {
-		int index = [netBroadAddressTable selectedRow];
+		NSInteger index = [netBroadAddressTable selectedRow];
 		if (index != -1) {
 			[[Config sharedConfig] removeBroadcastAtIndex:index];
 			[netBroadAddressTable reloadData];
@@ -222,7 +223,7 @@
 		}
 		// IPアドレス設定の場合
 		if (ip) {
-			unsigned long 	inetaddr = inet_addr([string UTF8String]);
+			in_addr_t 	inetaddr = inet_addr([string UTF8String]);
 			struct in_addr	addr;
 			NSString*		strAddr;
 			if (inetaddr == INADDR_NONE) {
@@ -298,7 +299,7 @@
 		}
 		[absenceTable reloadData];
 		[absenceTable deselectAll:self];
-		[[NSApp delegate] buildAbsenceMenu];
+		[(id)[NSApp delegate] buildAbsenceMenu];
 	}
 	// 不在上へボタン
 	else if (sender == absenceUpButton) {
@@ -313,7 +314,7 @@
 		}
 		[absenceTable reloadData];
 		[absenceTable selectRowIndexes:[NSIndexSet indexSetWithIndex:upIdx-1] byExtendingSelection:NO];
-		[[NSApp delegate] buildAbsenceMenu];
+		[(id)[NSApp delegate] buildAbsenceMenu];
 	}
 	// 不在下へボタン
 	else if (sender == absenceDownButton) {
@@ -329,7 +330,7 @@
 		}
 		[absenceTable reloadData];
 		[absenceTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index+1] byExtendingSelection:NO];
-		[[NSApp delegate] buildAbsenceMenu];
+		[(id)[NSApp delegate] buildAbsenceMenu];
 	}
 	// 不在定義初期化ボタン
 	else if (sender == absenceResetButton) {
@@ -385,7 +386,7 @@
 		[absenceTable deselectAll:self];
 		[absenceTable selectRowIndexes:[NSIndexSet indexSetWithIndex:((index == -1) ? 0 : (index))]
 				  byExtendingSelection:NO];
-		[[NSApp delegate] buildAbsenceMenu];
+		[(id)[NSApp delegate] buildAbsenceMenu];
 		[NSApp endSheet:absenceSheet returnCode:NSOKButton];
 	}
 	// 不在シートCancelボタン
@@ -430,7 +431,7 @@
 	}
 	// 通知拒否上へボタン
 	else if (sender == refuseUpButton) {
-		int index = [refuseTable selectedRow];
+		NSInteger index = [refuseTable selectedRow];
 		[[Config sharedConfig] upRefuseInfoAtIndex:index];
 		[refuseTable reloadData];
 		[refuseTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index-1] byExtendingSelection:NO];
@@ -438,7 +439,7 @@
 	}
 	// 通知拒否下へボタン
 	else if (sender == refuseDownButton) {
-		int index = [refuseTable selectedRow];
+		NSInteger index = [refuseTable selectedRow];
 		[[Config sharedConfig] downRefuseInfoAtIndex:index];
 		[refuseTable reloadData];
 		[refuseTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index+1] byExtendingSelection:NO];
@@ -752,7 +753,7 @@
 	}
 	// 不在リスト
 	else if (tbl == absenceTable) {
-		int index = [absenceTable selectedRow];
+		NSInteger index = [absenceTable selectedRow];
 		[absenceEditButton setEnabled:(index != -1)];
 		[absenceDeleteButton setEnabled:(index != -1)];
 		[absenceUpButton setEnabled:(index > 0)];
@@ -760,7 +761,7 @@
 	}
 	// 通知拒否リスト
 	else if (tbl == refuseTable) {
-		int index = [refuseTable selectedRow];
+		NSInteger index = [refuseTable selectedRow];
 		[refuseEditButton setEnabled:(index != -1)];
 		[refuseDeleteButton setEnabled:(index != -1)];
 		[refuseUpButton setEnabled:(index > 0)];
@@ -774,7 +775,7 @@
 
 // テーブルダブルクリック時処理
 - (void)tableDoubleClicked:(id)sender {
-	int index = [sender selectedRow];
+	NSInteger index = [sender selectedRow];
 	// 不在定義リスト
 	if (sender == absenceTable) {
 		if (index >= 0) {
@@ -797,14 +798,14 @@
  *  シート終了時処理
  *----------------------------------------------------------------------------*/
 
-- (void)sheetDidEnd:(NSWindow*)sheet returnCode:(int)code contextInfo:(void*)info {
+- (void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)code contextInfo:(void*)info {
 	// 不在定義リセット
 	if (info == absenceResetButton) {
 		if (code == NSOKButton) {
 			[[Config sharedConfig] resetAllAbsences];
 			[absenceTable reloadData];
 			[absenceTable deselectAll:self];
-			[[NSApp delegate] buildAbsenceMenu];
+			[(id)[NSApp delegate] buildAbsenceMenu];
 		}
 	}
 	// 標準ログ選択
@@ -832,7 +833,7 @@
  * NSTableDataSourceメソッド
  *----------------------------------------------------------------------------*/
 
-- (int)numberOfRowsInTableView:(NSTableView*)aTableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView*)aTableView {
 	// ブロードキャスト
 	if (aTableView == netBroadAddressTable) {
 		return [[Config sharedConfig] numberOfBroadcasts];

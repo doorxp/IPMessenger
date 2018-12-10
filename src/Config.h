@@ -16,13 +16,11 @@
  *============================================================================*/
 
 // ノンポップアップ受信アイコンバウンド種別
-typedef enum
-{
-	IPMSG_BOUND_ONECE	= 0,
-	IPMSG_BOUND_REPEAT	= 1,
-	IPMSG_BOUND_NONE	= 2
-
-} IPMsgIconBoundType;
+typedef NS_ENUM(NSInteger, IPMsgIconBoundType) {
+    IPMSG_BOUND_ONECE    = 0,
+    IPMSG_BOUND_REPEAT    = 1,
+    IPMSG_BOUND_NONE    = 2
+};
 
 /*============================================================================*
  * クラス定義

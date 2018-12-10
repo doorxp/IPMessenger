@@ -61,7 +61,7 @@
 // ファイル入出力関連
 - (BOOL)isFileExists;
 - (BOOL)openFileForWrite;
-- (BOOL)writeData:(void*)data length:(unsigned)len;
+- (BOOL)writeData:(void*)data length:(unsigned long long)len;
 - (void)closeFile;
 
 // 添付処理関連

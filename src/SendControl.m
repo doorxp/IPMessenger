@@ -23,6 +23,7 @@
 #import "ReceiveControl.h"
 #import "DebugLog.h"
 
+
 #define _SEARCH_MENUITEM_TAG_ALPHA		(0)
 #define _SEARCH_MENUITEM_TAG_PINYING	(1)
 #define _SEARCH_MENUITEM_TAG_USER		(2)
@@ -169,7 +170,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	}
 	// 添付削除ボタン
 	else if (sender == attachDelButton) {
-		int selIdx = [attachTable selectedRow];
+		NSInteger selIdx = [attachTable selectedRow];
 		if (selIdx >= 0) {
 			Attachment* info = [attachments objectAtIndex:selIdx];
 			[attachmentsDic removeObjectForKey:[info file].path];
@@ -202,12 +203,12 @@ static NSRecursiveLock*		userListColsLock	= nil;
 }
 
 // シート終了処理
-- (void)sheetDidEnd:(NSWindow*)sheet returnCode:(int)code contextInfo:(void*)info {
+- (void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)code contextInfo:(void*)info {
 	if (info == sendButton) {
 		[sheet orderOut:self];
 		if (code == NSOKButton) {
 			// 不在モードを解除してメッセージを送信
-			[[NSApp delegate] setAbsenceOff];
+			[(id)[NSApp delegate] setAbsenceOff];
 			[self sendMessage:self];
 		}
 	} else if (info == attachAddButton) {
@@ -347,7 +348,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
  * NSTableDataSourceメソッド
  *----------------------------------------------------------------------------*/
 
-- (int)numberOfRowsInTableView:(NSTableView*)aTableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView*)aTableView {
 	if (aTableView == userTable) {
 		return [users count];
 	} else if (aTableView == attachTable) {
@@ -392,7 +393,9 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			ERR(@"no attachments(row=%d)", rowIndex);
 			return nil;
 		}
-		fileWrapper		= [[NSFileWrapper alloc] initRegularFileWithContents:nil];
+        
+        NSData *data = [NSData data];
+		fileWrapper		= [[NSFileWrapper alloc] initRegularFileWithContents:data];
 		textAttachment	= [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
 		[(NSCell*)[textAttachment attachmentCell] setImage:attach.icon];
 		cellValue		= [[[NSMutableAttributedString alloc] initWithString:[[attach file] name]] autorelease];
@@ -418,7 +421,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 - (void)tableViewSelectionDidChange:(NSNotification*)aNotification {
 	NSTableView* table = [aNotification object];
 	if (table == userTable) {
-		int selectNum = [userTable numberOfSelectedRows];
+		NSInteger selectNum = [userTable numberOfSelectedRows];
 		// 選択ユーザ一覧更新
 		[self updateSelectedUsers];
 		// １つ以上のユーザが選択されていない場合は送信ボタンが押下不可

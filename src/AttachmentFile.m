@@ -108,8 +108,8 @@
 	self.modifyTime	= [attrs objectForKey:NSFileModificationDate];
 
 	permission	= [[attrs objectForKey:NSFilePosixPermissions] unsignedIntValue];
-	hfsFileType	= [[attrs objectForKey:NSFileHFSTypeCode] unsignedLongValue];
-	hfsCreator	= [[attrs objectForKey:NSFileHFSCreatorCode] unsignedLongValue];
+	hfsFileType	= (OSType)[[attrs objectForKey:NSFileHFSTypeCode] unsignedLongValue];
+	hfsCreator	= (OSType)[[attrs objectForKey:NSFileHFSCreatorCode] unsignedLongValue];
 	// 初期化（fileAttribute)
 	work = [attrs objectForKey:NSFileType];
 	if ([work isEqualToString:NSFileTypeRegular]) {
@@ -428,7 +428,7 @@
 }
 
 // ファイル書き込み
-- (BOOL)writeData:(void*)data length:(unsigned)len
+- (BOOL)writeData:(void*)data length:(unsigned long long)len
 {
 	if (!handle) {
 		ERR(@"handle not opend.");
@@ -439,7 +439,7 @@
 		return YES;
 	}
 	@catch (NSException* exception) {
-		ERR(@"write error([%@]size=%u)", [exception name], len);
+        ERR(@"write error([%@]size=%llu)", [exception name], len);
 	}
 	return NO;
 }
@@ -541,7 +541,7 @@
 			work.length = [buf length] - work.location;
 			range = [buf rangeOfString:@":" options:0 range:work];
 		}
-		NSString* name;
+		NSString* name __unused;
 		// ファイル名部分を切り出す
 		_nameEscaped	= [buf substringToIndex:range.location];
 		// 解析対象文字列をファイル名の後からにする

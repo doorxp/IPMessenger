@@ -168,7 +168,7 @@
  * 不在メニュー関連
  *----------------------------------------------------------------------------*/
 
-- (NSMenuItem*)createAbsenceMenuItemAtIndex:(int)index state:(BOOL)state {
+- (NSMenuItem*)createAbsenceMenuItemAtIndex:(NSUInteger)index state:(BOOL)state {
 	NSMenuItem* item = [[[NSMenuItem alloc] init] autorelease];
 	[item setTitle:[[Config sharedConfig] absenceTitleAtIndex:index]];
 	[item setEnabled:YES];
@@ -182,9 +182,9 @@
 // 不在メニュー作成
 - (void)buildAbsenceMenu {
 	Config*		config	= [Config sharedConfig];
-	int			num		= [config numberOfAbsences];
+	NSUInteger			num		= [config numberOfAbsences];
 	NSInteger	index	= config.absenceIndex;
-	int			i;
+	NSUInteger			i;
 
 	// 不在モード解除とその下のセパレータ以外を一旦削除
 	for (i = [absenceMenu numberOfItems] - 1; i > 1 ; i--) {
@@ -215,7 +215,7 @@
 - (IBAction)absenceMenuChanged:(id)sender {
 	Config*		config	= [Config sharedConfig];
 	NSInteger	oldIdx	= config.absenceIndex;
-	int			newIdx;
+	NSInteger			newIdx;
 
 	if ([sender tag] == ABSENCE_OFF_MENU_TAG) {
 		newIdx = -2;
@@ -327,7 +327,7 @@
 	TRC(@"Enter");
 
 	// 画面位置計算時の乱数初期化
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 
 	// フラグ初期化
 	activatedFlag = -1;
@@ -372,7 +372,7 @@
 	NSWindow*		win;
 	while ((win = (NSWindow*)[e nextObject])) {
 		if ([win isVisible] && [[win delegate] isKindOfClass:[ReceiveControl class]]) {
-			int ret = NSRunCriticalAlertPanel(
+			NSInteger ret = NSRunCriticalAlertPanel(
 								NSLocalizedString(@"ShutDown.Confirm1.Title", nil),
 								NSLocalizedString(@"ShutDown.Confirm1.Msg", nil),
 								NSLocalizedString(@"ShutDown.Confirm1.OK", nil),
@@ -389,7 +389,7 @@
 	// ノンポップアップの未読メッセージがあれば終了確認
 	[receiveQueueLock lock];
 	if ([receiveQueue count] > 0) {
-		int ret = NSRunCriticalAlertPanel(
+		NSInteger ret = NSRunCriticalAlertPanel(
 								NSLocalizedString(@"ShutDown.Confirm2.Title", nil),
 								NSLocalizedString(@"ShutDown.Confirm2.Msg", nil),
 								NSLocalizedString(@"ShutDown.Confirm2.OK", nil),

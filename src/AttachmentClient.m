@@ -32,11 +32,11 @@
 - (void)downloadThread:(id)param;
 - (DownloadResult)downloadFile:(AttachmentFile*)file from:(int)sock;
 - (DownloadResult)downloadDir:(AttachmentFile*)file from:(int)sock useUTF8:(BOOL)utf8;
-- (DownloadResult)receiveFrom:(int)sock to:(void*)ptr maxLength:(unsigned)len;
+- (DownloadResult)receiveFrom:(int)sock to:(void*)ptr maxLength:(unsigned long long)len;
 - (void)incrementNumberOfFile;
 - (void)incrementNumberOfDirectory;
 - (void)newFileDownloadStart:(NSString*)fileName;
-- (void)newDataDownload:(unsigned)size;
+- (void)newDataDownload:(unsigned long long)size;
 
 @end
 
@@ -88,7 +88,7 @@
  *----------------------------------------------------------------------------*/
 
 // ファイル数
-- (unsigned)numberOfTargets {
+- (NSUInteger)numberOfTargets {
 	return [targets count];
 }
 
@@ -181,7 +181,7 @@
 // 添付ダウンロードスレッド
 - (void)downloadThread:(id)portArray {
 	NSAutoreleasePool*	pool	= [[NSAutoreleasePool alloc] init];
-	int					num 	= [targets count];
+	NSInteger					num 	= [targets count];
 	DownloadResult		result	= DL_SUCCESS;
 	NSConnection*		conn	= [[NSConnection alloc] initWithReceivePort:[portArray objectAtIndex:0]
 																   sendPort:[portArray objectAtIndex:1]];
@@ -320,7 +320,7 @@
 
 	char buf[8192];						// バッファサイズを変更可能に？
 	unsigned long long	remain;
-	unsigned			size;
+	unsigned long long			size;
 	DownloadResult		ret;
 
 	[self newFileDownloadStart:[file name]];
@@ -340,7 +340,7 @@
 	// ファイル受信
 	remain = file.size;
 	while (remain > 0) {
-		size = MIN(sizeof(buf), remain);
+		size = MIN((unsigned long long)sizeof(buf), remain);
 		ret = [self receiveFrom:sock to:buf maxLength:size];
 		if ((ret != DL_SUCCESS) && (ret != DL_STOP)) {
 			WRN(@"file:file receive error(%d,%@)", ret, [file name]);
@@ -371,7 +371,7 @@
 	NSString*			currentDir	= savePath;
 	DownloadResult		result		= DL_SUCCESS;
 	AttachmentFile*		file;
-	unsigned long long	remain;
+	ssize_t	remain;
 	DBG(@"dir:start download directory(%@)", [dir name]);
 
 	/*------------------------------------------------------------------------*
@@ -449,10 +449,10 @@
 			totalSize += remain;
 			[_listener downloadTotalSizeChanged];
 			while (remain > 0) {
-				unsigned size = MIN(sizeof(buf), remain);
+				ssize_t size = MIN((ssize_t)sizeof(buf), remain);
 				result = [self receiveFrom:sock to:buf maxLength:size];
 				if (result != DL_SUCCESS) {
-					ERR(@"dir:file receive error(%d,remain=%llu)", result, remain);
+                    ERR(@"dir:file receive error(%d,remain=%zd)", result, remain);
 					break;
 				}
 				[self newDataDownload:size];
@@ -469,7 +469,7 @@
 		}
 		if (remain > 0) {
 			// 受信しきれていない（エラー）
-			ERR(@"dir:file remain data exist(%llu)", remain);
+            ERR(@"dir:file remain data exist(%zd)", remain);
 			result = DL_SIZE_NOT_ENOUGH;
 			break;
 		}
@@ -505,14 +505,14 @@
 }
 
 // ソケット受信
-- (DownloadResult)receiveFrom:(int)sock to:(void*)ptr maxLength:(unsigned)len {
+- (DownloadResult)receiveFrom:(int)sock to:(void*)ptr maxLength:(unsigned long long)len {
 
 	int				timeout	= 0;	// タイムアウト回数
 	fd_set			fdSet;			// ソケット監視用
 	struct timeval	tv;				// ソケット監視用
 	unsigned		recvSize = 0;	// 受信データサイズ
 	int				ret;
-	int				size;
+	ssize_t				size;
 	for (timeout = 0; (timeout < 40) && !stop; timeout++) {
 		if (stop) {
 			WRN(@"user cancel(stop)");
@@ -538,7 +538,7 @@
 		timeout = -1;
 		size = recv(sock, &(((char*)ptr)[recvSize]), len - recvSize, 0);
 		if (size < 0) {
-			ERR(@"socket error(recv=%d,maybe disconnected.)", size);
+            ERR(@"socket error(recv=%zd,maybe disconnected.)", size);
 			return DL_DISCONNECTED;
 		}
 		recvSize += size;
@@ -573,7 +573,7 @@
 	[_listener downloadFileChanged];
 }
 
-- (void)newDataDownload:(unsigned)size {
+- (void)newDataDownload:(unsigned long long)size {
 	if (size > 0) {
 		downloadSize += size;
 		[_listener downloadDownloadedSizeChanged];

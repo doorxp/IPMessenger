@@ -244,7 +244,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	_defaultAbsences = [[NSArray alloc] initWithArray:mutableArray];
 	#if IPMSG_LOG_TRC
 		// デバッグ用ログ出力
-		TRC(@"defaultAbsences[%u]=(", [_defaultAbsences count]);
+    TRC(@"defaultAbsences[%lu]=(", (unsigned long)[_defaultAbsences count]);
 		for (dic in _defaultAbsences) {
 			NSString* t = [dic objectForKey:@"Title"];
 			NSString* m = [dic objectForKey:@"Message"];
@@ -589,7 +589,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 - (void)removeBroadcastAtIndex:(NSUInteger)index
 {
 	@try {
-		int hostnum = [_broadcastHostList count];
+		NSInteger hostnum = [_broadcastHostList count];
 		if (index < hostnum) {
 			[_broadcastHostList removeObjectAtIndex:index];
 		} else {
@@ -1018,7 +1018,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 			case IP_REFUSE_LOGON:	target = @"LogOnName";		break;
 			case IP_REFUSE_ADDRESS:	target = @"IPAddress";		break;
 			default:
-				WRN(@"invalid refuse target(%d)", [info target]);
+                WRN(@"invalid refuse target(%ld)", (long)[info target]);
 				continue;
 		}
 		switch ([info condition]) {
@@ -1027,7 +1027,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 			case IP_REFUSE_START:	condition = @"Start";		break;
 			case IP_REFUSE_END:		condition = @"End";			break;
 			default:
-				WRN(@"invalid refuse condition(%d)", [info condition]);
+                WRN(@"invalid refuse condition(%ld)", (long)[info condition]);
 				continue;
 		}
 		[dict setObject:target forKey:@"Target"];

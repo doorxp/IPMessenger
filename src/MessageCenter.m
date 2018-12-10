@@ -187,7 +187,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	}
 
 	// 乱数初期化
-	srand(time(NULL));
+	srand((unsigned)time(NULL));
 
 	// ソケットオープン
 	if ((sockUDP = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
@@ -211,7 +211,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	// ソケットバインド
 	while (bind(sockUDP, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-		int result;
+		NSInteger result;
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
@@ -447,7 +447,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	if ([msg.attachments count] > 0) {
 		NSInteger			count			= 0;
 		NSMutableString*	buffer			= [NSMutableString string];
-		NSNumber*			messageID		= [NSNumber numberWithInt:msg.packetNo];
+		NSNumber*			messageID		= @(msg.packetNo);
 		for (Attachment* info in msg.attachments) {
 			info.fileID	= [NSNumber numberWithInteger:count];
 			[buffer appendFormat:@"%ld:%@:%llX:%f:%X:",
@@ -504,7 +504,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 			[NSTimer scheduledTimerWithTimeInterval:RETRY_INTERVAL
 											 target:self
 										   selector:@selector(retryMessage:)
-										   userInfo:[NSNumber numberWithInt:mid]
+										   userInfo:@(mid)
 											repeats:YES];
 		}
 	}
@@ -616,10 +616,10 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	unsigned long		command;
 	UserInfo*			fromUser;
 	struct sockaddr_in*	from;
-	int					packetNo;
+	NSInteger					packetNo;
 	NSString*			appendix;
 	char				buff[MAX_SOCKBUF];	// 受信バッファ
-	int					len;
+	ssize_t					len;
 	struct sockaddr_in	addr;
 	socklen_t			addrLen = sizeof(addr);
 
@@ -629,7 +629,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		ERR(@"recvFrom error(sock=%d)", sockUDP);
 		return;
 	}
-	TRC(@"recv %u bytes", len);
+    TRC(@"recv %zd bytes", len);
 
 	// 解析
 	msg = [RecvMessage messageWithBuffer:buff length:len from:addr];
@@ -639,8 +639,8 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	}
 	TRC(@"recvdata parsed");
 	TRC(@"\tfrom      = %@", [msg fromUser]);
-	TRC(@"\tpacketNo  = %d", msg.packetNo);
-	TRC(@"\tcommand   = 0x%08X", [msg command]);
+    TRC(@"\tpacketNo  = %ld", (long)msg.packetNo);
+    TRC(@"\tcommand   = 0x%08lX", [msg command]);
 	TRC(@"\tabsence   = %s", ([msg absence] ? "YES" : "NO"));
 	TRC(@"\tsealed    = %s", ([msg sealed] ? "YES" : "NO"));
 	TRC(@"\tlockec    = %s", ([msg locked] ? "YES" : "NO"));
@@ -914,7 +914,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
  * 情報取得関連
  *----------------------------------------------------------------------------*/
 
-- (int)myPortNo {
+- (NSInteger)myPortNo {
 	return myPortNo;
 }
 
@@ -930,7 +930,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
  *----------------------------------------------------------------------------*/
 
 // 受信Rawデータの分解
-+ (BOOL)parseReceiveData:(char*)buffer length:(int)len into:(IPMsgData*)data
++ (BOOL)parseReceiveData:(char*)buffer length:(ssize_t)len into:(IPMsgData*)data
 {
 	char* work	= buffer;
 	char* ptr	= buffer;
@@ -939,14 +939,14 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	}
 
 	// バージョン番号
-	data->version = strtoul(ptr, &work, 16);
+	data->version = (unsigned)strtoul(ptr, &work, 16);
 	if (*work != ':') {
 		return NO;
 	}
 	ptr = work + 1;
 
 	// パケット番号
-	data->packetNo = strtoul(ptr, &work, 16);
+	data->packetNo = (unsigned)strtoul(ptr, &work, 16);
 	if (*work != ':') {
 		return NO;
 	}
@@ -971,7 +971,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	ptr = work + 1;
 
 	// コマンド番号
-	data->command = strtoul(ptr, &work, 10);
+	data->command = (unsigned)strtoul(ptr, &work, 10);
 	if (*work != ':') {
 		return NO;
 	}

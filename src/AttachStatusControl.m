@@ -51,7 +51,7 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 			}
 		} else if ([item isKindOfClass:[Attachment class]]) {
 			if ([AttachmentServer isAvailable]) {
-				int	i;
+				NSInteger	i;
 				for (i = [attachTable selectedRow]; i >= 0; i--) {
 					id val = [attachTable itemAtRow:i];
 					if ([val isKindOfClass:[NSNumber class]]) {
@@ -63,7 +63,7 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 			}
 		} else if ([item isKindOfClass:[UserInfo class]]) {
 			if ([AttachmentServer isAvailable]) {
-				int			i;
+				NSInteger			i;
 				NSNumber*	fid = nil;
 				for (i = [attachTable selectedRow]; i >= 0; i--) {
 					id val = [attachTable itemAtRow:i];
@@ -100,7 +100,7 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 	[attachTable reloadData];
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
 	if (!item) {
 		if ([AttachmentServer isAvailable]) {
 			return [[AttachmentServer sharedServer] numberOfMessageIDs];

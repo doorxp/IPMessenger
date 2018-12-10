@@ -74,7 +74,7 @@ typedef struct
 + (BOOL)isNetworkLinked;
 
 // 受信Rawデータの分解
-+ (BOOL)parseReceiveData:(char*)buffer length:(int)len into:(IPMsgData*)data;
++ (BOOL)parseReceiveData:(char*)buffer length:(ssize_t)len into:(IPMsgData*)data;
 
 // メッセージ送信（ブロードキャスト）
 - (void)broadcastEntry;
@@ -87,7 +87,7 @@ typedef struct
 - (void)sendReleaseAttachmentMessage:(RecvMessage*)info;
 
 // 情報取得
-- (int)myPortNo;
+- (NSInteger)myPortNo;
 - (NSString*)myHostName;
 
 @end

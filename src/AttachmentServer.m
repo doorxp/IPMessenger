@@ -95,7 +95,7 @@ typedef struct {
 - (id)init {
 	int					sockopt	= 1;		// ソケットオプション
 	struct sockaddr_in	addr;				// バインド用アドレス
-	int					portNo;				// ポート番号
+	NSInteger					portNo;				// ポート番号
 
 	// 変数初期化
 	self		= [super init];
@@ -420,7 +420,7 @@ typedef struct {
  * その他
  *----------------------------------------------------------------------------*/
 
-- (int)numberOfMessageIDs {
+- (NSUInteger)numberOfMessageIDs {
 	return [attachDic count];
 }
 
@@ -432,7 +432,7 @@ typedef struct {
 	return [keys objectAtIndex:index];
 }
 
-- (int)numberOfAttachmentsInMessageID:(NSNumber*)mid {
+- (NSUInteger)numberOfAttachmentsInMessageID:(NSNumber*)mid {
 	NSDictionary* dic = [attachDic objectForKey:mid];
 	return (dic != nil) ? ([dic count] - 1) : 0;
 }
@@ -546,7 +546,7 @@ typedef struct {
 
 	DBG(@"start(fd=%d).", sock);
 
-	ipAddr					= [[obj objectAtIndex:1] unsignedLongValue];
+	ipAddr					= (UInt32)[[obj objectAtIndex:1] unsignedLongValue];
 	ipPort					= [[MessageCenter sharedCenter] myPortNo];
 	addr.sin_addr.s_addr	= htonl(ipAddr);
 	addr.sin_port			= htons(ipPort);
@@ -582,13 +582,13 @@ typedef struct {
 			AttachmentFile*		file;
 			IPMsgData			recvData;
 			IPMsgAttachRequest	req;
-			int					len;
+			ssize_t					len;
 			BOOL				useUTF8;
 
 			// リクエスト読み込み
 			len = recv(sock, buf, sizeof(buf) - 1, 0);
 			if (len < 0) {
-				ERR(@"recvError(%d)", len);
+                ERR(@"recvError(%zd)", len);
 				break;
 			}
 

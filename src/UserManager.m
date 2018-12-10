@@ -69,7 +69,7 @@
 // ユーザ数を返す
 - (int)numberOfUsers {
 	[lock lock];
-	int count = [userList count];
+	int count = (int)[userList count];
 	[lock unlock];
 	return count;
 }

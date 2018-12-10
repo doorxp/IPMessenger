@@ -213,7 +213,7 @@
 }
 
 // シート終了処理
-- (void)sheetDidEnd:(NSWindow*)sheet returnCode:(int)code contextInfo:(void*)info {
+- (void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)code contextInfo:(void*)info {
 	if (info == attachSaveButton) {
 		if (code == NSOKButton) {
 			NSFileManager*	fileManager	= [NSFileManager defaultManager];
@@ -235,7 +235,7 @@
 				// ファイル存在チェック
 				if ([fileManager fileExistsAtPath:path]) {
 					// 上書き確認
-					int result;
+					NSInteger result;
 					WRN(@"file exists(%@)", path);
 					if ([[attach file] isDirectory]) {
 						result = NSRunAlertPanel(	NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Title", nil),
@@ -366,8 +366,8 @@
 			// 引用文字を入れる
 			NSArray*			array;
 			NSMutableString*	strBuf;
-			int					lines;
-			int					iCount;
+			NSUInteger					lines;
+			NSUInteger					iCount;
 			array	= [quotMsg componentsSeparatedByString:@"\n"];
 			lines	= [array count];
 			strBuf	= [NSMutableString stringWithCapacity:
@@ -477,8 +477,8 @@
 
 - (void)downloadSheetRefresh:(NSTimer*)timer {
 	if (attachSheetRefreshTitle) {
-		unsigned num	= [downloader numberOfTargets];
-		unsigned index	= [downloader indexOfTarget] + 1;
+		NSUInteger num	= [downloader numberOfTargets];
+		NSUInteger index	= [downloader indexOfTarget] + 1;
 		NSString* title = [NSString stringWithFormat:NSLocalizedString(@"RecvDlg.AttachSheet.Title", nil), index, num];
 		[attachSheetTitleLabel setStringValue:title];
 		attachSheetRefreshTitle = NO;
@@ -629,7 +629,7 @@
  * NSTableDataSourceメソッド
  *----------------------------------------------------------------------------*/
 
-- (int)numberOfRowsInTableView:(NSTableView*)aTableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView*)aTableView {
 	if (aTableView == attachTable) {
 		return [[recvMsg attachments] count];
 	} else {
@@ -655,7 +655,10 @@
 			ERR(@"no attachments(row=%d)", rowIndex);
 			return nil;
 		}
-		fileWrapper		= [[NSFileWrapper alloc] initRegularFileWithContents:nil];
+        
+        NSData *data = [NSData data];
+        
+		fileWrapper		= [[NSFileWrapper alloc] initRegularFileWithContents:data];
 		textAttachment	= [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
 		[(NSCell*)[textAttachment attachmentCell] setImage:attach.icon];
 		cellValue		= [[[NSMutableAttributedString alloc] initWithString:[[attach file] name]] autorelease];
@@ -705,7 +708,7 @@
 // 一番奥のウィンドウを手前に移動
 - (IBAction)backWindowToFront:(id)sender {
 	NSArray*	wins	= [NSApp orderedWindows];
-	int			i;
+	NSInteger			i;
 	for (i = [wins count] - 1; i >= 0; i--) {
 		NSWindow* win = [wins objectAtIndex:i];
 		if ([win isVisible] && [[win delegate] isKindOfClass:[ReceiveControl class]]) {

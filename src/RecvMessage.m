@@ -51,7 +51,7 @@
 	 * 準備
 	 *------------------------------------------------------------------------*/
 
-	TRC(@"start parsing(buf=0x%08X,len=%u)--------", buf, len);
+    TRC(@"start parsing(buf=0x%08llX,len=%lu)--------", (unsigned long long)buf, (unsigned long)len);
 
 	// パラメタチェック
 	if (!buf) {
@@ -111,10 +111,10 @@
 	// 追加部オプション
 	if ((len + 1) - (strlen(buffer) + 1) > 0) {
 		subMessage = &buffer[strlen(buffer) + 1];
-		TRC(@"\tsubMessage   =\"%s\"(len=%d[%d,%d])", subMessage, (len + 1) - (strlen(buffer) + 1), len, strlen(buffer));
+        TRC(@"\tsubMessage   =\"%s\"(len=%lu[%lu,%lu])", subMessage, (len + 1) - (strlen(buffer) + 1), (unsigned long)len, strlen(buffer));
 		if ((len + 1) - (strlen(buffer) + 1) - (strlen(subMessage) + 1) > 0) {
 			subMessage2 = &subMessage[strlen(subMessage) + 2];
-			TRC(@"\tsubMessage2  =\"%s\"(len=%d[%d,%d,%d])", subMessage2, (len + 1) - (strlen(buffer) + 1) - (strlen(subMessage) + 1), len, strlen(buffer), strlen(subMessage));
+            TRC(@"\tsubMessage2  =\"%s\"(len=%lu[%lu,%lu,%lu])", subMessage2, (len + 1) - (strlen(buffer) + 1) - (strlen(subMessage) + 1), (unsigned long)len, strlen(buffer), strlen(subMessage));
 		}
 	}
 
@@ -138,7 +138,7 @@
 		return nil;
 	}
 	self.packetNo = strtol(tok, NULL, 10);
-	TRC(@"\tpacketNo      =%d", self.packetNo);
+    TRC(@"\tpacketNo      =%ld", (long)self.packetNo);
 
 	// ログイン名
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
@@ -165,7 +165,7 @@
 		return nil;
 	}
 	command = strtoul(tok, NULL, 10);
-	TRC(@"\tcommand       =0x%08X", command);
+    TRC(@"\tcommand       =0x%08lX", command);
 
 	// 追加部
 	message	= ptr;
@@ -238,7 +238,7 @@
 											 hostName:hostName
 											logOnName:logOnUser
 											  address:&addr
-											  command:command];
+											  command:(UInt32)command];
 	}
 
 	/*------------------------------------------------------------------------*
@@ -256,7 +256,7 @@
 											 hostName:hostName
 											logOnName:logOnUser
 											  address:&addr
-											  command:command];
+											  command:(UInt32)command];
 		break;
 	// 添付ファイル付きの通常メッセージは添付を取り出し
 	case IPMSG_SENDMSG:
@@ -305,13 +305,13 @@
 	case IPMSG_ANSLIST:
 		if (message) {
 			NSArray*		lists		= [appendix componentsSeparatedByString:@"\a"];
-			int				totalCount	= [[lists objectAtIndex:1] intValue];
+			NSInteger				totalCount	= [[lists objectAtIndex:1] intValue];
 			NSMutableArray*	array		= [[[NSMutableArray alloc] initWithCapacity:10] autorelease];
 			if (totalCount > 0) {
 				int				i;
 				continueCount	= [[lists objectAtIndex:0] intValue];
 				if ([lists count] < (unsigned)(totalCount * 7 + 2)) {
-					WRN(@"hostlist:invalid data(items=%lu,totalCount=%d,%@)", (unsigned long)[lists count], totalCount, self);
+                    WRN(@"hostlist:invalid data(items=%lu,totalCount=%ld,%@)", (unsigned long)[lists count], (long)totalCount, self);
 					totalCount = ([lists count] - 2) / 7;
 				}
 				for (i = 0; i < totalCount; i++) {
@@ -446,7 +446,7 @@
 
 // ダウンロード完了済み添付ファイル削除
 - (void)removeDownloadedAttachments {
-	int index;
+	NSInteger index;
 	for (index = [attachments count] - 1; index >= 0; index--) {
 		Attachment* attach = [attachments objectAtIndex:index];
 		if (attach.isDownloaded) {

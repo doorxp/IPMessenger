@@ -68,7 +68,7 @@
 	IBOutlet NSTextField*		absenceSheetErrorLabel;
 	IBOutlet NSButton*			absenceSheetOKButton;
 	IBOutlet NSButton*			absenceSheetCancelButton;
-	int							absenceEditIndex;
+	NSInteger							absenceEditIndex;
 	// 通知拒否
 	IBOutlet NSTableView*		refuseTable;
 	IBOutlet NSButton*			refuseAddButton;
@@ -83,7 +83,7 @@
 	IBOutlet NSTextField*		refuseSheetErrorLabel;
 	IBOutlet NSButton*			refuseSheetOKButton;
 	IBOutlet NSButton*			refuseSheetCancelButton;
-	int							refuseEditIndex;
+	NSInteger							refuseEditIndex;
 	// ログ
 	IBOutlet NSButton*			logStdEnableCheck;
 	IBOutlet NSButton*			logStdWhenOpenChainCheck;

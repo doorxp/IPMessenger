@@ -80,7 +80,7 @@ typedef enum
 - (id)initWithRecvMessage:(RecvMessage*)msg saveTo:(NSString*)path;
 
 // 対象添付ファイル管理
-- (unsigned)numberOfTargets;
+- (NSUInteger)numberOfTargets;
 - (void)addTarget:(Attachment*)attachment;
 
 // ダウンロード開始／終了

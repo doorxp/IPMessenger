@@ -71,7 +71,7 @@
 	case IP_REFUSE_LOGON:	targetStr = user.logOnName;		break;
 	case IP_REFUSE_ADDRESS:	targetStr = user.ipAddress;		break;
 	default:
-		WRN(@"invalid refuse target(%d)", self.target);
+            WRN(@"invalid refuse target(%ld)", (long)self.target);
 		return NO;
 	}
 	switch (self.condition) {
@@ -81,8 +81,8 @@
 		return ([targetStr rangeOfString:self.string].location != NSNotFound);
 	case IP_REFUSE_START:
 	{
-		int len1 = [targetStr length];
-		int len2 = [self.string length];
+		NSInteger len1 = [targetStr length];
+		NSInteger len2 = [self.string length];
 		if (len1 > len2) {
 			return [[targetStr substringToIndex:(len2)] isEqualToString:self.string];
 		} else if (len1 == len2) {
@@ -92,8 +92,8 @@
 		break;
 	case IP_REFUSE_END:
 	{
-		int len1 = [targetStr length];
-		int len2 = [self.string length];
+		NSInteger len1 = [targetStr length];
+		NSInteger len2 = [self.string length];
 		if (len1 > len2) {
 			return [[targetStr substringFromIndex:(len1 - len2)] isEqualToString:self.string];
 		} else if (len1 == len2) {
@@ -102,7 +102,7 @@
 	}
 		break;
 	default:
-		WRN(@"invalid refuse condition(%d)", self.condition);
+            WRN(@"invalid refuse condition(%ld)", (long)self.condition);
 		break;
 	}
 	return NO;
@@ -136,7 +136,7 @@
 	case IP_REFUSE_LOGON:	s = @"Refuse.Desc.LogOn";		break;
 	case IP_REFUSE_ADDRESS:	s = @"Refuse.Desc.IPAddress";	break;
 	default:
-		WRN(@"invalid refuse target(%d)", self.target);
+            WRN(@"invalid refuse target(%ld)", (long)self.target);
 		break;
 	}
 	NSString* tgt = NSLocalizedString(s, nil);
@@ -147,7 +147,7 @@
 	case IP_REFUSE_START:	s = @"Refuse.Desc.Start";		break;
 	case IP_REFUSE_END:		s = @"Refuse.Desc.End";			break;
 	default:
-		WRN(@"invalid refuse condition(%d)", self.condition);
+            WRN(@"invalid refuse condition(%ld)", (long)self.condition);
 		break;
 	}
 	NSString* cnd = NSLocalizedString(s, nil);
