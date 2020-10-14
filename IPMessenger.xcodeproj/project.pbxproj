@@ -194,6 +194,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1D1893062536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1D1893072536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
+		1D1893082536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		1D1893092536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
+		1D18930A2536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
+		1D18930B2536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
+		1D18930C2536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/SendWindow.nib; sourceTree = "<group>"; };
+		1D18930D2536EA4300C62361 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D1D518114F208F800528526 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		1D8B91FE21BE0ED6002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
 		1D8B91FF21BE0ED6002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
@@ -269,7 +277,6 @@
 		F743AB1211C10B79003B098E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		F77D69621397A95B00BA58D6 /* SendHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendHeaderView.h; sourceTree = "<group>"; };
 		F77D69631397A95B00BA58D6 /* SendHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendHeaderView.m; sourceTree = "<group>"; };
-		F794E5BB13855BDE003FB780 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Japanese; path = Japanese.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
 		F799CF7E10EE727500773B8C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F799D02F10EE736800773B8C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F799D16C10EE73C900773B8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -281,13 +288,6 @@
 		F7E66CA41361A9120014B3D7 /* menu_alternate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_alternate.png; sourceTree = "<group>"; };
 		F7E66CA51361A9120014B3D7 /* menu_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_highlight.png; sourceTree = "<group>"; };
 		F7E66CA61361A9120014B3D7 /* menu_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_normal.png; sourceTree = "<group>"; };
-		F7E66CC51361ABC80014B3D7 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F7E66CD31361ABD30014B3D7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F7E66CD41361ABD30014B3D7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		F7E66CD51361ABD30014B3D7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
-		F7E66CD61361ABD30014B3D7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
-		F7E66CD71361ABD30014B3D7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
-		F7E66CD81361ABD30014B3D7 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/SendWindow.nib; sourceTree = "<group>"; };
 		F7FA4CA103C5A67300F04150 /* RecvMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecvMessage.h; sourceTree = "<group>"; };
 		F7FA4CA203C5A67300F04150 /* RecvMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecvMessage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -611,18 +611,18 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1200;
 			};
 			buildConfigurationList = F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
 				Base,
+				ja,
+				en,
+				fr,
+				de,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* IPMessenger */;
 			projectDirPath = "";
@@ -798,8 +798,8 @@
 		F794E5B913855BCC003FB780 /* LogConvertDialog.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F794E5BB13855BDE003FB780 /* Japanese */,
 				1D8B920321BE0ED7002D9FD3 /* Base */,
+				1D1893072536EA3E00C62361 /* ja */,
 			);
 			name = LogConvertDialog.xib;
 			sourceTree = "<group>";
@@ -807,8 +807,8 @@
 		F7E66CC11361ABBA0014B3D7 /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F7E66CD41361ABD30014B3D7 /* Japanese */,
 				1D8B920221BE0ED7002D9FD3 /* Base */,
+				1D1893082536EA3E00C62361 /* ja */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -816,8 +816,8 @@
 		F7E66CC41361ABC80014B3D7 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F7E66CC51361ABC80014B3D7 /* English */,
-				F7E66CD31361ABD30014B3D7 /* Japanese */,
+				1D1893062536EA3E00C62361 /* ja */,
+				1D18930D2536EA4300C62361 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -825,8 +825,8 @@
 		F7E66CC61361ABC80014B3D7 /* NoticeDialog.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F7E66CD51361ABD30014B3D7 /* Japanese */,
 				1D8B91FE21BE0ED6002D9FD3 /* Base */,
+				1D1893092536EA3F00C62361 /* ja */,
 			);
 			name = NoticeDialog.nib;
 			sourceTree = "<group>";
@@ -834,8 +834,8 @@
 		F7E66CC81361ABC80014B3D7 /* PortChangeDialog.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F7E66CD61361ABD30014B3D7 /* Japanese */,
 				1D8B91FF21BE0ED6002D9FD3 /* Base */,
+				1D18930A2536EA3F00C62361 /* ja */,
 			);
 			name = PortChangeDialog.nib;
 			sourceTree = "<group>";
@@ -843,8 +843,8 @@
 		F7E66CCA1361ABC80014B3D7 /* ReceiveWindow.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F7E66CD71361ABD30014B3D7 /* Japanese */,
 				1D8B920021BE0ED6002D9FD3 /* Base */,
+				1D18930B2536EA3F00C62361 /* ja */,
 			);
 			name = ReceiveWindow.nib;
 			sourceTree = "<group>";
@@ -852,8 +852,8 @@
 		F7E66CCC1361ABC80014B3D7 /* SendWindow.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F7E66CD81361ABD30014B3D7 /* Japanese */,
 				1D8B920121BE0ED7002D9FD3 /* Base */,
+				1D18930C2536EA3F00C62361 /* ja */,
 			);
 			name = SendWindow.nib;
 			sourceTree = "<group>";
@@ -877,6 +877,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -914,6 +915,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -937,6 +939,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -963,6 +966,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;

@@ -214,7 +214,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 			array = [[val description] componentsSeparatedByString:@"\n"];
 			if ([array count] > 1) {
 				NSUInteger num = 0;
-				for (NSString* s in array) {
+				for (NSString* s __unused in array) {
 					num++;
 					if (num == 1) {
 						TRC(@"\t%@=%@", key, s);
@@ -246,8 +246,8 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		// デバッグ用ログ出力
     TRC(@"defaultAbsences[%lu]=(", (unsigned long)[_defaultAbsences count]);
 		for (dic in _defaultAbsences) {
-			NSString* t = [dic objectForKey:@"Title"];
-			NSString* m = [dic objectForKey:@"Message"];
+			NSString* t __unused = [dic objectForKey:@"Title"];
+			NSString* m __unused = [dic objectForKey:@"Message"];
 			str = [m stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
 			TRC(@"\t\"%@\"（\"%@\"）", t, str);
 		}
@@ -357,7 +357,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 			array	= [[val description] componentsSeparatedByString:@"\n"];
 			if ([array count] > 1) {
 				NSUInteger num = 0;
-				for (NSString* s in array) {
+				for (NSString* s __unused in array) {
 					num++;
 					if (num == 1) {
 						DBG(@"\t%s=%@", name, s);
@@ -398,7 +398,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 				array	= [[val description] componentsSeparatedByString:@"\n"];
 				if ([array count] > 1) {
 					NSUInteger num = 0;
-					for (NSString* s in array) {
+					for (NSString* s __unused in array) {
 						num++;
 						if (num == 1) {
 							TRC(@"\t%s=%@", name, s);

@@ -43,7 +43,7 @@
 	IBOutlet NSMenu*		statusBarMenu;					// ステータスバー用のメニュー
 	NSStatusItem*			statusBarItem;					// ステータスアイテムのインスタンス
 
-	BOOL					activatedFlag;					// アプリケーションアクティベートフラグ
+    int					activatedFlag;					// アプリケーションアクティベートフラグ
 
 	NSMutableArray*			receiveQueue;					// 受信メッセージキュー
 	NSLock*					receiveQueueLock;				// 受信メッセージキュー排他ロック

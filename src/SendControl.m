@@ -473,10 +473,17 @@ static NSRecursiveLock*		userListColsLock	= nil;
     
 }
 
+- (void)drawerWillOpen:(NSNotification *)notification {
+    attachDrawer.contentView.superview.layer.backgroundColor = NSColor.redColor.CGColor;
+    attachDrawer.contentView.appearance = NSAppearance.currentAppearance;
+    attachDrawer.contentView.window.appearance = NSAppearance.currentAppearance;
+    attachDrawer.contentView.superview.appearance = NSAppearance.currentAppearance;
+}
+
 - (void)drawerDidOpen:(NSNotification *)notification {
-    attachDrawer.contentView.window.backgroundColor = window.backgroundColor;
-    attachDrawer.contentView.subviews[0].layer.backgroundColor = window.backgroundColor.CGColor;
-    attachDrawer.contentView.superview.layer.backgroundColor = window.backgroundColor.CGColor;
+//    attachDrawer.contentView.window.backgroundColor = window.backgroundColor;
+//    attachDrawer.contentView.subviews[0].layer.backgroundColor = window.backgroundColor.CGColor;
+//    attachDrawer.contentView.superview.layer.backgroundColor = window.backgroundColor.CGColor;
 }
 
 /*----------------------------------------------------------------------------*
@@ -588,6 +595,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[selectedUsersLock lock];
 	// ユーザ数設定
 	[userNumLabel setStringValue:[NSString stringWithFormat:NSLocalizedString(@"SendDlg.UserNumStr", nil), [users count], totalNum]];
+    [userNumLabel sizeToFit];
 	// ユーザリストの再描画
 	[userTable reloadData];
 	// 再選択
