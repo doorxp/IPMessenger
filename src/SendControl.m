@@ -464,7 +464,19 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[attachmentsDic setObject:attach forKey:path];
 	[attachTable reloadData];
 	[self setAttachHeader];
+    
+    attachDrawer.delegate = (id)self;
+  
 	[attachDrawer open:self];
+    
+  
+    
+}
+
+- (void)drawerDidOpen:(NSNotification *)notification {
+    attachDrawer.contentView.window.backgroundColor = window.backgroundColor;
+    attachDrawer.contentView.subviews[0].layer.backgroundColor = window.backgroundColor.CGColor;
+    attachDrawer.contentView.superview.layer.backgroundColor = window.backgroundColor.CGColor;
 }
 
 /*----------------------------------------------------------------------------*
@@ -783,6 +795,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	int sh	= [[NSScreen mainScreen] visibleFrame].size.height;
 	int ww	= [window frame].size.width;
 	int wh	= [window frame].size.height;
+    
 	frame.origin.x = (sw - ww) / 2 + (rand() % (sw / 4)) - sw / 8;
 	frame.origin.y = (sh - wh) / 2 + (rand() % (sh / 4)) - sh / 8;
 	if ((size.width != 0) || (size.height != 0)) {
@@ -790,6 +803,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		frame.size.height	= size.height;
 	}
 	[window setFrame:frame display:NO];
+    
 
 	// SplitViewサイズ決定
 	if (splitPoint != 0) {
