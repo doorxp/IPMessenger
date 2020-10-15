@@ -45,7 +45,7 @@ typedef NS_ENUM(NSInteger, IPRefuseCondition) {
 }
 
 @property(assign,readwrite)	IPRefuseTarget		target;		// 判定対象
-@property(copy,readwrite)	NSString*			string;		// 文字列
+@property(copy, nonatomic)	NSString*			string;		// 文字列
 @property(assign,readwrite) IPRefuseCondition	condition;	// 判定条件
 
 // ファクトリ

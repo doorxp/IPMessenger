@@ -17,17 +17,18 @@
 
 @interface Attachment : NSObject <NSCopying>
 {
-	NSNumber*		_fileID;
-	AttachmentFile*	_file;
-	NSImage*		_icon;
-	BOOL			_download;
-	NSMutableArray*	_sentUsers;		// 送信ユーザ（送信ファイル用）
+//	NSNumber*		_fileID;
+//	AttachmentFile*	_file;
+//	NSImage*		_icon;
+//	BOOL			_download;
+//	NSMutableArray*	_sentUsers;		// 送信ユーザ（送信ファイル用）
 }
 
 @property(retain,readwrite)	NSNumber*		fileID;			// ファイルID
 @property(retain,readonly)	AttachmentFile*	file;			// ファイルオブジェクト
 @property(retain,readonly)	NSImage*		icon;			// ファイルアイコン
 @property(assign,readwrite)	BOOL			isDownloaded;	// DL済みフラグ（受信用）
+@property(retain, strong)NSMutableArray*    sentUsers;        // 送信ユーザ（送信ファイル用）
 
 // ファクトリ
 + (id)attachmentWithFile:(AttachmentFile*)attach;

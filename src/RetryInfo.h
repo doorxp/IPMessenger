@@ -15,19 +15,19 @@
  *============================================================================*/
 
 @interface RetryInfo : NSObject
-{
-	UInt32		_command;
-	UserInfo*	_toUser;
-	NSString*	_message;
-	NSString*	_option;
-	NSInteger	_retry;
-}
+//{
+//	UInt32		_command;
+//	UserInfo*	_toUser;
+//	NSString*	_message;
+//	NSString*	_option;
+//	NSInteger	_retry;
+//}
 
 @property(readonly)		UInt32		command;		// 送信コマンド
-@property(readonly)		UserInfo*	toUser;			// 送信相手
-@property(readonly)		NSString*	message;		// メッセージ文字列
-@property(readonly)		NSString*	option;			// 拡張メッセージ文字列
-@property(readwrite)	NSInteger	retryCount;		// リトライ階数
+@property(nonatomic, strong, readonly)		UserInfo*	toUser;			// 送信相手
+@property(nonatomic, strong, readonly)		NSString*	message;		// メッセージ文字列
+@property(nonatomic, strong, readonly)		NSString*	option;			// 拡張メッセージ文字列
+@property(nonatomic, readwrite)	NSInteger	retryCount;		// リトライ階数
 
 // ファクトリ
 + (RetryInfo*)infoWithCommand:(UInt32)cmd to:(UserInfo*)to message:(NSString*)msg option:(NSString*)opt;

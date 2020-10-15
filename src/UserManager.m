@@ -39,19 +39,22 @@
 // 初期化
 - (id)init {
 	self		= [super init];
-	userList	= [[NSMutableArray alloc] init];
-	dialupSet	= [[NSMutableSet alloc] init];
-	lock		= [[NSRecursiveLock alloc] init];
-	[lock setName:@"UserManagerLock"];
+	self.userList	= [[NSMutableArray alloc] init];
+	self.dialupSet	= [[NSMutableSet alloc] init];
+	self.lock		= [[NSRecursiveLock alloc] init];
+	[self.lock setName:@"UserManagerLock"];
 	return self;
 }
 
 // 解放
 - (void)dealloc {
-	[userList release];
-	[dialupSet release];
-	[lock release];
-	[super dealloc];
+    self.userList = nil;
+    self.dialupSet = nil;
+    self.lock = nil;
+//	[userList release];
+//	[dialupSet release];
+//	[lock release];
+//	[super dealloc];
 }
 
 /*----------------------------------------------------------------------------*
@@ -60,25 +63,25 @@
 
 // ユーザリストを返す
 - (NSArray*)users {
-	[lock lock];
-	NSArray* array = [NSArray arrayWithArray:userList];
-	[lock unlock];
+	[self.lock lock];
+	NSArray* array = [NSArray arrayWithArray:self.userList];
+	[self.lock unlock];
 	return array;
 }
 
 // ユーザ数を返す
 - (int)numberOfUsers {
-	[lock lock];
-	int count = (int)[userList count];
-	[lock unlock];
+	[self.lock lock];
+	int count = (int)[self.userList count];
+	[self.lock unlock];
 	return count;
 }
 
 // 指定インデックスのユーザ情報を返す（見つからない場合nil）
 - (UserInfo*)userAtIndex:(int)index {
-	[lock lock];
-	UserInfo* info = [[[userList objectAtIndex:index] retain] autorelease];
-	[lock unlock];
+	[self.lock lock];
+	UserInfo* info = [self.userList objectAtIndex:index];
+	[self.lock unlock];
 	return info;
 }
 
@@ -86,17 +89,17 @@
 - (UserInfo*)userForLogOnUser:(NSString*)logOn address:(UInt32)addr port:(UInt16)port {
 	UserInfo*	info = nil;
 	int			i;
-	[lock lock];
-	for (i = 0; i < [userList count]; i++) {
-		UserInfo* u = [userList objectAtIndex:i];
+	[self.lock lock];
+	for (i = 0; i < [self.userList count]; i++) {
+		UserInfo* u = [self.userList objectAtIndex:i];
 		if ([u.logOnName isEqualToString:logOn] &&
 			(u.ipAddressNumber == addr) &&
 			(u.portNo == port)) {
-			info = [[u retain] autorelease];
+			info = u;
 			break;
 		}
 	}
-	[lock unlock];
+	[self.lock unlock];
 	return info;
 }
 
@@ -112,20 +115,20 @@
 // ユーザ追加
 - (void)appendUser:(UserInfo*)info {
 	if (info) {
-		[lock lock];
-		NSUInteger index = [userList indexOfObject:info];
+		[self.lock lock];
+		NSUInteger index = [self.userList indexOfObject:info];
 		if (index == NSNotFound) {
 			// なければ追加
-			[userList addObject:info];
+			[self.userList addObject:info];
 		} else {
 			// あれば置き換え
-			[userList replaceObjectAtIndex:index withObject:info];
+			[self.userList replaceObjectAtIndex:index withObject:info];
 		}
 		// ダイアルアップユーザであればアドレス一覧を更新
 		if (info.dialupConnect) {
-			[dialupSet addObject:[[info.ipAddress copy] autorelease]];
+			[self.dialupSet addObject:[info.ipAddress copy]];
 		}
-		[lock unlock];
+		[self.lock unlock];
 		[self fireUserListChangeNotice];
 	}
 }
@@ -133,48 +136,48 @@
 // バージョン情報設定
 - (void)setVersion:(NSString*)version ofUser:(UserInfo*)user {
 	if (user) {
-		[lock lock];
-		NSUInteger index = [userList indexOfObject:user];
+		[self.lock lock];
+		NSUInteger index = [self.userList indexOfObject:user];
 		if (index != NSNotFound) {
 			// あれば設定
 			user.version = version;
 			[self fireUserListChangeNotice];
 		}
-		[lock unlock];
+		[self.lock unlock];
 	}
 }
 
 // ユーザ削除
 - (void)removeUser:(UserInfo*)info {
 	if (info) {
-		[lock lock];
-		NSUInteger index = [userList indexOfObject:info];
+		[self.lock lock];
+		NSUInteger index = [self.userList indexOfObject:info];
 		if (index != NSNotFound) {
 			// あれば削除
-			[userList removeObjectAtIndex:index];
-			if ([dialupSet containsObject:info.ipAddress]) {
-				[dialupSet removeObject:info.ipAddress];
+			[self.userList removeObjectAtIndex:index];
+			if ([self.dialupSet containsObject:info.ipAddress]) {
+				[self.dialupSet removeObject:info.ipAddress];
 			}
 			[self fireUserListChangeNotice];
 		}
-		[lock unlock];
+		[self.lock unlock];
 	}
 }
 
 // ずべてのユーザを削除
 - (void)removeAllUsers {
-	[lock lock];
-	[userList removeAllObjects];
-	[dialupSet removeAllObjects];
-	[lock unlock];
+	[self.lock lock];
+	[self.userList removeAllObjects];
+	[self.dialupSet removeAllObjects];
+	[self.lock unlock];
 	[self fireUserListChangeNotice];
 }
 
 // ダイアルアップアドレス一覧
 - (NSArray*)dialupAddresses {
-	[lock lock];
-	NSArray* array = [dialupSet allObjects];
-	[lock unlock];
+	[self.lock lock];
+	NSArray* array = [self.dialupSet allObjects];
+	[self.lock unlock];
 	return array;
 }
 

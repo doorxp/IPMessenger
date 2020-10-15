@@ -29,52 +29,60 @@ typedef NS_ENUM(NSInteger, IPMsgIconBoundType) {
 @interface Config : NSObject
 {
 	//-------- 不揮発の設定値（永続化必要）　----------------------------
-	NSString*				_userName;
-	NSString*				_groupName;
-	NSString*				_password;
-	BOOL					_useStatusBar;
-	NSInteger				_portNo;
-	BOOL					_dialup;
-	NSMutableArray*			_broadcastHostList;
-	NSMutableArray*			_broadcastIPList;
-	NSArray*				_broadcastAddresses;
-	NSString*				_quoteString;
-	NSMutableArray*			_absenceList;
-	NSMutableArray*			_refuseList;
-	BOOL					_openNewOnDockClick;
-	BOOL					_sealCheckDefault;
-	BOOL					_hideRcvWinOnReply;
-	BOOL					_noticeSealOpened;
-	BOOL					_allowSendingMultiUser;
-	NSFont*					_sendMessageFont;
-	NSMutableDictionary*	_sendUserListColDisp;
-	NSSound*				_receiveSound;
-	BOOL					_quoteCheckDefault;
-	BOOL					_nonPopup;
-	BOOL					_nonPopupWhenAbsence;
-	IPMsgIconBoundType		_nonPopupIconBound;
-	BOOL					_useClickableURL;
-	NSFont*					_receiveMessageFont;
-	BOOL					_standardLogEnabled;
-	BOOL					_logChainedWhenOpen;
-	NSString*				_standardLogFile;
-	BOOL					_alternateLogEnabled;
-	BOOL					_logWithSelectedRange;
-	NSString*				_alternateLogFile;
-    BOOL					_sndSearchAlpha;
-    BOOL					_sndSearchPinying;
-	BOOL					_sndSearchUser;
-	BOOL					_sndSearchGroup;
-	BOOL					_sndSearchHost;
-	BOOL					_sndSearchLogon;
-	NSSize					_sndWinSize;
-	float					_sndWinSplit;
-	NSSize					_rcvWinSize;
-	//-------- 揮発の設定値（永続化不要）　------------------------------
-	NSInteger				_absenceIndex;
-	NSFont*					_defaultMessageFont;
-	NSArray*				_defaultAbsences;
+//	NSString*				_userName;
+//	NSString*				_groupName;
+//	NSString*				_password;
+//	BOOL					_useStatusBar;
+//	NSInteger				_portNo;
+//	BOOL					_dialup;
+//	NSMutableArray*			_broadcastHostList;
+//	NSMutableArray*			_broadcastIPList;
+//	NSArray*				_broadcastAddresses;
+//	NSString*				_quoteString;
+//	NSMutableArray*			_absenceList;
+//	NSMutableArray*			_refuseList;
+//	BOOL					_openNewOnDockClick;
+//	BOOL					_sealCheckDefault;
+//	BOOL					_hideRcvWinOnReply;
+//	BOOL					_noticeSealOpened;
+//	BOOL					_allowSendingMultiUser;
+//	NSFont*					_sendMessageFont;
+//	NSMutableDictionary*	_sendUserListColDisp;
+//	NSSound*				_receiveSound;
+//	BOOL					_quoteCheckDefault;
+//	BOOL					_nonPopup;
+//	BOOL					_nonPopupWhenAbsence;
+//	IPMsgIconBoundType		_nonPopupIconBound;
+//	BOOL					_useClickableURL;
+//	NSFont*					_receiveMessageFont;
+//	BOOL					_standardLogEnabled;
+//	BOOL					_logChainedWhenOpen;
+//	NSString*				_standardLogFile;
+//	BOOL					_alternateLogEnabled;
+//	BOOL					_logWithSelectedRange;
+//	NSString*				_alternateLogFile;
+//    BOOL					_sndSearchAlpha;
+//    BOOL					_sndSearchPinying;
+//	BOOL					_sndSearchUser;
+//	BOOL					_sndSearchGroup;
+//	BOOL					_sndSearchHost;
+//	BOOL					_sndSearchLogon;
+//	NSSize					_sndWinSize;
+//	float					_sndWinSplit;
+//	NSSize					_rcvWinSize;
+//	//-------- 揮発の設定値（永続化不要）　------------------------------
+//	NSInteger				_absenceIndex;
+//	NSFont*					_defaultMessageFont;
+//	NSArray*				_defaultAbsences;
 }
+@property(strong, nonatomic) NSMutableDictionary*    sendUserListColDisp;
+@property(strong, nonatomic)    NSMutableArray*            absenceList;
+@property(strong, nonatomic)   NSMutableArray*            refuseList;
+
+@property(strong, nonatomic)    NSMutableArray*            broadcastHostList;
+@property(strong, nonatomic)    NSMutableArray*            broadcastIPList;
+@property(strong, nonatomic) NSFont*              defaultMessageFont;
+@property(strong, nonatomic) NSArray*             defaultAbsences;
 
 // 全般
 @property(copy,readwrite)	NSString*			userName;					// ユーザ名
@@ -101,7 +109,7 @@ typedef NS_ENUM(NSInteger, IPMsgIconBoundType) {
 @property(retain,readwrite)	NSFont*				sendMessageFont;			// 送信ウィンドウメッセージ部フォント
 @property(readonly)			NSFont*				defaultSendMessageFont;		// 送信ウィンドウメッセージ標準フォント
 // 受信
-@property(retain,readonly)	NSSound*			receiveSound;				// 受信音
+@property(retain,nonatomic)	NSSound*			receiveSound;				// 受信音
 @property(copy,readwrite)	NSString*			receiveSoundName;			// 受信音名
 @property(assign,readwrite)	BOOL				quoteCheckDefault;			// 引用チェックをデフォルト
 @property(assign,readwrite)	BOOL				nonPopup;					// ノンポップアップ受信

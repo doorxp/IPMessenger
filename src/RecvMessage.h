@@ -16,24 +16,23 @@
  *============================================================================*/
 
 @interface RecvMessage : NSObject <NSCopying>
-{
-	UserInfo*			fromUser;		// 送信元ユーザ
-	BOOL				unknownUser;	// 未知のユーザフラグ
-	NSString*			logOnUser;		// ログイン名
-	NSString*			hostName;		// ホスト名
-	unsigned long		command;		// コマンド番号
-	NSString*			appendix;		// 追加部
-	NSString*			appendixOption;	// 追加部オプション
-	NSMutableArray*		attachments;	// 添付ファイル
-	NSMutableArray*		hostList;		// ホストリスト
-	int					continueCount;	// ホストリスト継続ユーザ番号
-	BOOL				needLog;		// ログ出力フラグ
 
-	NSInteger			_packetNo;
-	NSDate*				_date;
-	struct sockaddr_in	_address;
 
-}
+@property(nonatomic, strong) UserInfo*            fromUser;        // 送信元ユーザ
+@property(nonatomic, readwrite) BOOL                unknownUser;    // 未知のユーザフラグ
+@property(nonatomic, strong) NSString*            logOnUser;        // ログイン名
+@property(nonatomic, strong) NSString*            hostName;        // ホスト名
+@property(nonatomic, readwrite) unsigned long        command;        // コマンド番号
+@property(nonatomic, strong) NSString*            appendix;        // 追加部
+@property(nonatomic, strong) NSString*            appendixOption;    // 追加部オプション
+@property(nonatomic, strong) NSMutableArray*        attachments;    // 添付ファイル
+@property(nonatomic, strong) NSMutableArray*        hostList;        // ホストリスト
+@property(nonatomic, readwrite) int                    continueCount;    // ホストリスト継続ユーザ番号
+@property(nonatomic, readwrite) BOOL                needLog;        // ログ出力フラグ
+
+//@property(nonatomic, strong) NSDate*                date;
+//@property(nonatomic, readwrite) struct sockaddr_in    address;
+
 
 @property(readonly)	NSInteger			packetNo;		// パケット番号
 @property(readonly)	NSDate*				receiveDate;	// 受信日時
@@ -66,10 +65,10 @@
 - (BOOL)multicast;
 - (BOOL)broadcast;
 - (BOOL)absence;
-- (NSArray*)attachments;
+- (NSMutableArray*)attachments;
 
 // getter（IPMSG_ANSLISTのみ）
-- (NSArray*)hostList;
+- (NSMutableArray*)hostList;
 - (int)hostListContinueCount;
 
 // その他

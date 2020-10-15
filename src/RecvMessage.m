@@ -27,8 +27,8 @@
 @implementation RecvMessage
 
 @synthesize packetNo	= _packetNo;
-@synthesize receiveDate	= _date;
-@synthesize fromAddress	= _address;
+//@synthesize receiveDate	= _date;
+//@synthesize fromAddress	= _address;
 
 /*============================================================================*
  * ファクトリ
@@ -36,7 +36,7 @@
 
 // インスタンス生成
 + (RecvMessage*)messageWithBuffer:(const void*)buf length:(NSUInteger)len from:(struct sockaddr_in)addr {
-	return [[[RecvMessage alloc] initWithBuffer:buf length:len from:addr] autorelease];
+	return [[RecvMessage alloc] initWithBuffer:buf length:len from:addr];
 }
 
 /*============================================================================*
@@ -56,12 +56,10 @@
 	// パラメタチェック
 	if (!buf) {
 		ERR(@"parameter error(buf is NULL)");
-		[self release];
 		return nil;
 	}
 	if (len <= 0) {
 		ERR(@"parameter error(len is %lu)", (unsigned long)len);
-		[self release];
 		return nil;
 	}
 
@@ -75,20 +73,20 @@
 	self.receiveDate	= [NSDate date];
 	self.fromAddress	= addr;
 
-	fromUser		= nil;
-	unknownUser		= NO;
-	logOnUser		= nil;
-	hostName		= nil;
-	command			= 0;
-	appendix		= nil;
-	appendixOption	= nil;
-	attachments		= nil;
-	hostList		= nil;
-	continueCount	= 0;
-	needLog			= [Config sharedConfig].standardLogEnabled;
+	self.fromUser		= nil;
+    self.unknownUser		= NO;
+    self.logOnUser		= nil;
+    self.hostName		= nil;
+    self.command			= 0;
+    self.appendix		= nil;
+    self.appendixOption	= nil;
+    self.attachments		= nil;
+    self.hostList		= nil;
+    self.continueCount	= 0;
+    self.needLog			= [Config sharedConfig].standardLogEnabled;
 
 	TRC(@"\treceiveDate   =%@", self.receiveDate);
-	TRC(@"\tneedLog       =%s", (needLog ? "YES" : "NO"));
+	TRC(@"\tneedLog       =%s", (self.needLog ? "YES" : "NO"));
 
 	// バッファコピー
 	char buffer[len + 1];
@@ -121,12 +119,10 @@
 	// バージョン番号
 	if (!(tok = strtok_r(buffer, MESSAGE_SEPARATOR, &ptr))) {
 		ERR(@"msg:illegal format(version get error,\"%s\")", buf);
-		[self release];
 		return nil;
 	}
 	if (strtol(tok, NULL, 10) != IPMSG_VERSION) {
 		ERR(@"msg:version invalid(%ld)", strtol(tok, NULL, 10));
-		[self release];
 		return nil;
 	}
 	TRC(@"\tversion       =%d", IPMSG_VERSION);
@@ -134,7 +130,6 @@
 	// パケット番号
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
 		ERR(@"msg:illegal format(version get error,\"%s\")", buf);
-		[self release];
 		return nil;
 	}
 	self.packetNo = strtol(tok, NULL, 10);
@@ -143,55 +138,52 @@
 	// ログイン名
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
 		ERR(@"msg:illegal format(logOn get error,\"%s\")", buf);
-		[self release];
 		return nil;
 	}
-	logOnUser = [[NSString alloc] initWithGB18030String:tok];
-	TRC(@"\tlogOnUser     =%@", logOnUser);
+	self.logOnUser = [[NSString alloc] initWithGB18030String:tok];
+	TRC(@"\tlogOnUser     =%@", self.logOnUser);
 
 	// ホスト名
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
 		ERR(@"msg:illegal format(host get error,\"%s\")", buf);
-		[self release];
 		return nil;
 	}
-	hostName = [[NSString alloc] initWithGB18030String:tok];
-	TRC(@"\thostName      =%@", hostName);
+    self.hostName = [[NSString alloc] initWithGB18030String:tok];
+	TRC(@"\thostName      =%@", self.hostName);
 
 	// コマンド番号
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
 		ERR(@"msg:illegal format(command get error,\"%s\")", buf);
-		[self release];
 		return nil;
 	}
-	command = strtoul(tok, NULL, 10);
-    TRC(@"\tcommand       =0x%08lX", command);
+    self.command = strtoul(tok, NULL, 10);
+    TRC(@"\tcommand       =0x%08lX", self.command);
 
 	// 追加部
 	message	= ptr;
 	if (message) {
-		if (command & IPMSG_UTF8OPT) {
-			appendix = [[NSString alloc] initWithUTF8String:message];
+        if (_command & IPMSG_UTF8OPT) {
+            self.appendix = [[NSString alloc] initWithUTF8String:message];
 		} else {
-			appendix = [[NSString alloc] initWithGB18030String:message];
+            self.appendix = [[NSString alloc] initWithGB18030String:message];
 		}
 	}
-	TRC(@"\tappendix      =%@", appendix);
+	TRC(@"\tappendix      =%@", self.appendix);
 
 	// 追加部オプション
 	if (subMessage) {
-		if (command & IPMSG_UTF8OPT) {
-			appendixOption = [[NSString alloc] initWithUTF8String:subMessage];
+		if (_command & IPMSG_UTF8OPT) {
+			self.appendixOption = [[NSString alloc] initWithUTF8String:subMessage];
 		} else {
-			appendixOption = [[NSString alloc] initWithGB18030String:subMessage];
+            self.appendixOption = [[NSString alloc] initWithGB18030String:subMessage];
 		}
 	}
-	TRC(@"\tappendixOption=%@", appendixOption);
+	TRC(@"\tappendixOption=%@", _appendixOption);
 
-	switch (GET_MODE(command)) {
+	switch (GET_MODE(_command)) {
 		case IPMSG_BR_ENTRY:
 		case IPMSG_BR_ABSENCE:
-			if ((command & IPMSG_CAPUTF8OPT) && subMessage2) {
+			if ((_command & IPMSG_CAPUTF8OPT) && subMessage2) {
 				// UTF8指定文字列があれば置き換え
 				NSString*	utf8 = [NSString stringWithUTF8String:subMessage2];
 				NSArray*	strs = [utf8 componentsSeparatedByString:@"\n"];
@@ -203,21 +195,18 @@
 					NSString*	key	= [kv objectAtIndex:0];
 					NSString*	val	= [kv objectAtIndex:1];
 					if ([key isEqualToString:@"UN"]) {
-						[logOnUser release];
-						logOnUser = [val copy];
-						TRC(@"\tUTF8-UN  =%@", logOnUser);
+						
+						self.logOnUser = [val copy];
+						TRC(@"\tUTF8-UN  =%@", self.logOnUser);
 					} else if ([key isEqualToString:@"HN"]) {
-						[hostName release];
-						hostName = [val copy];
-						TRC(@"\tUTF8-HN  =%@", hostName);
+						self.hostName = [val copy];
+						TRC(@"\tUTF8-HN  =%@", self.hostName);
 					} else if ([key isEqualToString:@"NN"]) {
-						[appendix release];
-						appendix = [val copy];
-						TRC(@"\tUTF8-NN  =%@", appendix);
+						self.appendix = [val copy];
+						TRC(@"\tUTF8-NN  =%@", self.appendix);
 					} else if ([key isEqualToString:@"GN"]) {
-						[appendixOption release];
-						appendixOption = [val copy];
-						TRC(@"\tUTF8-GN  =%@", appendixOption);
+						self.appendixOption = [val copy];
+						TRC(@"\tUTF8-GN  =%@", self.appendixOption);
 					} else {
 						WRN(@"unknown UTF8 entry kv(%@:%@)", key, val);
 					}
@@ -227,43 +216,42 @@
 	}
 
 	// ユーザ特定
-	fromUser = [[[UserManager sharedManager] userForLogOnUser:logOnUser
+    self.fromUser = [[UserManager sharedManager] userForLogOnUser:self.logOnUser
 													  address:ntohl(self.fromAddress.sin_addr.s_addr)
-														 port:ntohs(self.fromAddress.sin_port)] retain];
-	if (!fromUser) {
+														 port:ntohs(self.fromAddress.sin_port)];
+	if (!self.fromUser) {
 		// 未知のユーザ
-		unknownUser = YES;
-		fromUser = [[UserInfo alloc] initWithUserName:nil
+        self.unknownUser = YES;
+        self.fromUser = [[UserInfo alloc] initWithUserName:nil
 											groupName:nil
-											 hostName:hostName
-											logOnName:logOnUser
+											 hostName:self.hostName
+											logOnName:self.logOnUser
 											  address:&addr
-											  command:(UInt32)command];
+											  command:(UInt32)self.command];
 	}
 
 	/*------------------------------------------------------------------------*
 	 * メッセージ種別による処理
 	 *------------------------------------------------------------------------*/
 
-	switch (GET_MODE(command)) {
+	switch (GET_MODE(self.command)) {
 	// エントリ系メッセージではユーザ情報を通知されたメッセージ（最新）に従って再作成する
 	case IPMSG_BR_ENTRY:
 	case IPMSG_ANSENTRY:
 	case IPMSG_BR_ABSENCE:
-		[fromUser release];
-		fromUser = [[UserInfo alloc] initWithUserName:appendix
-											groupName:appendixOption
-											 hostName:hostName
-											logOnName:logOnUser
+		self.fromUser = [[UserInfo alloc] initWithUserName:_appendix
+											groupName:_appendixOption
+											 hostName:_hostName
+											logOnName:_logOnUser
 											  address:&addr
-											  command:(UInt32)command];
+											  command:(UInt32)_command];
 		break;
 	// 添付ファイル付きの通常メッセージは添付を取り出し
 	case IPMSG_SENDMSG:
-		if ((command & IPMSG_FILEATTACHOPT) && subMessage) {
+		if ((_command & IPMSG_FILEATTACHOPT) && subMessage) {
 			NSString*	msg;
 			NSArray*	msgs;
-			if (command & IPMSG_UTF8OPT) {
+			if (_command & IPMSG_UTF8OPT) {
 				msg = [NSString stringWithUTF8String:subMessage];
 			} else {
 				msg = [NSString stringWithGB18030String:subMessage];
@@ -273,7 +261,8 @@
 			if ([msgs count] > 0) {
 				NSMutableArray* array;
 				array = [NSMutableArray arrayWithCapacity:[msgs count]];
-				for (NSString* str in msgs) {
+				for (NSString* str0 in msgs) {
+                    NSString* str = str0;
 					TRC(@"attach string(%@)", str);
 					if ([str length] <= 0) {
 						TRC(@"attach empty1 -> continue");
@@ -296,7 +285,7 @@
 					}
 				}
 				if ([array count] > 0) {
-					attachments = [array retain];
+					self.attachments = array;
 				}
 			}
 		}
@@ -304,12 +293,12 @@
 	// ホストリストメッセージならリストを取り出し
 	case IPMSG_ANSLIST:
 		if (message) {
-			NSArray*		lists		= [appendix componentsSeparatedByString:@"\a"];
+			NSArray*		lists		= [_appendix componentsSeparatedByString:@"\a"];
 			NSInteger				totalCount	= [[lists objectAtIndex:1] intValue];
-			NSMutableArray*	array		= [[[NSMutableArray alloc] initWithCapacity:10] autorelease];
+			NSMutableArray*	array		= [[NSMutableArray alloc] initWithCapacity:10];
 			if (totalCount > 0) {
 				int				i;
-				continueCount	= [[lists objectAtIndex:0] intValue];
+				self.continueCount	= [[lists objectAtIndex:0] intValue];
 				if ([lists count] < (unsigned)(totalCount * 7 + 2)) {
                     WRN(@"hostlist:invalid data(items=%lu,totalCount=%ld,%@)", (unsigned long)[lists count], (long)totalCount, self);
 					totalCount = ([lists count] - 2) / 7;
@@ -321,7 +310,7 @@
 					}
 				}
 				if ([array count] > 0) {
-					hostList = [array retain];
+					self.hostList = array;
 				}
 			}
 		}
@@ -337,30 +326,38 @@
 
 // 解放
 - (void)dealloc {
-	[_date release];
-
-	[fromUser release];
-	[logOnUser release];
-	[hostName release];
-	[appendix release];
-	[appendixOption release];
-	[attachments release];
-	[hostList release];
-	[super dealloc];
+    self.receiveDate = nil;
+    self.fromUser = nil;
+    self.logOnUser = nil;
+    self.hostName = nil;
+    self.appendix = nil;
+    self.appendixOption = nil;
+    self.attachments = nil;
+    self.hostList = nil;
+//	[_date release];
+//
+//	[fromUser release];
+//	[logOnUser release];
+//	[hostName release];
+//	[appendix release];
+//	[appendixOption release];
+//	[attachments release];
+//	[hostList release];
+//	[super dealloc];
 }
 
 /*============================================================================*
  * getter（相手情報）
  *============================================================================*/
 
-// 送信元ユーザ
-- (UserInfo*)fromUser {
-	return fromUser;
-}
+//// 送信元ユーザ
+//- (UserInfo*)fromUser {
+//	return fromUser;
+//}
 
 // 未知のユーザからの受信かどうか
 - (BOOL)isUnknownUser {
-	return unknownUser;
+	return self.unknownUser;
 }
 
 /*============================================================================*
@@ -377,15 +374,15 @@
 //	return hostName;
 //}
 
-// 受信コマンド
-- (unsigned long)command {
-	return command;
-}
-
-// 拡張部
-- (NSString*)appendix {
-	return appendix;
-}
+//// 受信コマンド
+//- (unsigned long)command {
+//	return command;
+//}
+//
+//// 拡張部
+//- (NSString*)appendix {
+//	return appendix;
+//}
 
 // 拡張部追加部
 //- (NSString*)appendixOption {
@@ -398,46 +395,46 @@
 
 // 封書フラグ
 - (BOOL)sealed {
-	return ((command & IPMSG_SECRETOPT) != 0);
+	return ((_command & IPMSG_SECRETOPT) != 0);
 }
 
 // 施錠フラグ
 - (BOOL)locked {
-	return ((command & IPMSG_PASSWORDOPT) != 0);
+	return ((_command & IPMSG_PASSWORDOPT) != 0);
 }
 
 // マルチキャストフラグ
 - (BOOL)multicast {
-	return ((command & IPMSG_MULTICASTOPT) != 0);
+	return ((_command & IPMSG_MULTICASTOPT) != 0);
 }
 
 // ブロードキャストフラグ
 - (BOOL)broadcast {
-	return ((command & IPMSG_BROADCASTOPT) != 0);
+	return ((_command & IPMSG_BROADCASTOPT) != 0);
 }
 
 // 不在フラグ
 - (BOOL)absence {
-	return ((command & IPMSG_AUTORETOPT) != 0);
+	return ((_command & IPMSG_AUTORETOPT) != 0);
 }
 
-// 添付ファイルリスト
-- (NSArray*)attachments {
-	return attachments;
-}
+//// 添付ファイルリスト
+//- (NSArray*)attachments {
+//	return attachments;
+//}
 
 /*============================================================================*
  * getter（IPMSG_ANSLISTのみ）
  *============================================================================*/
 
-// ホストリスト
-- (NSArray*)hostList {
-	return hostList;
-}
+//// ホストリスト
+//- (NSArray*)hostList {
+//	return hostList;
+//}
 
 // ホストリスト継続番号
 - (int)hostListContinueCount {
-	return continueCount;
+	return self.continueCount;
 }
 
 /*============================================================================*
@@ -447,23 +444,23 @@
 // ダウンロード完了済み添付ファイル削除
 - (void)removeDownloadedAttachments {
 	NSInteger index;
-	for (index = [attachments count] - 1; index >= 0; index--) {
-		Attachment* attach = [attachments objectAtIndex:index];
+	for (index = [self.attachments count] - 1; index >= 0; index--) {
+		Attachment* attach = [self.attachments objectAtIndex:index];
 		if (attach.isDownloaded) {
-			[attachments removeObjectAtIndex:index];
+			[self.attachments removeObjectAtIndex:index];
 		}
 	}
 }
 
-// ログ未出力フラグ
-- (BOOL)needLog {
-	return needLog;
-}
+//// ログ未出力フラグ
+//- (BOOL)needLog {
+//	return needLog;
+//}
 
-// ログ出力済設定
-- (void)setNeedLog:(BOOL)flag {
-	needLog = flag;
-}
+//// ログ出力済設定
+//- (void)setNeedLog:(BOOL)flag {
+//	needLog = flag;
+//}
 
 /*============================================================================*
  * その他（親クラスオーバーライド）
@@ -473,7 +470,7 @@
 - (BOOL)isEqual:(id)obj {
 	if ([obj isKindOfClass:[self class]]) {
 		RecvMessage* target = obj;
-		return ([fromUser isEqual:target->fromUser] &&
+		return ([_fromUser isEqual:target.fromUser] &&
 				(self.packetNo == target.packetNo));
 	}
 	return NO;
@@ -481,28 +478,28 @@
 
 // オブジェクト文字列表現
 - (NSString*)description {
-	return [NSString stringWithFormat:@"RecvMessage:command=0x%08lX,PacketNo=%ld,from=%@", command, self.packetNo, fromUser];
+	return [NSString stringWithFormat:@"RecvMessage:command=0x%08lX,PacketNo=%ld,from=%@", _command, self.packetNo, _fromUser];
 }
 
 // オブジェクトコピー
 - (id)copyWithZone:(NSZone*)zone {
 	RecvMessage* newObj	= [[RecvMessage allocWithZone:zone] init];
 	if (newObj) {
-		newObj->_packetNo		= self->_packetNo;
-		newObj->_date			= [self->_date retain];
-		newObj->_address		= self->_address;
+		newObj.packetNo		= self.packetNo;
+		newObj.receiveDate			= self.receiveDate;
+		newObj.fromAddress		= self.fromAddress;
 
-		newObj->fromUser		= [fromUser retain];
-		newObj->unknownUser		= unknownUser;
-		newObj->logOnUser		= [logOnUser retain];
-		newObj->hostName		= [hostName retain];
-		newObj->command			= command;
-		newObj->appendix		= [appendix retain];
-		newObj->appendixOption	= [appendixOption retain];
-		newObj->attachments		= [attachments retain];
-		newObj->hostList		= [hostList retain];
-		newObj->continueCount	= continueCount;
-		newObj->needLog			= needLog;
+		newObj.fromUser		= self.fromUser;
+		newObj.unknownUser		= self.unknownUser;
+		newObj.logOnUser		= self.logOnUser;
+		newObj.hostName		= self.hostName;
+		newObj.command			= _command;
+		newObj.appendix		= self.appendix;
+		newObj.appendixOption	= self.appendixOption;
+		newObj.attachments		= self.attachments;
+		newObj.hostList		= self.hostList;
+		newObj.continueCount	= self.continueCount;
+		newObj.needLog			= self.needLog;
 	} else {
 		ERR(@"copy error(%@)", self);
 	}

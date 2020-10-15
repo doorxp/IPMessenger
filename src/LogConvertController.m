@@ -40,14 +40,14 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[_filePath release];
-	[_start release];
-	[_lines release];
-	[_remain release];
-	[super dealloc];
-}
+//- (void)dealloc
+//{
+//	[_filePath release];
+//	[_start release];
+//	[_lines release];
+//	[_remain release];
+//	[super dealloc];
+//}
 
 /*----------------------------------------------------------------------------*
  * <NSNibAwaking>

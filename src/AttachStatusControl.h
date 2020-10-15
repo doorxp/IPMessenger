@@ -11,12 +11,10 @@
 @class AttachmentServer;
 
 @interface AttachStatusControl : NSObject
-{
-	IBOutlet NSPanel*		panel;
-	IBOutlet NSOutlineView*	attachTable;
-	IBOutlet NSButton*		dispAlwaysCheck;
-	IBOutlet NSButton*		deleteButton;
-}
+@property(nonatomic, strong) IBOutlet NSPanel*        panel;
+@property(nonatomic, strong) IBOutlet NSOutlineView*    attachTable;
+@property(nonatomic, strong) IBOutlet NSButton*        dispAlwaysCheck;
+@property(nonatomic, strong) IBOutlet NSButton*        deleteButton;
 
 - (IBAction)buttonPressed:(id)sender;
 - (IBAction)checkboxChanged:(id)sender;

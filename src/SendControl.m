@@ -61,16 +61,15 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	if (userListColsLock == nil) {
 		userListColsLock	= [[NSRecursiveLock alloc] init];
 	}
-	users				= [[[UserManager sharedManager] users] mutableCopy];
-	selectedUsers		= [[NSMutableArray alloc] init];
-	selectedUsersLock	= [[NSLock alloc] init];
-	receiveMessage		= [recv retain];
-	attachments			= [[NSMutableArray alloc] init];
-	attachmentsDic		= [[NSMutableDictionary alloc] init];
+	self.users				= [[[UserManager sharedManager] users] mutableCopy];
+    self.selectedUsers		= [[NSMutableArray alloc] init];
+    self.selectedUsersLock	= [[NSLock alloc] init];
+    self.receiveMessage		= recv;
+    self.attachments			= [[NSMutableArray alloc] init];
+    self.attachmentsDic		= [[NSMutableDictionary alloc] init];
 
 	// Nibファイルロード
-	if (![NSBundle loadNibNamed:@"SendWindow.nib" owner:self]) {
-		[self autorelease];
+	if (![NSBundle.mainBundle loadNibNamed:@"SendWindow" owner:self topLevelObjects:nil]) {
 		return nil;
 	}
 
@@ -79,9 +78,9 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		if ([msg length] > 0) {
 			// 引用文字列行末の改行がなければ追加
 			if ([msg characterAtIndex:[msg length] - 1] != '\n') {
-				[messageArea insertText:[msg stringByAppendingString:@"\n"]];
+				[self.messageArea insertText:[msg stringByAppendingString:@"\n"]];
 			} else {
-				[messageArea insertText:msg];
+				[self.messageArea insertText:msg];
 			}
 		}
 	}
@@ -90,24 +89,24 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[self userListChanged:nil];
 
 	// 添付機能ON/OFF
-	[attachButton setEnabled:[AttachmentServer isAvailable]];
+	[self.attachButton setEnabled:[AttachmentServer isAvailable]];
 
 	// 添付ヘッダカラム名設定
 	[self setAttachHeader];
 
 	// 送信先ユーザの選択
-	if (receiveMessage) {
-		NSUInteger index = [users indexOfObject:[receiveMessage fromUser]];
+	if (self.receiveMessage) {
+		NSUInteger index = [self.users indexOfObject:[self.receiveMessage fromUser]];
 		if (index != NSNotFound) {
-			[userTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+			[self.userTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
 				   byExtendingSelection:[Config sharedConfig].allowSendingToMultiUser];
-			[userTable scrollRowToVisible:index];
+			[self.userTable scrollRowToVisible:index];
 		}
 	}
 
 	// ウィンドウマネージャへの登録
-	if (receiveMessage) {
-		[[WindowManager sharedManager] setReplyWindow:self forKey:receiveMessage];
+	if (self.receiveMessage) {
+		[[WindowManager sharedManager] setReplyWindow:self forKey:self.receiveMessage];
 	}
 
 	// ユーザリスト変更の通知登録
@@ -118,23 +117,32 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			 object:nil];
 
 	// ウィンドウ表示
-	[window makeKeyAndOrderFront:self];
+	[self.window makeKeyAndOrderFront:self];
 	// ファーストレスポンダ設定
-	[window makeFirstResponder:messageArea];
+	[self.window makeFirstResponder:self.messageArea];
 
 	return self;
 }
 
 // 解放
 - (void)dealloc {
-	[users release];
-	[userPredicate release];
-	[selectedUsers release];
-	[selectedUsersLock release];
-	[receiveMessage release];
-	[attachments release];
-	[attachmentsDic release];
-	[super dealloc];
+    self.users = nil;
+    self.userPredicate = nil;
+    self.selectedUsers = nil;
+    self.selectedUsersLock = nil;
+    self.receiveMessage = nil;
+    self.attachments = nil;
+    self.attachmentsDic = nil;
+    self.window = nil;
+    
+//	[users release];
+//	[userPredicate release];
+//	[selectedUsers release];
+//	[selectedUsersLock release];
+//	[receiveMessage release];
+//	[attachments release];
+//	[attachmentsDic release];
+//	[super dealloc];
 }
 
 /*----------------------------------------------------------------------------*
@@ -143,23 +151,23 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 - (IBAction)buttonPressed:(id)sender {
 	// 更新ボタン
-	if (sender == refreshButton) {
+	if (sender == self.refreshButton) {
 		[self updateUserList:nil];
 	}
 	// 添付追加ボタン
-	else if (sender == attachAddButton) {
+	else if (sender == self.attachAddButton) {
 		NSOpenPanel* op = [NSOpenPanel openPanel];;
 		// 添付追加／削除ボタンを押せなくする
-		[attachAddButton setEnabled:NO];
-		[attachDelButton setEnabled:NO];
+		[self.attachAddButton setEnabled:NO];
+		[self.attachDelButton setEnabled:NO];
 		// シート表示
 		[op setCanChooseDirectories:YES];
-        [op beginSheetModalForWindow:window
+        [op beginSheetModalForWindow:self.window
                    completionHandler:^(NSInteger result)
          {
             [self sheetDidEnd:op
                    returnCode:result
-                  contextInfo:sender];
+                  contextInfo:(__bridge void *)(sender)];
         }];
 //		[op beginSheetForDirectory:nil
 //							  file:nil
@@ -169,13 +177,13 @@ static NSRecursiveLock*		userListColsLock	= nil;
 //					   contextInfo:sender];
 	}
 	// 添付削除ボタン
-	else if (sender == attachDelButton) {
-		NSInteger selIdx = [attachTable selectedRow];
+	else if (sender == self.attachDelButton) {
+		NSInteger selIdx = [self.attachTable selectedRow];
 		if (selIdx >= 0) {
-			Attachment* info = [attachments objectAtIndex:selIdx];
-			[attachmentsDic removeObjectForKey:[info file].path];
-			[attachments removeObjectAtIndex:selIdx];
-			[attachTable reloadData];
+			Attachment* info = [self.attachments objectAtIndex:selIdx];
+			[self.attachmentsDic removeObjectForKey:[info file].path];
+			[self.attachments removeObjectAtIndex:selIdx];
+			[self.attachTable reloadData];
 			[self setAttachHeader];
 		}
 	} else {
@@ -185,17 +193,17 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 - (IBAction)checkboxChanged:(id)sender {
 	// 封書チェックボックスクリック
-	if (sender == sealCheck) {
-		BOOL state = [sealCheck state];
+	if (sender == self.sealCheck) {
+		BOOL state = [self.sealCheck state];
 		// 封書チェックがチェックされているときだけ鍵チェックが利用可能
-		[passwordCheck setEnabled:state];
+		[self.passwordCheck setEnabled:state];
 		// 封書チェックのチェックがはずされた場合は鍵のチェックも外す
 		if (!state) {
-			[passwordCheck setState:NSOffState];
+			[self.passwordCheck setState:NSOffState];
 		}
 	}
 	// 鍵チェックボックス
-	else if (sender == passwordCheck) {
+	else if (sender == self.passwordCheck) {
 		// nop
 	} else {
 		ERR(@"Unknown button pressed(%@)", sender);
@@ -204,23 +212,23 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 // シート終了処理
 - (void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)code contextInfo:(void*)info {
-	if (info == sendButton) {
+    if (info == (__bridge void *)(self.sendButton)) {
 		[sheet orderOut:self];
-		if (code == NSOKButton) {
+		if (code == NSModalResponseOK) {
 			// 不在モードを解除してメッセージを送信
 			[(id)[NSApp delegate] setAbsenceOff];
 			[self sendMessage:self];
 		}
-	} else if (info == attachAddButton) {
-		if (code == NSOKButton) {
+    } else if (info == (__bridge void *)(self.attachAddButton)) {
+		if (code == NSModalResponseOK) {
 			NSOpenPanel*	op = (NSOpenPanel*)sheet;
 			//NSString*		fn = [op filename];
             NSString*		fn = [[op URL] relativePath];
 			[self appendAttachmentByPath:fn];
 		}
 		[sheet orderOut:self];
-		[attachAddButton setEnabled:YES];
-		[attachDelButton setEnabled:([attachTable numberOfSelectedRows] > 0)];
+		[self.attachAddButton setEnabled:YES];
+		[self.attachDelButton setEnabled:([self.attachTable numberOfSelectedRows] > 0)];
 	}
 }
 
@@ -246,30 +254,40 @@ static NSRecursiveLock*		userListColsLock	= nil;
 							NSLocalizedString(@"SendDlg.AbsenceOff.OK", nil),
 							NSLocalizedString(@"SendDlg.AbsenceOff.Cancel", nil),
 							nil,
-							window,
+                          self.window,
 							self,
 							@selector(sheetDidEnd:returnCode:contextInfo:),
 							nil,
-							sender,
+                          (__bridge void *)(sender),
 							NSLocalizedString(@"SendDlg.AbsenceOff.Msg", nil),
 								[config absenceTitleAtIndex:config.absenceIndex]);
+        
+//        NSAlert *alert = [NSAlert new];
+//        [alert addButtonWithTitle:NSLocalizedString(@"SendDlg.AbsenceOff.OK", nil)]
+//        [alert addButtonWithTitle:<#(nonnull NSString *)#>]
+//        [alert addButtonWithTitle:<#(nonnull NSString *)#>]
+//        
+//        [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
+//            [self sheetDidEnd:window returnCode:returnCode contextInfo:sender];
+//        }];
+        
 		return;
 	}
 
 	// 送信情報整理
-	msg		= [messageArea string];
-	sealed	= [sealCheck state];
-	locked	= [passwordCheck state];
-	to		= [[[NSMutableArray alloc] init] autorelease];
-	userSet	= [userTable selectedRowIndexes];
+	msg		= [self.messageArea string];
+	sealed	= [self.sealCheck state];
+	locked	= [self.passwordCheck state];
+	to		= [[NSMutableArray alloc] init] ;
+	userSet	= [self.userTable selectedRowIndexes];
 	index	= [userSet firstIndex];
 	while (index != NSNotFound) {
-		[to addObject:[users objectAtIndex:index]];
+		[to addObject:[self.users objectAtIndex:index]];
 		index = [userSet indexGreaterThanIndex:index];
 	}
 	// 送信情報構築
 	info = [SendMessage messageWithMessage:msg
-							   attachments:attachments
+							   attachments:self.attachments
 									  seal:sealed
 									  lock:locked];
 	// メッセージ送信
@@ -278,27 +296,27 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[[LogManager standardLog] writeSendLog:info to:to];
 	// 受信ウィンドウ消去（初期設定かつ返信の場合）
 	if (config.hideReceiveWindowOnReply) {
-		ReceiveControl* receiveWin = [[WindowManager sharedManager] receiveWindowForKey:receiveMessage];
+		ReceiveControl* receiveWin = [[WindowManager sharedManager] receiveWindowForKey:self.receiveMessage];
 		if (receiveWin) {
 			[[receiveWin window] performClose:self];
 		}
 	}
 	// 自ウィンドウを消去
-	[window performClose:self];
+	[self.window performClose:self];
 }
 
 // 選択ユーザ一覧の更新
 - (void)updateSelectedUsers {
-	if ([selectedUsersLock tryLock]) {
-		NSIndexSet*	select	= [userTable selectedRowIndexes];
+	if ([self.selectedUsersLock tryLock]) {
+		NSIndexSet*	select	= [self.userTable selectedRowIndexes];
 		NSUInteger	index;
-		[selectedUsers removeAllObjects];
+		[self.selectedUsers removeAllObjects];
 		index = [select firstIndex];
 		while (index != NSNotFound) {
-			[selectedUsers addObject:[users objectAtIndex:index]];
+			[self.selectedUsers addObject:[self.users objectAtIndex:index]];
 			index = [select indexGreaterThanIndex:index];
 		}
-		[selectedUsersLock unlock];
+		[self.selectedUsersLock unlock];
 	}
 }
 
@@ -329,8 +347,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 {
 	NSSize	newSize	= [sender frame].size;
 	float	divider	= [sender dividerThickness];
-	NSRect	frame1	= [splitSubview1 frame];
-	NSRect	frame2	= [splitSubview2 frame];
+	NSRect	frame1	= [self.splitSubview1 frame];
+	NSRect	frame2	= [self.splitSubview2 frame];
 
 	frame1.size.width	= newSize.width;
 	if (frame1.size.height > newSize.height - divider) {
@@ -340,8 +358,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	frame2.origin.x		= -1;
 	frame2.size.width	= newSize.width + 2;
 	frame2.size.height	= newSize.height - frame1.size.height - divider;
-	[splitSubview1 setFrame:frame1];
-	[splitSubview2 setFrame:frame2];
+	[self.splitSubview1 setFrame:frame1];
+	[self.splitSubview2 setFrame:frame2];
 }
 
 /*----------------------------------------------------------------------------*
@@ -349,10 +367,10 @@ static NSRecursiveLock*		userListColsLock	= nil;
  *----------------------------------------------------------------------------*/
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView*)aTableView {
-	if (aTableView == userTable) {
-		return [users count];
-	} else if (aTableView == attachTable) {
-		return [attachments count];
+	if (aTableView == self.userTable) {
+		return [self.users count];
+	} else if (aTableView == self.attachTable) {
+		return [self.attachments count];
 	} else {
 		ERR(@"Unknown TableView(%@)", aTableView);
 	}
@@ -362,8 +380,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 - (id)tableView:(NSTableView*)aTableView
 		objectValueForTableColumn:(NSTableColumn*)aTableColumn
 		row:(int)rowIndex {
-	if (aTableView == userTable) {
-		UserInfo* info = [users objectAtIndex:rowIndex];
+	if (aTableView == self.userTable) {
+		UserInfo* info = [self.users objectAtIndex:rowIndex];
 		NSString* iden = [aTableColumn identifier];
 		if ([iden isEqualToString:kIPMsgUserInfoUserNamePropertyIdentifier]) {
 			return info.userName;
@@ -383,12 +401,12 @@ static NSRecursiveLock*		userListColsLock	= nil;
         else {
 			ERR(@"Unknown TableColumn(%@)", iden);
 		}
-	} else if (aTableView == attachTable) {
+	} else if (aTableView == self.attachTable) {
 		Attachment*					attach;
 		NSMutableAttributedString*	cellValue;
 		NSFileWrapper*				fileWrapper;
 		NSTextAttachment*			textAttachment;
-		attach = [attachments objectAtIndex:rowIndex];
+		attach = [self.attachments objectAtIndex:rowIndex];
 		if (!attach) {
 			ERR(@"no attachments(row=%d)", rowIndex);
 			return nil;
@@ -398,14 +416,12 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		fileWrapper		= [[NSFileWrapper alloc] initRegularFileWithContents:data];
 		textAttachment	= [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
 		[(NSCell*)[textAttachment attachmentCell] setImage:attach.icon];
-		cellValue		= [[[NSMutableAttributedString alloc] initWithString:[[attach file] name]] autorelease];
+		cellValue		= [[NSMutableAttributedString alloc] initWithString:[[attach file] name]];
 		[cellValue replaceCharactersInRange:NSMakeRange(0, 0)
 					   withAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
 		[cellValue addAttribute:NSBaselineOffsetAttributeName
 						  value:[NSNumber numberWithFloat:-3.0]
 						  range:NSMakeRange(0, 1)];
-		[textAttachment release];
-		[fileWrapper release];
 		return cellValue;
 	} else {
 		ERR(@"Unknown TableView(%@)", aTableView);
@@ -420,14 +436,14 @@ static NSRecursiveLock*		userListColsLock	= nil;
 // ユーザリストの選択変更
 - (void)tableViewSelectionDidChange:(NSNotification*)aNotification {
 	NSTableView* table = [aNotification object];
-	if (table == userTable) {
-		NSInteger selectNum = [userTable numberOfSelectedRows];
+	if (table == self.userTable) {
+		NSInteger selectNum = [self.userTable numberOfSelectedRows];
 		// 選択ユーザ一覧更新
 		[self updateSelectedUsers];
 		// １つ以上のユーザが選択されていない場合は送信ボタンが押下不可
-		[sendButton setEnabled:(selectNum > 0)];
-	} else if (table == attachTable) {
-		[attachDelButton setEnabled:([attachTable numberOfSelectedRows] > 0)];
+		[self.sendButton setEnabled:(selectNum > 0)];
+	} else if (table == self.attachTable) {
+		[self.attachDelButton setEnabled:([self.attachTable numberOfSelectedRows] > 0)];
 	} else {
 		ERR(@"Unknown TableView(%@)", table);
 	}
@@ -435,7 +451,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 // ソートの変更
 - (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors {
-	[users sortUsingDescriptors:[aTableView sortDescriptors]];
+	[self.users sortUsingDescriptors:[aTableView sortDescriptors]];
 	[aTableView reloadData];
 }
 
@@ -456,28 +472,28 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		WRN(@"attachement invalid(%@)", path);
 		return;
 	}
-	if ([attachmentsDic objectForKey:path]) {
+	if ([self.attachmentsDic objectForKey:path]) {
 		WRN(@"already contains attachment(%@)", path);
 		return;
 	}
-	[attachments addObject:attach];
-	[attachmentsDic setObject:attach forKey:path];
-	[attachTable reloadData];
+	[self.attachments addObject:attach];
+	[self.attachmentsDic setObject:attach forKey:path];
+	[self.attachTable reloadData];
 	[self setAttachHeader];
     
-    attachDrawer.delegate = (id)self;
+    self.attachDrawer.delegate = (id)self;
   
-	[attachDrawer open:self];
+	[self.attachDrawer open:self];
     
   
     
 }
 
 - (void)drawerWillOpen:(NSNotification *)notification {
-    attachDrawer.contentView.superview.layer.backgroundColor = NSColor.redColor.CGColor;
-    attachDrawer.contentView.appearance = NSAppearance.currentAppearance;
-    attachDrawer.contentView.window.appearance = NSAppearance.currentAppearance;
-    attachDrawer.contentView.superview.appearance = NSAppearance.currentAppearance;
+    self.attachDrawer.contentView.superview.layer.backgroundColor = NSColor.redColor.CGColor;
+    self.attachDrawer.contentView.appearance = NSAppearance.currentAppearance;
+    self.attachDrawer.contentView.window.appearance = NSAppearance.currentAppearance;
+    self.attachDrawer.contentView.superview.appearance = NSAppearance.currentAppearance;
 }
 
 - (void)drawerDidOpen:(NSNotification *)notification {
@@ -534,24 +550,23 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	} else {
 		DBG(@"Cancel Refresh User(%f)", [lastTimeOfEntrySent timeIntervalSinceNow]);
 	}
-	[lastTimeOfEntrySent release];
-	lastTimeOfEntrySent = [[NSDate date] retain];
+	lastTimeOfEntrySent = [NSDate date];
 }
 
 - (IBAction)userListMenuItemSelected:(id)sender with:(id)identifier {
-	NSTableColumn* col = [userTable tableColumnWithIdentifier:identifier];
+	NSTableColumn* col = [self.userTable tableColumnWithIdentifier:identifier];
 	if (col) {
 		// あるので消す
 		[userListColsLock lock];
 		[userListColumns setObject:col forKey:identifier];
 		[userListColsLock unlock];
-		[userTable removeTableColumn:col];
+		[self.userTable removeTableColumn:col];
 		[sender setState:NSOffState];
 		[[Config sharedConfig] setSendWindowUserListColumn:identifier hidden:YES];
 	} else {
 		// ないので追加する
 		[userListColsLock lock];
-		[userTable addTableColumn:[userListColumns objectForKey:identifier]];
+		[self.userTable addTableColumn:[userListColumns objectForKey:identifier]];
 		[userListColsLock unlock];
 		[sender setState:NSOnState];
 		[[Config sharedConfig] setSendWindowUserListColumn:identifier hidden:NO];
@@ -585,55 +600,54 @@ static NSRecursiveLock*		userListColsLock	= nil;
 // ユーザ一覧変更時処理
 - (void)userListChanged:(NSNotification*)aNotification
 {
-	[users setArray:[[UserManager sharedManager] users]];
-	NSInteger totalNum = [users count];
-	if (userPredicate) {
-		[users filterUsingPredicate:userPredicate];
+	[self.users setArray:[[UserManager sharedManager] users]];
+	NSInteger totalNum = [self.users count];
+	if (self.userPredicate) {
+		[self.users filterUsingPredicate:self.userPredicate];
 	}
     
-	[users sortUsingDescriptors:[userTable sortDescriptors]];
-	[selectedUsersLock lock];
+	[self.users sortUsingDescriptors:[self.userTable sortDescriptors]];
+	[self.selectedUsersLock lock];
 	// ユーザ数設定
-	[userNumLabel setStringValue:[NSString stringWithFormat:NSLocalizedString(@"SendDlg.UserNumStr", nil), [users count], totalNum]];
-    [userNumLabel sizeToFit];
+	[self.userNumLabel setStringValue:[NSString stringWithFormat:NSLocalizedString(@"SendDlg.UserNumStr", nil), [self.users count], totalNum]];
+    [self.userNumLabel sizeToFit];
 	// ユーザリストの再描画
-	[userTable reloadData];
+	[self.userTable reloadData];
 	// 再選択
-	[userTable deselectAll:self];
-	for (UserInfo* user in selectedUsers) {
-		NSUInteger index = [users indexOfObject:user];
+	[self.userTable deselectAll:self];
+	for (UserInfo* user in self.selectedUsers) {
+		NSUInteger index = [self.users indexOfObject:user];
 		if (index != NSNotFound) {
-			[userTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+			[self.userTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
 				   byExtendingSelection:[Config sharedConfig].allowSendingToMultiUser];
 		}
 	}
-	[selectedUsersLock unlock];
+	[self.selectedUsersLock unlock];
 	[self updateSelectedUsers];
 }
 
 - (IBAction)searchUser:(id)sender
 {
-	NSResponder* firstResponder = [window firstResponder];
+	NSResponder* firstResponder = [self.window firstResponder];
 	if ([firstResponder isKindOfClass:[NSText class]] &&
-		([(NSText*)firstResponder delegate] == (id)searchField)) {
+		([(NSText*)firstResponder delegate] == (id)self.searchField)) {
 		// 検索フィールドにフォーカスがある場合はメッセージ領域に移動
-		[window makeFirstResponder:messageArea];
+		[self.window makeFirstResponder:self.messageArea];
 	} else {
 		// 検索フィールドにフォーカスがなければフォーカスを移動
-		[window makeFirstResponder:searchField];
+		[self.window makeFirstResponder:self.searchField];
 	}
 }
 
 - (IBAction)selectUser:(id)sender
 {
-    [window makeFirstResponder:userTable];
+    [self.window makeFirstResponder:self.userTable];
 }
 
 - (IBAction)updateUserSearch:(id)sender
 {
-	NSString* searchWord = [searchField stringValue];
-	[userPredicate release];
-	userPredicate = nil;
+	NSString* searchWord = [self.searchField stringValue];
+    self.userPredicate = nil;
 	if ([searchWord length] > 0) {
         
         NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@", "];
@@ -709,9 +723,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 //			[fmt appendFormat:@"%@ contains[c] %@", kIPMsgUserInfoUserPinYingPropertyIdentifier, arr];
 		}
 
-		[userPredicate release];
 		if (predicates.count > 0) {
-            userPredicate = [[NSCompoundPredicate orPredicateWithSubpredicates:predicates] retain];
+            self.userPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predicates];
 		}
 	}
 	[self userListChanged:nil];
@@ -749,13 +762,13 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	} else {
 		str = NSLocalizedString(@"SendDlg.Search.Placeholder.Invalid", nil);
 	}
-	[[searchField cell] setPlaceholderString:str];
+	[[self.searchField cell] setPlaceholderString:str];
 }
 
 // ウィンドウを返す
-- (NSWindow*)window {
-	return window;
-}
+//- (NSWindow*)window {
+//	return self.window;
+//}
 
 // メッセージ部フォントパネル表示
 - (void)showSendMessageFontPanel:(id)sender {
@@ -764,26 +777,26 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 // メッセージ部フォント保存
 - (void)saveSendMessageFont:(id)sender {
-	[Config sharedConfig].sendMessageFont = [messageArea font];
+	[Config sharedConfig].sendMessageFont = [self.messageArea font];
 }
 
 // メッセージ部フォントを標準に戻す
 - (void)resetSendMessageFont:(id)sender {
-	[messageArea setFont:[Config sharedConfig].defaultSendMessageFont];
+	[self.messageArea setFont:[Config sharedConfig].defaultSendMessageFont];
 }
 
 // 送信不可の場合にメニューからの送信コマンドを抑制する
 - (BOOL)respondsToSelector:(SEL)aSelector {
 	if (aSelector == @selector(sendMessage:)) {
-		return [sendButton isEnabled];
+		return [self.sendButton isEnabled];
 	}
 	return [super respondsToSelector:aSelector];
 }
 
 - (void)setAttachHeader {
 	NSString*		format	= NSLocalizedString(@"SendDlg.Attach.Header", nil);
-	NSString*		title	= [NSString stringWithFormat:format, [attachments count]];
-	[[[attachTable tableColumnWithIdentifier:@"Attachment"] headerCell] setStringValue:title];
+	NSString*		title	= [NSString stringWithFormat:format, [self.attachments count]];
+	[[[self.attachTable tableColumnWithIdentifier:@"Attachment"] headerCell] setStringValue:title];
 }
 
 /*----------------------------------------------------------------------------*
@@ -795,14 +808,14 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	Config*			config		= [Config sharedConfig];
 	NSSize			size		= config.sendWindowSize;
 	float			splitPoint	= config.sendWindowSplit;
-	NSRect			frame		= [window frame];
+	NSRect			frame		= [self.window frame];
 	int				i;
 
 	// ウィンドウ位置、サイズ決定
 	int sw	= [[NSScreen mainScreen] visibleFrame].size.width;
 	int sh	= [[NSScreen mainScreen] visibleFrame].size.height;
-	int ww	= [window frame].size.width;
-	int wh	= [window frame].size.height;
+	int ww	= [self.window frame].size.width;
+	int wh	= [self.window frame].size.height;
     
 	frame.origin.x = (sw - ww) / 2 + (rand() % (sw / 4)) - sw / 8;
 	frame.origin.y = (sh - wh) / 2 + (rand() % (sh / 4)) - sh / 8;
@@ -810,40 +823,40 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		frame.size.width	= size.width;
 		frame.size.height	= size.height;
 	}
-	[window setFrame:frame display:NO];
+	[self.window setFrame:frame display:NO];
     
 
 	// SplitViewサイズ決定
 	if (splitPoint != 0) {
 		// 上部
-		frame = [splitSubview1 frame];
+		frame = [self.splitSubview1 frame];
 		frame.size.height = splitPoint;
-		[splitSubview1 setFrame:frame];
+		[self.splitSubview1 setFrame:frame];
 		// 下部
-		frame = [splitSubview2 frame];
+		frame = [self.splitSubview2 frame];
 		frame.origin.x		= -1;
 		frame.size.width	+= 2;
-		frame.size.height = [splitView frame].size.height - splitPoint - [splitView dividerThickness];
-		[splitSubview2 setFrame:frame];
+		frame.size.height = [self.splitView frame].size.height - splitPoint - [self.splitView dividerThickness];
+		[self.splitSubview2 setFrame:frame];
 		// 全体
-		[splitView adjustSubviews];
+		[self.splitView adjustSubviews];
 	}
-	frame = [splitSubview2 frame];
+	frame = [self.splitSubview2 frame];
 	frame.origin.x		= -1;
 	frame.size.width	+= 2;
-	[splitSubview2 setFrame:frame];
+	[self.splitSubview2 setFrame:frame];
 
 	// 封書チェックをデフォルト判定
 	if (config.sealCheckDefault) {
-		[sealCheck setState:NSOnState];
-		[passwordCheck setEnabled:YES];
+		[self.sealCheck setState:NSOnState];
+		[self.passwordCheck setEnabled:YES];
 	}
 
 	// 複数ユーザへの送信を許可
-	[userTable setAllowsMultipleSelection:config.allowSendingToMultiUser];
+	[self.userTable setAllowsMultipleSelection:config.allowSendingToMultiUser];
 
 	// ユーザリストの行間設定（デフォルト[3,2]→[2,1]）
-	[userTable setIntercellSpacing:NSMakeSize(2, 1)];
+	[self.userTable setIntercellSpacing:NSMakeSize(2, 1)];
 
 	// ユーザリストのカラム処理
 	NSArray* array = [NSArray arrayWithObjects:
@@ -858,7 +871,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
     
 	for (i = 0; i < [array count]; i++) {
 		NSString*		identifier	= [array objectAtIndex:i];
-		NSTableColumn*	column		= [userTable tableColumnWithIdentifier:identifier];
+		NSTableColumn*	column		= [self.userTable tableColumnWithIdentifier:identifier];
 		if (identifier && column) {
 			// カラム保持
 			[userListColsLock lock];
@@ -866,32 +879,32 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			[userListColsLock unlock];
 			// 設定値に応じてカラムの削除
 			if ([config sendWindowUserListColumnHidden:identifier]) {
-				[userTable removeTableColumn:column];
+				[self.userTable removeTableColumn:column];
 			}
 		}
 	}
 
 	// ユーザリストのソート設定反映
-	[users sortUsingDescriptors:[userTable sortDescriptors]];
+	[self.users sortUsingDescriptors:[self.userTable sortDescriptors]];
 
 	// 検索フィールドのメニュー設定
-	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_USER] setState:config.sendSearchByUserName ? NSOnState : NSOffState];
-	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_GROUP] setState:config.sendSearchByGroupName ? NSOnState : NSOffState];
-	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_HOST] setState:config.sendSearchByHostName ? NSOnState : NSOffState];
-	[[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_LOGON] setState:config.sendSearchByLogOnName ? NSOnState : NSOffState];
-    [[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_ALPHA] setState:config.sendSearchByUserAlpha?NSOnState:NSOffState];
-    [[searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_PINYING] setState:config.sendSearchByPinying?NSOnState:NSOffState];
+	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_USER] setState:config.sendSearchByUserName ? NSOnState : NSOffState];
+	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_GROUP] setState:config.sendSearchByGroupName ? NSOnState : NSOffState];
+	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_HOST] setState:config.sendSearchByHostName ? NSOnState : NSOffState];
+	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_LOGON] setState:config.sendSearchByLogOnName ? NSOnState : NSOffState];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_ALPHA] setState:config.sendSearchByUserAlpha?NSOnState:NSOffState];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_PINYING] setState:config.sendSearchByPinying?NSOnState:NSOffState];
 //    _SEARCH_MENUITEM_TAG_PINYING
     
-	[[searchField cell] setSearchMenuTemplate:searchMenu];
+	[[self.searchField cell] setSearchMenuTemplate:self.searchMenu];
 	[self updateSearchFieldPlaceholder];
 
 	// 添付リストの行設定
-	[attachTable setRowHeight:16.0];
+	[self.attachTable setRowHeight:16.0];
 
 	// メッセージ部フォント
 	if (config.sendMessageFont) {
-		[messageArea setFont:config.sendMessageFont];
+		[self.messageArea setFont:config.sendMessageFont];
 	}
 
 	// ファイル添付アイコン
@@ -901,29 +914,28 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	}
 
 	// ファーストレスポンダ設定
-	[window makeFirstResponder:messageArea];
+	[self.window makeFirstResponder:self.messageArea];
 }
 
 // ウィンドウリサイズ時処理
 - (void)windowDidResize:(NSNotification *)notification
 {
 	// ウィンドウサイズを保存
-	[Config sharedConfig].sendWindowSize = [window frame].size;
+	[Config sharedConfig].sendWindowSize = [self.window frame].size;
 }
 
 // SplitViewリサイズ時処理
 - (void)splitViewDidResizeSubviews:(NSNotification *)aNotification
 {
-	[Config sharedConfig].sendWindowSplit = [splitSubview1 frame].size.height;
+	[Config sharedConfig].sendWindowSplit = [self.splitSubview1 frame].size.height;
 }
 
 // ウィンドウクローズ時処理
 - (void)windowWillClose:(NSNotification*)aNotification {
-	[[WindowManager sharedManager] removeReplyWindowForKey:receiveMessage];
+	[[WindowManager sharedManager] removeReplyWindowForKey:self.receiveMessage];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     // なぜか解放されないので手動で
-    [attachDrawer release];
-	[self release];
+    self.attachDrawer = nil;
 }
 
 @end

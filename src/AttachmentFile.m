@@ -48,19 +48,19 @@
  *----------------------------------------------------------------------------*/
 
 + (id)fileWithPath:(NSString*)path {
-	return [[[AttachmentFile alloc] initWithPath:path] autorelease];
+	return [[AttachmentFile alloc] initWithPath:path];
 }
 
 + (id)fileWithDirectory:(NSString*)dir file:(NSString*)file {
-	return [[[AttachmentFile alloc] initWithDirectory:dir file:file] autorelease];
+	return [[AttachmentFile alloc] initWithDirectory:dir file:file];
 }
 
 + (id)fileWithMessage:(NSString*)str {
-	return [[[AttachmentFile alloc] initWithMessage:str] autorelease];
+	return [[AttachmentFile alloc] initWithMessage:str];
 }
 
 + (id)fileWithDirectory:(NSString*)dir header:(NSString*)header {
-	return [[[AttachmentFile alloc] initWithDirectory:dir header:header] autorelease];
+	return [[AttachmentFile alloc] initWithDirectory:dir header:header];
 }
 
 /*----------------------------------------------------------------------------*
@@ -86,13 +86,11 @@
 	// ファイル存在チェック
 	if (![fileManager fileExistsAtPath:path]) {
 		ERR(@"file not exists(%@)", path);
-		[self release];
 		return nil;
 	}
 	// ファイル読み込みチェック
 	if (![fileManager isReadableFileAtPath:path]) {
 		ERR(@"file not readable(%@)", path);
-		[self release];
 		return nil;
 	}
 	// ファイル属性取得
@@ -101,8 +99,8 @@
 	NSMutableString* uncomp = [NSMutableString stringWithString:[path lastPathComponent]];
 	CFStringNormalize((CFMutableStringRef)uncomp, kCFStringNormalizationFormC);
 //	CFStringFold((CFMutableStringRef)uncomp, kCFCompareCaseInsensitive | kCFCompareDiacriticInsensitive | kCFCompareWidthInsensitive, NULL);
-	self.name		= [[[NSString alloc] initWithString:uncomp] autorelease];
-	self.path		= [[path copy] autorelease];
+	self.name		= [[NSString alloc] initWithString:uncomp];
+	self.path		= [path copy];
 	self.size		= [[attrs objectForKey:NSFileSize] unsignedLongLongValue];
 	self.createTime	= [attrs objectForKey:NSFileCreationDate];
 	self.modifyTime	= [attrs objectForKey:NSFileModificationDate];
@@ -119,7 +117,6 @@
 		self.size		= 0LL;	// 0じゃない場合があるみたいなので
 	} else {
 		WRN(@"filetype unsupported(%@ is %@)", self.path, work);
-		[self release];
 		return nil;
 	}
 	if ([[attrs objectForKey:NSFileExtensionHidden] boolValue]) {
@@ -149,7 +146,6 @@
 				// エイリアスファイルは除く
 				if (finderFlags & kIsAlias) {
 					ERR(@"file is hfs Alias(%@)", self.path);
-					[self release];
 					return nil;
 				}
 				// 非表示ファイル
@@ -172,9 +168,9 @@
 			}
 			[escaped appendString:[array objectAtIndex:i]];
 		}
-		_nameEscaped = [[NSString alloc] initWithString:escaped];
+		self.nameEscaped = [[NSString alloc] initWithString:escaped];
 	} else {
-		_nameEscaped = [self.name retain];
+		self.nameEscaped = self.name;
 	}
 	// リソースフォーク確認
 	/*
@@ -254,16 +250,16 @@
 }
 
 // 解放
-- (void)dealloc {
-	[_name release];
-	[_nameEscaped release];
-	[_path release];
-	[_createTime release];
-	[_modifyTime release];
-
-	[handle release];
-	[super dealloc];
-}
+//- (void)dealloc {
+//	[_name release];
+//	[_nameEscaped release];
+//	[_path release];
+//	[_createTime release];
+//	[_modifyTime release];
+//
+//	[handle release];
+//	[super dealloc];
+//}
 
 /*----------------------------------------------------------------------------*
  * getter/setter
@@ -340,8 +336,8 @@
 		// 既に開いていれば閉じる（バグ）
 		WRN(@"openToRead:Recalled(%@)", self.path);
 		[handle closeFile];
-		[handle release];
-		handle = nil;
+//		[handle release];
+		self.handle = nil;
 	}
 
 	if (!self.path) {
@@ -372,8 +368,8 @@
 		}
 		// オープン（サイズ０は除く）
 		if (self.size > 0) {
-			handle = [[NSFileHandle fileHandleForWritingAtPath:self.path] retain];
-			if (!handle) {
+			self.handle = [NSFileHandle fileHandleForWritingAtPath:self.path];
+			if (!self.handle) {
 				ERR(@"file open error(%@)", self.path);
 				return NO;
 			}
@@ -430,12 +426,12 @@
 // ファイル書き込み
 - (BOOL)writeData:(void*)data length:(unsigned long long)len
 {
-	if (!handle) {
+	if (!_handle) {
 		ERR(@"handle not opend.");
 		return NO;
 	}
 	@try {
-		[handle writeData:[NSData dataWithBytesNoCopy:data length:len freeWhenDone:NO]];
+		[self.handle writeData:[NSData dataWithBytesNoCopy:data length:len freeWhenDone:NO]];
 		return YES;
 	}
 	@catch (NSException* exception) {
@@ -446,10 +442,10 @@
 
 // ファイルクローズ
 - (void)closeFile {
-	if (handle) {
-		[handle closeFile];
-		[handle release];
-		handle = nil;
+	if (_handle) {
+		[_handle closeFile];
+		
+		self.handle = nil;
 	}
 	if ([self isRegularFile] || [self isDirectory]) {
 		NSFileManager*			fileManager;
@@ -532,7 +528,6 @@
 		NSRange	range = [buf rangeOfString:@":"];
 		if (range.location == NSNotFound) {
 			ERR(@"file name error(%@)", buf);
-			[self release];
 			return nil;
 		}
 		while ([buf characterAtIndex:range.location + 1] == ':') {
@@ -543,20 +538,16 @@
 		}
 		NSString* name __unused;
 		// ファイル名部分を切り出す
-		_nameEscaped	= [buf substringToIndex:range.location];
+		self.nameEscaped	= [buf substringToIndex:range.location];
 		// 解析対象文字列をファイル名の後からにする
 		buf	= [buf substringFromIndex:range.location + 1];
 		// ファイル名の"::"エスケープを"_"にする（:はファイルパスに使えないので）
 		self.name = [_nameEscaped stringByReplacingOccurrencesOfString:@"::" withString:@"_"];
 		// ファイル名の"/"を"_"にする（HFS+ならば"/"は使えるが、HFS+以外の場合や混乱を回避するため）
 		self.name = [self.name stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-
-		[_nameEscaped retain];
-		[self.name retain];
 	}
 	@catch (NSException* exception) {
 		ERR(@"file name error(%@,exp=%@)", buf, exception);
-		[self release];
 		return nil;
 	}
 	TRC(@"fileName:%@(escaped:%@)", self.name, _nameEscaped);
@@ -576,7 +567,6 @@
 	scanner	= [NSScanner scannerWithString:str];
 	if (![scanner scanHexLongLong:&uint64Val]) {
 		ERR(@"file size error(%@)", str);
-		[self release];
 		return nil;
 	}
 	self.size = uint64Val;
@@ -592,7 +582,6 @@
 		scanner = [NSScanner scannerWithString:str];
 		if (![scanner scanHexInt:&uintVal]) {
 			ERR(@"modDate attr error(%@)", str);
-			[self release];
 			return nil;
 		}
 		self.modifyTime = [NSDate dateWithTimeIntervalSince1970:uintVal];
@@ -608,7 +597,6 @@
 	scanner = [NSScanner scannerWithString:str];
 	if (![scanner scanHexInt:&uintVal]) {
 		ERR(@"file attr error(%@)", str);
-		[self release];
 		return nil;
 	}
 	self.attribute = uintVal;

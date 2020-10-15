@@ -23,7 +23,7 @@
 
 @property(readonly)			NSInteger	packetNo;		// パケット番号
 @property(copy,readonly)	NSString*	message;		// 送信メッセージ
-@property(retain,readonly)	NSArray*	attachments;	// 添付ファイル
+@property(nonatomic,readonly)	NSArray*	attachments;	// 添付ファイル
 @property(readonly)			BOOL		sealed;			// 封書フラグ
 @property(readonly)			BOOL		locked;			// 施錠フラグ
 

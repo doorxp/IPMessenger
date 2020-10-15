@@ -40,20 +40,20 @@
 	self = [super init];
 	if (self) {
 		NSBundle* bundle = [NSBundle mainBundle];
-		receiveQueue			= [[NSMutableArray alloc] init];
-		receiveQueueLock		= [[NSLock alloc] init];
-		iconToggleTimer			= nil;
-		iconNormal				= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsg" ofType:@"icns"]];
-		iconNormalReverse		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsgReverse" ofType:@"icns"]];
-		iconAbsence				= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsgAbsence" ofType:@"icns"]];
-		iconAbsenceReverse		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsgAbsenceReverse" ofType:@"icns"]];
-		lastDockDraggedDate		= nil;
-		lastDockDraggedWindow	= nil;
-		iconSmallNormal			= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_normal" ofType:@"png"]];
-		iconSmallNormalReverse	= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_highlight" ofType:@"png"]];
-		iconSmallAbsence		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_normal" ofType:@"png"]];
-		iconSmallAbsenceReverse	= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_highlight" ofType:@"png"]];
-		iconSmallAlaternate		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_alternate" ofType:@"png"]];
+		self.receiveQueue			= [[NSMutableArray alloc] init];
+		self.receiveQueueLock		= [[NSLock alloc] init];
+		self.iconToggleTimer			= nil;
+		self.iconNormal				= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsg" ofType:@"icns"]];
+		self.iconNormalReverse		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsgReverse" ofType:@"icns"]];
+		self.iconAbsence				= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsgAbsence" ofType:@"icns"]];
+		self.iconAbsenceReverse		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"IPMsgAbsenceReverse" ofType:@"icns"]];
+		self.lastDockDraggedDate		= nil;
+		self.lastDockDraggedWindow	= nil;
+		self.iconSmallNormal			= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_normal" ofType:@"png"]];
+		self.iconSmallNormalReverse	= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_highlight" ofType:@"png"]];
+		self.iconSmallAbsence		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_normal" ofType:@"png"]];
+		self.iconSmallAbsenceReverse	= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_highlight" ofType:@"png"]];
+		self.iconSmallAlaternate		= [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"menu_alternate" ofType:@"png"]];
 	}
 
 	return self;
@@ -62,14 +62,22 @@
 // 解放
 - (void)dealloc
 {
-	[receiveQueue release];
-	[receiveQueueLock release];
-	[iconToggleTimer release];
-	[iconNormal release];
-	[iconNormalReverse release];
-	[iconAbsence release];
-	[iconAbsenceReverse release];
-	[super dealloc];
+    
+    self.receiveQueue=nil;
+    self.receiveQueueLock=nil;
+    self.iconToggleTimer=nil;
+    self.iconNormal=nil;
+    self.iconNormalReverse=nil;
+    self.iconAbsence=nil;
+    self.iconAbsenceReverse=nil;
+//	[receiveQueue release];
+//	[receiveQueueLock release];
+//	[iconToggleTimer release];
+//	[iconNormal release];
+//	[iconNormalReverse release];
+//	[iconAbsence release];
+//	[iconAbsenceReverse release];
+//	[super dealloc];
 }
 
 /*----------------------------------------------------------------------------*
@@ -79,10 +87,11 @@
 // 新規メッセージウィンドウ表示処理
 - (IBAction)newMessage:(id)sender {
 	if (![NSApp isActive]) {
-		activatedFlag = -1;		// アクティベートで新規ウィンドウが開いてしまうのを抑止
+		self.activatedFlag = -1;		// アクティベートで新規ウィンドウが開いてしまうのを抑止
 		[NSApp activateIgnoringOtherApps:YES];
 	}
-	[[SendControl alloc] initWithSendMessage:nil recvMessage:nil];
+    
+    self.lastDockDraggedWindow = [[SendControl alloc] initWithSendMessage:nil recvMessage:nil];
 }
 
 // メッセージ受信時処理
@@ -110,9 +119,9 @@
 		if ((config.nonPopupWhenAbsence && config.inAbsence) ||
 			(!config.nonPopupWhenAbsence)) {
 			// ノンポップアップの場合受信キューに追加
-			[receiveQueueLock lock];
-			[receiveQueue addObject:recv];
-			[receiveQueueLock unlock];
+			[self.receiveQueueLock lock];
+			[self.receiveQueue addObject:recv];
+			[self.receiveQueueLock unlock];
 			switch (config.iconBoundModeInNonPopup) {
 			case IPMSG_BOUND_ONECE:
 				[NSApp requestUserAttention:NSInformationalRequest];
@@ -124,10 +133,10 @@
 			default:
 				break;
 			}
-			if (!iconToggleTimer) {
+			if (!self.iconToggleTimer) {
 				// アイコントグル開始
-				iconToggleState	= YES;
-				iconToggleTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                self.iconToggleState	= YES;
+                self.iconToggleTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
 																   target:self
 																 selector:@selector(toggleIcon:)
 																 userInfo:nil
@@ -169,7 +178,7 @@
  *----------------------------------------------------------------------------*/
 
 - (NSMenuItem*)createAbsenceMenuItemAtIndex:(NSUInteger)index state:(BOOL)state {
-	NSMenuItem* item = [[[NSMenuItem alloc] init] autorelease];
+	NSMenuItem* item = [[NSMenuItem alloc] init];
 	[item setTitle:[[Config sharedConfig] absenceTitleAtIndex:index]];
 	[item setEnabled:YES];
 	[item setState:state];
@@ -187,28 +196,28 @@
 	NSUInteger			i;
 
 	// 不在モード解除とその下のセパレータ以外を一旦削除
-	for (i = [absenceMenu numberOfItems] - 1; i > 1 ; i--) {
-		[absenceMenu removeItemAtIndex:i];
+	for (i = [_absenceMenu numberOfItems] - 1; i > 1 ; i--) {
+		[_absenceMenu removeItemAtIndex:i];
 	}
-	for (i = [absenceMenuForDock numberOfItems] - 1; i > 1 ; i--) {
-		[absenceMenuForDock removeItemAtIndex:i];
+	for (i = [_absenceMenuForDock numberOfItems] - 1; i > 1 ; i--) {
+		[_absenceMenuForDock removeItemAtIndex:i];
 	}
-	for (i = [absenceMenuForStatusBar numberOfItems] - 1; i > 1 ; i--) {
-		[absenceMenuForStatusBar removeItemAtIndex:i];
+	for (i = [_absenceMenuForStatusBar numberOfItems] - 1; i > 1 ; i--) {
+		[_absenceMenuForStatusBar removeItemAtIndex:i];
 	}
 	if (num > 0) {
 		for (i = 0; i < num; i++) {
-			[absenceMenu addItem:[self createAbsenceMenuItemAtIndex:i state:(i == index)]];
-			[absenceMenuForDock addItem:[self createAbsenceMenuItemAtIndex:i state:(i == index)]];
-			[absenceMenuForStatusBar addItem:[self createAbsenceMenuItemAtIndex:i state:(i == index)]];
+			[_absenceMenu addItem:[self createAbsenceMenuItemAtIndex:i state:(i == index)]];
+			[_absenceMenuForDock addItem:[self createAbsenceMenuItemAtIndex:i state:(i == index)]];
+			[_absenceMenuForStatusBar addItem:[self createAbsenceMenuItemAtIndex:i state:(i == index)]];
 		}
 	}
-	[absenceOffMenuItem setState:(index == -1)];
-	[absenceOffMenuItemForDock setState:(index == -1)];
-	[absenceOffMenuItemForStatusBar setState:(index == -1)];
-	[absenceMenu update];
-	[absenceMenuForDock update];
-	[absenceMenuForStatusBar update];
+	[_absenceOffMenuItem setState:(index == -1)];
+	[_absenceOffMenuItemForDock setState:(index == -1)];
+	[_absenceOffMenuItemForStatusBar setState:(index == -1)];
+	[_absenceMenu update];
+	[_absenceMenuForDock update];
+	[_absenceMenuForStatusBar update];
 }
 
 // 不在メニュー選択ハンドラ
@@ -227,22 +236,22 @@
 	if (oldIdx == -1) {
 		oldIdx = -2;
 	}
-	[[absenceMenu				itemAtIndex:oldIdx + 2] setState:NSOffState];
-	[[absenceMenuForDock		itemAtIndex:oldIdx + 2] setState:NSOffState];
-	[[absenceMenuForStatusBar	itemAtIndex:oldIdx + 2] setState:NSOffState];
+	[[_absenceMenu				itemAtIndex:oldIdx + 2] setState:NSOffState];
+	[[_absenceMenuForDock		itemAtIndex:oldIdx + 2] setState:NSOffState];
+	[[_absenceMenuForStatusBar	itemAtIndex:oldIdx + 2] setState:NSOffState];
 
 	// 選択された項目にチェックを入れる
-	[[absenceMenu				itemAtIndex:newIdx + 2] setState:NSOnState];
-	[[absenceMenuForDock		itemAtIndex:newIdx + 2] setState:NSOnState];
-	[[absenceMenuForStatusBar	itemAtIndex:newIdx + 2] setState:NSOnState];
+	[[_absenceMenu				itemAtIndex:newIdx + 2] setState:NSOnState];
+	[[_absenceMenuForDock		itemAtIndex:newIdx + 2] setState:NSOnState];
+	[[_absenceMenuForStatusBar	itemAtIndex:newIdx + 2] setState:NSOnState];
 
 	// 選択された項目によってアイコンを変更する
 	if (newIdx < 0) {
-		[NSApp setApplicationIconImage:iconNormal];
-		[statusBarItem setImage:iconSmallNormal];
+		[NSApp setApplicationIconImage:_iconNormal];
+		[_statusBarItem setImage:_iconSmallNormal];
 	} else {
-		[NSApp setApplicationIconImage:iconAbsence];
-		[statusBarItem setImage:iconSmallAbsence];
+		[NSApp setApplicationIconImage:_iconAbsence];
+		[_statusBarItem setImage:_iconSmallAbsence];
 	}
 
 	[sender setState:NSOnState];
@@ -253,7 +262,7 @@
 
 // 不在解除
 - (void)setAbsenceOff {
-	[self absenceMenuChanged:absenceOffMenuItem];
+	[self absenceMenuChanged:_absenceOffMenuItem];
 }
 
 /*----------------------------------------------------------------------------*
@@ -261,29 +270,27 @@
  *----------------------------------------------------------------------------*/
 
 - (void)initStatusBar {
-	if (statusBarItem == nil) {
+	if (_statusBarItem == nil) {
 		// ステータスバーアイテムの初期化
-		statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-		[statusBarItem retain];
-		[statusBarItem setTitle:@""];
-		[statusBarItem setImage:iconSmallNormal];
-		[statusBarItem setAlternateImage:iconSmallAlaternate];
-		[statusBarItem setMenu:statusBarMenu];
-		[statusBarItem setHighlightMode:YES];
+		self.statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+		[_statusBarItem setTitle:@""];
+		[_statusBarItem setImage:_iconSmallNormal];
+		[_statusBarItem setAlternateImage:_iconSmallAlaternate];
+		[_statusBarItem setMenu:_statusBarMenu];
+		[_statusBarItem setHighlightMode:YES];
 	}
 }
 
 - (void)removeStatusBar {
-	if (statusBarItem != nil) {
+	if (_statusBarItem != nil) {
 		// ステータスバーアイテムを破棄
-		[[NSStatusBar systemStatusBar] removeStatusItem:statusBarItem];
-		[statusBarItem release];
-		statusBarItem = nil;
+		[[NSStatusBar systemStatusBar] removeStatusItem:_statusBarItem];
+		self.statusBarItem = nil;
 	}
 }
 
 - (void)clickStatusBar:(id)sender{
-	activatedFlag = -1;		// アクティベートで新規ウィンドウが開いてしまうのを抑止
+    _activatedFlag = -1;		// アクティベートで新規ウィンドウが開いてしまうのを抑止
 	[NSApp activateIgnoringOtherApps:YES];
 	[self applicationShouldHandleReopen:NSApp hasVisibleWindows:NO];
 }
@@ -307,12 +314,12 @@
 - (void)awakeFromNib {
 	Config* config = [Config sharedConfig];
 	// メニュー設定
-	[sendWindowListUserMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoUserNamePropertyIdentifier]];
-	[sendWindowListGroupMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoGroupNamePropertyIdentifier]];
-	[sendWindowListHostMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoHostNamePropertyIdentifier]];
-	[sendWindowListIPAddressMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoIPAddressPropertyIdentifier]];
-	[sendWindowListLogonMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoLogOnNamePropertyIdentifier]];
-	[sendWindowListVersionMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoVersionPropertyIdentifer]];
+	[_sendWindowListUserMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoUserNamePropertyIdentifier]];
+	[_sendWindowListGroupMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoGroupNamePropertyIdentifier]];
+	[_sendWindowListHostMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoHostNamePropertyIdentifier]];
+	[_sendWindowListIPAddressMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoIPAddressPropertyIdentifier]];
+	[_sendWindowListLogonMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoLogOnNamePropertyIdentifier]];
+	[_sendWindowListVersionMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoVersionPropertyIdentifer]];
 	[self buildAbsenceMenu];
 
 	// ステータスバー
@@ -330,7 +337,7 @@
 	srand((unsigned)time(NULL));
 
 	// フラグ初期化
-	activatedFlag = -1;
+    _activatedFlag = -1;
 
 	// ログファイルのUTF-8チェック
 	TRC(@"Start log check");
@@ -387,8 +394,8 @@
 		}
 	}
 	// ノンポップアップの未読メッセージがあれば終了確認
-	[receiveQueueLock lock];
-	if ([receiveQueue count] > 0) {
+	[_receiveQueueLock lock];
+	if ([_receiveQueue count] > 0) {
 		NSInteger ret = NSRunCriticalAlertPanel(
 								NSLocalizedString(@"ShutDown.Confirm2.Title", nil),
 								NSLocalizedString(@"ShutDown.Confirm2.Msg", nil),
@@ -396,17 +403,17 @@
 								NSLocalizedString(@"ShutDown.Confirm2.Other", nil),
 								NSLocalizedString(@"ShutDown.Confirm2.Cancel", nil));
 		if (ret == NSAlertOtherReturn) {
-			[receiveQueueLock unlock];
+			[_receiveQueueLock unlock];
 			// 終了キャンセル
 			return NSTerminateCancel;
 		} else if (ret == NSAlertAlternateReturn) {
-			[receiveQueueLock unlock];
+			[_receiveQueueLock unlock];
 			[self applicationShouldHandleReopen:NSApp hasVisibleWindows:NO];
 			// 終了キャンセル
 			return NSTerminateCancel;
 		}
 	}
-	[receiveQueueLock unlock];
+	[_receiveQueueLock unlock];
 	// 終了
 	return NSTerminateNow;
 }
@@ -419,9 +426,9 @@
 	[[AttachmentServer sharedServer] shutdownServer];
 
 	// ステータスバー消去
-	if ([Config sharedConfig].useStatusBar && (statusBarItem != nil)) {
+	if ([Config sharedConfig].useStatusBar && (_statusBarItem != nil)) {
 		// [self removeStatusBar]を呼ぶと落ちる（なぜ？）
-		[[NSStatusBar systemStatusBar] removeStatusItem:statusBarItem];
+		[[NSStatusBar systemStatusBar] removeStatusItem:_statusBarItem];
 	}
 
 	// 初期設定の保存
@@ -432,33 +439,32 @@
 // アプリアクティベート
 - (void)applicationDidBecomeActive:(NSNotification*)aNotification {
 	// 初回だけは無視（起動時のアクティベートがあるので）
-	activatedFlag = (activatedFlag == -1) ? NO : YES;
+    _activatedFlag = (_activatedFlag == -1) ? NO : YES;
 }
 
 // Dockファイルドロップ時
 - (BOOL)application:(NSApplication*)theApplication openFile:(NSString*)fileName {
 	DBG(@"drop file=%@", fileName);
-	if (lastDockDraggedDate && lastDockDraggedWindow) {
-		if ([lastDockDraggedDate timeIntervalSinceNow] > -0.5) {
-			[lastDockDraggedWindow appendAttachmentByPath:fileName];
+	if (_lastDockDraggedDate && _lastDockDraggedWindow) {
+		if ([_lastDockDraggedDate timeIntervalSinceNow] > -0.5) {
+			[_lastDockDraggedWindow appendAttachmentByPath:fileName];
 		} else {
-			[lastDockDraggedDate release];
-			lastDockDraggedDate		= nil;
-			lastDockDraggedWindow	= nil;
+            self.lastDockDraggedDate		= nil;
+            self.lastDockDraggedWindow	= nil;
 		}
 	}
-	if (!lastDockDraggedDate) {
-		lastDockDraggedWindow = [[SendControl alloc] initWithSendMessage:nil recvMessage:nil];
-		[lastDockDraggedWindow appendAttachmentByPath:fileName];
-		lastDockDraggedDate = [[NSDate alloc] init];
+	if (!_lastDockDraggedDate) {
+		self.lastDockDraggedWindow = [[SendControl alloc] initWithSendMessage:nil recvMessage:nil];
+		[_lastDockDraggedWindow appendAttachmentByPath:fileName];
+		self.lastDockDraggedDate = [[NSDate alloc] init];
 	}
 	return YES;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem*)item {
-	if (item == showNonPopupMenuItem) {
+	if (item == _showNonPopupMenuItem) {
 		if ([Config sharedConfig].nonPopup) {
-			return ([receiveQueue count] > 0);
+			return ([_receiveQueue count] > 0);
 		}
 		return NO;
 	}
@@ -477,20 +483,20 @@
 	Config*		config = [Config sharedConfig];
 	NSArray*	wins;
 	// ノンポップアップのキューにメッセージがあれば表示
-	[receiveQueueLock lock];
-	b = ([receiveQueue count] > 0);
-	for (i = 0; i < [receiveQueue count]; i++) {
-		[[receiveQueue objectAtIndex:i] showWindow];
+	[_receiveQueueLock lock];
+	b = ([_receiveQueue count] > 0);
+	for (i = 0; i < [_receiveQueue count]; i++) {
+		[[_receiveQueue objectAtIndex:i] showWindow];
 	}
-	[receiveQueue removeAllObjects];
+	[_receiveQueue removeAllObjects];
 	// アイコントグルアニメーションストップ
-	if (b && iconToggleTimer) {
-		[iconToggleTimer invalidate];
-		iconToggleTimer = nil;
-		[NSApp setApplicationIconImage:((config.inAbsence) ? iconAbsence : iconNormal)];
-		[statusBarItem setImage:((config.inAbsence) ? iconSmallAbsence : iconSmallNormal)];
+	if (b && _iconToggleTimer) {
+		[_iconToggleTimer invalidate];
+		self.iconToggleTimer = nil;
+		[NSApp setApplicationIconImage:((config.inAbsence) ? _iconAbsence : _iconNormal)];
+		[_statusBarItem setImage:((config.inAbsence) ? _iconSmallAbsence : _iconSmallNormal)];
 	}
-	[receiveQueueLock unlock];
+	[_receiveQueueLock unlock];
 	// 新規送信ウィンドウのオープン
 
 //DBG(@"#window = %d", [[NSApp windows] count]);
@@ -505,8 +511,8 @@
 			break;
 		}
 	}
-	if (activatedFlag != -1) {
-		if ((noWin || !activatedFlag) &&
+	if (_activatedFlag != -1) {
+		if ((noWin || !_activatedFlag) &&
 			!b && config.openNewOnDockClick) {
 			// ・クリック前からアクティブアプリだったか、または表示中のウィンドウが一個もない
 			// ・環境設定で指定されている
@@ -515,7 +521,7 @@
 			[self newMessage:self];
 		}
 	}
-	activatedFlag = NO;
+    _activatedFlag = NO;
 	return YES;
 }
 
@@ -523,23 +529,23 @@
 - (void)toggleIcon:(NSTimer*)timer {
 	NSImage* img1;
 	NSImage* img2;
-	iconToggleState = !iconToggleState;
+    _iconToggleState = !_iconToggleState;
 
 
 	if ([Config sharedConfig].inAbsence) {
-		img1 = (iconToggleState) ? iconAbsence : iconAbsenceReverse;
-		img2 = (iconToggleState) ? iconSmallAbsence : iconSmallAbsenceReverse;
+		img1 = (_iconToggleState) ? _iconAbsence : _iconAbsenceReverse;
+		img2 = (_iconToggleState) ? _iconSmallAbsence : _iconSmallAbsenceReverse;
 	} else {
-		img1 = (iconToggleState) ? iconNormal : iconNormalReverse;
-		img2 = (iconToggleState) ? iconSmallNormal : iconSmallNormalReverse;
+		img1 = (_iconToggleState) ? _iconNormal : _iconNormalReverse;
+		img2 = (_iconToggleState) ? _iconSmallNormal : _iconSmallNormalReverse;
 	}
 
 	// ステータスバーアイコン
 	if ([Config sharedConfig].useStatusBar) {
-		if (statusBarItem == nil) {
+		if (_statusBarItem == nil) {
 			[self initStatusBar];
 		}
-		[statusBarItem setImage:img2];
+		[_statusBarItem setImage:img2];
 	}
 	// Dockアイコン
 	[NSApp setApplicationIconImage:img1];
@@ -576,9 +582,8 @@
 	[alert setInformativeText:[NSString stringWithFormat:message, logName]];
 	[alert addButtonWithTitle:ok];
 	[alert addButtonWithTitle:cancel];
-	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setAlertStyle:NSAlertStyleWarning];
 	NSInteger ret = [alert runModal];
-	[alert release];
 	if (ret == NSAlertFirstButtonReturn) {
 		// OKを選んだら変換
 		TRC(@"User confirmed %@ conversion", name);
@@ -594,7 +599,6 @@
 		BOOL result = [converter convertToUTF8:[dialog window]];
 		TRC(@"LogConvert result(%@,%s)", name, (result ? "YES" : "NO"));
 		[dialog close];
-		[dialog release];
 		if (result == NO) {
 			if ([converter.backupPath length] == 0) {
 				// バックアップされていないようであればバックアップ
@@ -608,7 +612,7 @@
 								  alternateButton:nil
 									  otherButton:nil
 						informativeTextWithFormat:@"%@",message];
-			[alert setAlertStyle:NSCriticalAlertStyle];
+			[alert setAlertStyle:NSAlertStyleCritical];
 			[alert runModal];
 		}
 	} else if (ret == NSAlertSecondButtonReturn) {
@@ -625,7 +629,7 @@
 							  alternateButton:nil
 								  otherButton:nil
 					informativeTextWithFormat:@"%@",converter.backupPath];
-		[alert setAlertStyle:NSInformationalAlertStyle];
+		[alert setAlertStyle:NSAlertStyleInformational];
 		[alert runModal];
 	}
 }

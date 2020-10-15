@@ -31,7 +31,7 @@
 
 + (id)converter
 {
-	return [[[LogConverter alloc] init] autorelease];
+	return [[LogConverter alloc] init];
 }
 
 /*----------------------------------------------------------------------------*
@@ -51,16 +51,16 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[_name release];
-	[_path release];
-	[_backupPath release];
-	[_fileManager release];
-	[_bom release];
-	[_delegate release];
-	[super dealloc];
-}
+//- (void)dealloc
+//{
+//	[_name release];
+//	[_path release];
+//	[_backupPath release];
+//	[_fileManager release];
+//	[_bom release];
+//	[_delegate release];
+//	[super dealloc];
+//}
 
 /*----------------------------------------------------------------------------*
  * 変換

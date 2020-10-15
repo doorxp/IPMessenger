@@ -79,17 +79,17 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 			   address:(struct sockaddr_in*)addr
 			   command:(UInt32)cmd
 {
-	return [[[UserInfo alloc] initWithUserName:user
+	return [[UserInfo alloc] initWithUserName:user
 									 groupName:group
 									  hostName:host
 									 logOnName:logOn
 									   address:addr
-									   command:cmd] autorelease];
+									   command:cmd];
 }
 
 + (id)userWithHostList:(NSArray*)itemArray fromIndex:(unsigned)index
 {
-	return [[[UserInfo alloc] initWithHostList:itemArray fromIndex:index] autorelease];
+	return [[UserInfo alloc] initWithHostList:itemArray fromIndex:index];
 }
 
 /*============================================================================*
@@ -216,14 +216,22 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 // 解放
 - (void)dealloc
 {
-    [_userAlpha release];
-	[_userName release];
-	[_groupName release];
-	[_hostName release];
-	[_logOnName release];
-	[_ipAddress release];
-	[_version release];
-	[super dealloc];
+    self.userAlpha = nil;
+    self.userName =nil;
+    self.groupName = nil;
+    self.hostName = nil;
+    self.logOnName =nil;
+    self.ipAddress = nil;
+    self.version = nil;
+    
+//    [_userAlpha release];
+//	[_userName release];
+//	[_groupName release];
+//	[_hostName release];
+//	[_logOnName release];
+//	[_ipAddress release];
+//	[_version release];
+//	[super dealloc];
 }
 
 /*============================================================================*
@@ -301,16 +309,22 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 	return @"";
 }
 
-// 等価判定
-- (BOOL)isEqual:(id)anObject
+
+- (NSUInteger)hash {
+    return self.logOnName.hash ^ self.ipAddressNumber ^ self.portNo;
+}
+
+//// 等価判定
+- (BOOL)isEqual:(UserInfo*)anObject
 {
-	if ([anObject isKindOfClass:[self class]]) {
-		UserInfo* target = anObject;
-		return ([self.logOnName isEqualToString:target.logOnName] &&
-				(self.ipAddressNumber == target.ipAddressNumber) &&
-				(self.portNo == target.portNo));
-	}
-	return NO;
+//	if ([anObject isKindOfClass:[self class]]) {
+//		UserInfo* target = anObject;
+//		return ([self.logOnName isEqualToString:target.logOnName] &&
+//				(self.ipAddressNumber == target.ipAddressNumber) &&
+//				(self.portNo == target.portNo));
+//	}
+//	return NO;
+    return self.hash == anObject.hash;
 }
 
 // オブジェクト文字列表現
@@ -341,5 +355,4 @@ NSString* const kIPMsgUserInfoIPAddressPropertyIdentifier	= @"IPAddress";
 	}
 	return newObj;
 }
-
 @end

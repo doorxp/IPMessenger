@@ -137,11 +137,14 @@
 		[pwdSheetNewPwdField2 setStringValue:@""];
 		[pwdSheetErrorLabel setStringValue:@""];
 		// シート表示
-		[NSApp beginSheet:pwdSheet
-		   modalForWindow:panel
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
+//		[NSApp beginSheet:pwdSheet
+//		   modalForWindow:panel
+//			modalDelegate:self
+//		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+//			  contextInfo:nil];
+        [panel beginSheet:pwdSheet completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self->pwdSheet returnCode:returnCode contextInfo:nil];
+        }];
 	}
 	// パスワード変更シート変更（OK）ボタン
 	else if (sender == pwdSheetOKButton) {
@@ -176,11 +179,11 @@
 		} else {
 			[Config sharedConfig].password	= @"";
 		}
-		[NSApp endSheet:pwdSheet returnCode:NSOKButton];
+		[NSApp endSheet:pwdSheet returnCode:NSModalResponseOK];
 	}
 	// パスワード変更シートキャンセルボタン
 	else if (sender == pwdSheetCancelButton) {
-		[NSApp endSheet:pwdSheet returnCode:NSCancelButton];
+		[NSApp endSheet:pwdSheet returnCode:NSModalResponseCancel];
 	}
 	// ブロードキャストアドレス追加ボタン（シートオープン）
 	else if (sender == netBroadAddButton) {
@@ -255,11 +258,11 @@
 		}
 		[bcastSheetErrorLabel setStringValue:@""];
 		[netBroadAddressTable reloadData];
-		[NSApp endSheet:bcastSheet returnCode:NSOKButton];
+		[NSApp endSheet:bcastSheet returnCode:NSModalResponseOK];
 	}
 	// ブロードキャストシートキャンセルボタン
 	else if (sender == bcastSheetCancelButton) {
-		[NSApp endSheet:bcastSheet returnCode:NSCancelButton];
+		[NSApp endSheet:bcastSheet returnCode:NSModalResponseCancel];
 	}
 	// 不在追加ボタン／編集ボタン
 	else if ((sender == absenceAddButton) || (sender == absenceEditButton)) {
@@ -279,11 +282,14 @@
 		[absenceSheet setInitialFirstResponder:absenceSheetTitleField];
 
 		// シート表示
-		[NSApp beginSheet:absenceSheet
-		   modalForWindow:panel
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
+        [panel beginSheet:absenceSheet completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self->absenceSheet returnCode:returnCode contextInfo:nil];
+        }];
+//		[NSApp beginSheet:absenceSheet
+//		   modalForWindow:panel
+//			modalDelegate:self
+//		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+//			  contextInfo:nil];
 	}
 	// 不在削除ボタン
 	else if (sender == absenceDeleteButton) {
@@ -343,7 +349,7 @@
 									self,
 									@selector(sheetDidEnd:returnCode:contextInfo:),
 									nil,
-									sender,
+                                  (__bridge void *)(sender),
 									NSLocalizedString(@"Pref.AbsenceReset.Msg", nil));
 	}
 	// 不在シートOKボタン
@@ -387,11 +393,11 @@
 		[absenceTable selectRowIndexes:[NSIndexSet indexSetWithIndex:((index == -1) ? 0 : (index))]
 				  byExtendingSelection:NO];
 		[(id)[NSApp delegate] buildAbsenceMenu];
-		[NSApp endSheet:absenceSheet returnCode:NSOKButton];
+		[NSApp endSheet:absenceSheet returnCode:NSModalResponseOK];
 	}
 	// 不在シートCancelボタン
 	else if (sender == absenceSheetCancelButton) {
-		[NSApp endSheet:absenceSheet returnCode:NSCancelButton];
+		[NSApp endSheet:absenceSheet returnCode:NSModalResponseCancel];
 	}
 	// 通知拒否追加ボタン／編集ボタン
 	else if ((sender == refuseAddButton) || (sender == refuseEditButton)) {
@@ -416,11 +422,16 @@
 		[refuseSheet setInitialFirstResponder:refuseSheetTargetPopup];
 
 		// シート表示
-		[NSApp beginSheet:refuseSheet
-		   modalForWindow:panel
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
+        
+        [panel beginSheet:refuseSheet completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:refuseSheet returnCode:returnCode contextInfo:nil];
+        }];
+        
+//		[NSApp beginSheet:refuseSheet
+//		   modalForWindow:panel
+//			modalDelegate:self
+//		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+//			  contextInfo:nil];
 	}
 	// 通知拒否削除ボタン
 	else if (sender == refuseDeleteButton) {
@@ -459,7 +470,7 @@
 			return;
 		}
 
-		info = [[[RefuseInfo alloc] initWithTarget:target string:string condition:condition] autorelease];
+		info = [[RefuseInfo alloc] initWithTarget:target string:string condition:condition];
 		if (refuseEditIndex == -1) {
 			// 新規
 			if (index == -1) {
@@ -473,11 +484,11 @@
 			[cfg setRefuseInfo:info atIndex:refuseEditIndex];
 		}
 		[refuseTable reloadData];
-		[NSApp endSheet:refuseSheet returnCode:NSOKButton];
+		[NSApp endSheet:refuseSheet returnCode:NSModalResponseOK];
 	}
 	// 通知拒否シートCancelボタン
 	else if (sender == refuseSheetCancelButton) {
-		[NSApp endSheet:refuseSheet returnCode:NSCancelButton];
+		[NSApp endSheet:refuseSheet returnCode:NSModalResponseCancel];
 	}
 	// 標準ログファイル参照ボタン／重要ログファイル参照ボタン
 	else if ((sender == logStdPathRefButton) || (sender == logAltPathRefButton)) {
@@ -505,7 +516,7 @@
                    completionHandler:^(NSInteger result) {
                        [self sheetDidEnd:sp
                               returnCode:result
-                             contextInfo:sender];
+                             contextInfo:(__bridge void *)(sender)];
                    }];
 	}
 	// その他（バグ）
@@ -800,8 +811,8 @@
 
 - (void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)code contextInfo:(void*)info {
 	// 不在定義リセット
-	if (info == absenceResetButton) {
-		if (code == NSOKButton) {
+    if (info == (__bridge void *)(absenceResetButton)) {
+		if (code == NSModalResponseOK) {
 			[[Config sharedConfig] resetAllAbsences];
 			[absenceTable reloadData];
 			[absenceTable deselectAll:self];
@@ -809,8 +820,8 @@
 		}
 	}
 	// 標準ログ選択
-	else if (info == logStdPathRefButton) {
-		if (code == NSOKButton) {
+    else if (info == (__bridge void *)(logStdPathRefButton)) {
+		if (code == NSModalResponseOK) {
 			NSSavePanel*	sp = (NSSavePanel*)sheet;
 			NSString*		fn = [[[sp URL] relativePath] stringByAbbreviatingWithTildeInPath];
 			[Config sharedConfig].standardLogFile = fn;
@@ -818,8 +829,8 @@
 		}
 	}
 	// 重要ログ選択
-	else if (info == logAltPathRefButton) {
-		if (code == NSOKButton) {
+    else if (info == (__bridge void *)(logAltPathRefButton)) {
+		if (code == NSModalResponseOK) {
 			NSSavePanel*	sp = (NSSavePanel*)sheet;
 			NSString*		fn = [[[sp URL] relativePath] stringByAbbreviatingWithTildeInPath];
 			[Config sharedConfig].alternateLogFile = fn;
@@ -881,7 +892,7 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
+//	[super dealloc];
 }
 
 // 初期化

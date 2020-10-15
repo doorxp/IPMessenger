@@ -123,28 +123,28 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	self				= [super init];
 	sockUDP				= -1;
-	sockLock			= [[NSLock alloc] init];
-	sendList			= [[NSMutableDictionary alloc] init];
-	serverConnection	= nil;
-	serverLock			= [[NSLock alloc] init];
+	self.sockLock			= [[NSLock alloc] init];
+    self.sendList			= [[NSMutableDictionary alloc] init];
+    self.serverConnection	= nil;
+    self.serverLock			= [[NSLock alloc] init];
 	serverShutdown		= FALSE;
 	runLoopSource		= nil;
 	scDynStore			= nil;
-	scKeyHostName		= nil;
-	scKeyNetIPv4		= nil;
-	scKeyIFIPv4			= nil;
-	primaryNIC			= nil;
+    self.scKeyHostName		= nil;
+    self.scKeyNetIPv4		= nil;
+    self.scKeyIFIPv4			= nil;
+    self.primaryNIC			= nil;
 	myIPAddress			= 0;
-	myPortNo			= config.portNo;
-	myHostName			= nil;
+	self.myPortNo			= config.portNo;
+    self.myHostName			= nil;
 	memset(&scDSContext, 0, sizeof(scDSContext));
 
-	if (myPortNo <= 0) {
-		myPortNo = IPMSG_DEFAULT_PORT;
+	if (_myPortNo <= 0) {
+		_myPortNo = IPMSG_DEFAULT_PORT;
 	}
 
 	// DynaimcStore生成
-	scDSContext.info	= self;
+    scDSContext.info	= (__bridge void * _Nullable)(self);
 	scDynStore	= SCDynamicStoreCreate(NULL,
 								   (CFStringRef)@"net.ishwt.IPMessenger",
 								   _DynamicStoreCallback,
@@ -153,20 +153,24 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
+//        NSAlert *alert = [NSAlert new];
+//        alert.messageText = NSLocalizedString(@"Err.DynStoreCreate..title", nil);
+//        alert.informativeText = NSLocalizedString(@"Err.DynStoreCreate.msg", nil);
+//        [alert addButtonWithTitle:@"OK"];
+//        [alert runModal];
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.DynStoreCreate..title", nil),
 								NSLocalizedString(@"Err.DynStoreCreate.msg", nil),
 								@"OK", nil, nil);
 		// プログラム終了
 		[NSApp terminate:self];
-		[self autorelease];
 		return nil;
 	}
 
 	// DynamicStore更新通知設定
-	scKeyHostName	= (NSString*)SCDynamicStoreKeyCreateHostNames(NULL);
-	scKeyNetIPv4	= (NSString*)SCDynamicStoreKeyCreateNetworkGlobalEntity(
-								NULL, kSCDynamicStoreDomainState, kSCEntNetIPv4);
-	keys = [NSArray arrayWithObjects:scKeyHostName, scKeyNetIPv4, nil];
+    self.scKeyHostName	= (NSString*)CFBridgingRelease(SCDynamicStoreKeyCreateHostNames(NULL));
+    self.scKeyNetIPv4	= (NSString*)CFBridgingRelease(SCDynamicStoreKeyCreateNetworkGlobalEntity(
+                                                                                                  NULL, kSCDynamicStoreDomainState, kSCEntNetIPv4));
+	keys = [NSArray arrayWithObjects:_scKeyHostName, _scKeyNetIPv4, nil];
 
 	if (!SCDynamicStoreSetNotificationKeys(scDynStore, (CFArrayRef)keys, NULL)) {
 		ERR(@"dynamic store notification set error");
@@ -199,7 +203,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 								@"OK", nil, nil);
 		// プログラム終了
 		[NSApp terminate:self];
-		[self autorelease];
+//		[self autorelease];
 		return nil;
 	}
 
@@ -207,7 +211,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family			= AF_INET;
 	addr.sin_addr.s_addr	= htonl(INADDR_ANY);
-	addr.sin_port			= htons(myPortNo);
+	addr.sin_port			= htons(_myPortNo);
 
 	// ソケットバインド
 	while (bind(sockUDP, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
@@ -221,16 +225,16 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 							NSLocalizedString(@"Err.UDPSocketBind.ok", nil),
 							nil,
 							NSLocalizedString(@"Err.UDPSocketBind.alt", nil),
-							myPortNo);
-		if (result == NSOKButton) {
+							_myPortNo);
+		if (result == NSModalResponseOK) {
 			// プログラム終了
 			[NSApp terminate:self];
-			[self autorelease];
+//			[self autorelease];
 			return nil;
 		}
-		[[[PortChangeControl alloc] init] autorelease];
-		myPortNo		= config.portNo;
-		addr.sin_port	= htons(myPortNo);
+		[[PortChangeControl alloc] init];
+		self.myPortNo		= config.portNo;
+		addr.sin_port	= htons(_myPortNo);
 	}
 
 	// ブロードキャスト許可設定
@@ -246,8 +250,8 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		NSPort*		port1	= [NSPort port];
 		NSPort*		port2	= [NSPort port];
 		NSArray*	array	= [NSArray arrayWithObjects:port2, port1, nil];
-		serverConnection	= [[NSConnection alloc] initWithReceivePort:port1 sendPort:port2];
-		[serverConnection setRootObject:self];
+		self.serverConnection	= [[NSConnection alloc] initWithReceivePort:port1 sendPort:port2];
+		[_serverConnection setRootObject:self];
 		[NSThread detachNewThreadSelector:@selector(serverThread:) toTarget:self withObject:array];
 	}
 
@@ -257,10 +261,10 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 // 解放
 -(void)dealloc
 {
-	[sockLock release];
-	[sendList release];
-	[serverConnection release];
-	[serverLock release];
+//	[sockLock release];
+//	[sendList release];
+//	[serverConnection release];
+//	[serverLock release];
 	if (sockUDP != -1) {
 		close(sockUDP);
 	}
@@ -268,15 +272,15 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, kCFRunLoopDefaultMode);
 		CFRelease(runLoopSource);
 	}
-	[scKeyHostName release];
-	[scKeyNetIPv4 release];
-	[scKeyIFIPv4 release];
+//	[scKeyHostName release];
+//	[scKeyNetIPv4 release];
+//	[scKeyIFIPv4 release];
 	if (scDynStore) {
 		CFRelease(scDynStore);
 	}
-	[myHostName release];
-	[primaryNIC release];
-	[super dealloc];
+//	[myHostName release];
+//	[primaryNIC release];
+//	[super dealloc];
 }
 
 /*----------------------------------------------------------------------------*
@@ -297,7 +301,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		cmd |= IPMSG_DIALUPOPT;
 	}
 
-	[sockLock lock];	// ソケットロック
+	[self.sockLock lock];	// ソケットロック
 
 	// メッセージID採番
 	if (mid < 0) {
@@ -306,7 +310,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	// メッセージヘッダ部編集
 	NSString*	header	= [NSString stringWithFormat:@"%d:%ld:%@:%@:%u:",
-								IPMSG_VERSION, mid, NSUserName(), myHostName, cmd];
+								IPMSG_VERSION, mid, NSUserName(), _myHostName, cmd];
 	const char*	str		= [header GB18030String];
 	NSUInteger	len		= strlen(str);
 
@@ -325,7 +329,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	// 送信
 	sendto(sockUDP, [sendData bytes], len, 0, (struct sockaddr*)toAddr, sizeof(struct sockaddr_in));
 
-	[sockLock unlock];	// ロック解除
+	[self.sockLock unlock];	// ロック解除
 
 	return mid;
 }
@@ -380,7 +384,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	struct sockaddr_in	bcast;
 	memset(&bcast, 0, sizeof(bcast));
 	bcast.sin_family		= AF_INET;
-	bcast.sin_port			= htons(myPortNo);
+	bcast.sin_port			= htons(_myPortNo);
 	bcast.sin_addr.s_addr	= htonl(INADDR_BROADCAST);
 	[self sendTo:&bcast messageID:-1 command:cmd data:data];
 
@@ -499,7 +503,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 													   to:info
 												  message:msg.message
 												   option:option];
-			[sendList setObject:retry forKey:[NSNumber numberWithInteger:mid]];
+			[_sendList setObject:retry forKey:[NSNumber numberWithInteger:mid]];
 			// タイマ発行
 			[NSTimer scheduledTimerWithTimeInterval:RETRY_INTERVAL
 											 target:self
@@ -514,7 +518,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 - (void)retryMessage:(NSTimer*)timer
 {
 	NSNumber*	msgid		= [timer userInfo];
-	RetryInfo*	retryInfo	= [sendList objectForKey:msgid];
+	RetryInfo*	retryInfo	= [_sendList objectForKey:msgid];
 	if (retryInfo) {
 		if (retryInfo.retryCount >= RETRY_MAX) {
 			NSInteger ret = NSRunCriticalAlertPanel(
@@ -526,7 +530,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 			if (ret == NSAlertAlternateReturn) {
 				// 再送キャンセル
 				// 応答待ちメッセージ一覧からメッセージのエントリを削除
-				[sendList removeObjectForKey:msgid];
+				[_sendList removeObjectForKey:msgid];
 				// 添付情報破棄
 				[[AttachmentServer sharedServer] removeAttachmentsByMessageID:msgid
 																	 needLock:YES
@@ -768,7 +772,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		break;
 	case IPMSG_RECVMSG:		// メッセージ受信確認パケット
 		// 応答待ちメッセージ一覧から受信したメッセージのエントリを削除
-		[sendList removeObjectForKey:[NSNumber numberWithInt:[appendix intValue]]];
+            [_sendList removeObjectForKey:[NSNumber numberWithInt:[appendix intValue]]];
 		break;
 	case IPMSG_READMSG:		// 封書開封通知パケット
 		if (command & IPMSG_READCHECKOPT) {
@@ -796,7 +800,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 			NSString*	v1	= [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
 			NSString*	v2	= [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 			NSString*	ver	= [NSString stringWithFormat:@"%@(%@)", v1, v2];
-			version	= [[NSString stringWithFormat:NSLocalizedString(@"Version.Msg.string", nil), ver] retain];
+			version	= [NSString stringWithFormat:NSLocalizedString(@"Version.Msg.string", nil), ver];
 		}
 		[self sendTo:fromUser
 		   messageID:-1
@@ -828,9 +832,9 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		break;
 	case IPMSG_SENDABSENCEINFO:
 		// 不在情報をダイアログに出す
-		[[[NoticeControl alloc] initWithTitle:[fromUser summaryString]
+		[[NoticeControl alloc] initWithTitle:[fromUser summaryString]
 									 message:appendix
-										date:nil] autorelease];
+										date:nil];
 		break;
 	/*-------- 添付関連 ---------*/
 	case IPMSG_RELEASEFILES:	// 添付破棄通知
@@ -856,9 +860,9 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	if (!serverShutdown) {
 		DBG(@"Shutdown MessageRecvServer...");
 		serverShutdown = YES;
-		[serverLock lock];	// ロック獲得できるのはサーバスレッド終了後
+		[self.serverLock lock];	// ロック獲得できるのはサーバスレッド終了後
 		DBG(@"MessageRecvServer finished.");
-		[serverLock unlock];
+		[self.serverLock unlock];
 		if (sockUDP != -1) {
 			close(sockUDP);
 			sockUDP = -1;
@@ -871,7 +875,8 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 // メッセージ受信スレッド
 - (void)serverThread:(NSArray*)portArray
 {
-	NSAutoreleasePool*	pool = [[NSAutoreleasePool alloc] init];
+	
+    @autoreleasepool {
 	fd_set				fdSet;
 	struct timeval		tv;
 	int					ret;
@@ -879,7 +884,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 																sendPort:[portArray objectAtIndex:1]];
 	id					proxy = [conn rootProxy];
 
-	[serverLock lock];
+	[self.serverLock lock];
 
 	DBG(@"MessageRecvThread start.");
 	while (!serverShutdown) {
@@ -904,26 +909,24 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	}
 	DBG(@"MessageRecvThread end.");
 
-	[serverLock unlock];
-
-	[conn release];
-	[pool release];
+	[self.serverLock unlock];
+    }
 }
 
 /*----------------------------------------------------------------------------*
  * 情報取得関連
  *----------------------------------------------------------------------------*/
 
-- (NSInteger)myPortNo {
-	return myPortNo;
-}
-
-- (NSString*)myHostName {
-	if (myHostName) {
-		return myHostName;
-	}
-	return @"";
-}
+//- (NSInteger)myPortNo {
+//	return myPortNo;
+//}
+//
+//- (NSString*)myHostName {
+//	if (myHostName) {
+//		return myHostName;
+//	}
+//	return @"";
+//}
 
 /*----------------------------------------------------------------------------*
  * メッセージ解析関連
@@ -1022,7 +1025,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	// UTF-8文字列
 	[utf8Str appendFormat:@"UN:%@\n", NSUserName()];
-	[utf8Str appendFormat:@"HN:%@\n", myHostName];
+	[utf8Str appendFormat:@"HN:%@\n", _myHostName];
 	[utf8Str appendFormat:@"NN:%@%@\n", user, absence];
 	if ([group length] > 0) {
 		[utf8Str appendFormat:@"GN:%@\n", group];
@@ -1037,14 +1040,13 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 - (BOOL)updateHostName
 {
 	CFStringRef		key		= SCDynamicStoreKeyCreateHostNames(NULL);
-	NSDictionary*	newVal	= [(NSDictionary*)SCDynamicStoreCopyValue(scDynStore, key) autorelease];
+    NSDictionary*	newVal	= (NSDictionary*)CFBridgingRelease(SCDynamicStoreCopyValue(scDynStore, key));
 	CFRelease(key);
 	if (newVal) {
 		NSString* newName = [newVal objectForKey:(NSString*)kSCPropNetLocalHostName];
 		if (newName) {
-			if (![newName isEqualToString:myHostName]) {
-				[myHostName autorelease];
-				myHostName = [newName copy];
+			if (![newName isEqualToString:_myHostName]) {
+				self.myHostName = [newName copy];
 				return YES;
 			}
 		}
@@ -1070,8 +1072,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	switch (state) {
 		case _NET_LINK_LOST:
 			// クリアして復帰
-			[scKeyIFIPv4 release];
-			scKeyIFIPv4	= nil;
+			self.scKeyIFIPv4	= nil;
 			myIPAddress	= 0;
 			return _NET_LINK_LOST;
 		case _NET_NO_CHANGE_IN_UNLINK:
@@ -1084,16 +1085,14 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		case _NET_LINK_GAINED:
 		case _NET_PRIMARY_IF_CHANGED:
 			// リンクの検出またはNICの切り替えが発生したので一度クリアする
-			[scKeyIFIPv4 release];
-			scKeyIFIPv4	= nil;
+			self.scKeyIFIPv4	= nil;
 			myIPAddress	= 0;
 			break;
 		default:
 			ERR(@"Invalid change status(%d)", state);
-			[scKeyIFIPv4 release];
-			scKeyIFIPv4	= nil;
+			self.scKeyIFIPv4	= nil;
 			myIPAddress	= 0;
-			if (!primaryNIC) {
+			if (!_primaryNIC) {
 				// リンク消失扱いにして復帰
 				return _NET_LINK_LOST;
 			} else {
@@ -1104,31 +1103,28 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	}
 
 	// State:/Network/Interface/<PrimaryNetworkInterface>/IPv4 キー編集
-	if (!scKeyIFIPv4) {
+	if (!_scKeyIFIPv4) {
 		key = SCDynamicStoreKeyCreateNetworkInterfaceEntity(NULL,
 															kSCDynamicStoreDomainState,
-															(CFStringRef)primaryNIC,
+															(CFStringRef)_primaryNIC,
 															kSCEntNetIPv4);
 		if (!key) {
 			// 内部エラー
-			ERR(@"Edit Key error (if=%@)", primaryNIC);
-			[primaryNIC release];
-			primaryNIC	= nil;
+			ERR(@"Edit Key error (if=%@)", _primaryNIC);
+			self.primaryNIC	= nil;
 			myIPAddress	= 0;
 			return _NET_LINK_LOST;
 		}
-		scKeyIFIPv4 = (NSString*)key;
+        self.scKeyIFIPv4 = (__bridge NSString*)key;
 	}
 
 	// State:/Network/Interface/<PrimaryNetworkInterface>/IPv4 取得
-	value = (CFDictionaryRef)SCDynamicStoreCopyValue(scDynStore, (CFStringRef)scKeyIFIPv4);
+	value = (CFDictionaryRef)SCDynamicStoreCopyValue(scDynStore, (CFStringRef)_scKeyIFIPv4);
 	if (!value) {
 		// 値なし（ありえないはず）
-		ERR(@"value get error (%@)", scKeyIFIPv4);
-		[primaryNIC release];
-		[scKeyIFIPv4 release];
-		primaryNIC	= nil;
-		scKeyIFIPv4	= nil;
+		ERR(@"value get error (%@)", _scKeyIFIPv4);
+		self.primaryNIC	= nil;
+		self.scKeyIFIPv4	= nil;
 		myIPAddress	= 0;
 		return _NET_LINK_LOST;
 	}
@@ -1137,12 +1133,10 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	addrs = (CFArrayRef)CFDictionaryGetValue(value, kSCPropNetIPv4Addresses);
 	if (!addrs) {
 		// プロパティなし
-		ERR(@"prop get error (%@ in %@)", (NSString*)kSCPropNetIPv4Addresses, scKeyIFIPv4);
+		ERR(@"prop get error (%@ in %@)", (NSString*)kSCPropNetIPv4Addresses, self.scKeyIFIPv4);
 		CFRelease(value);
-		[primaryNIC release];
-		[scKeyIFIPv4 release];
-		primaryNIC	= nil;
-		scKeyIFIPv4	= nil;
+		self.primaryNIC	= nil;
+		self.scKeyIFIPv4	= nil;
 		myIPAddress	= 0;
 		return _NET_LINK_LOST;
 	}
@@ -1152,20 +1146,16 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	if (!addr) {
 		ERR(@"[0] not exist (in %@)", (NSString*)kSCPropNetIPv4Addresses);
 		CFRelease(value);
-		[primaryNIC release];
-		[scKeyIFIPv4 release];
-		primaryNIC	= nil;
-		scKeyIFIPv4	= nil;
+		self.primaryNIC	= nil;
+		self.scKeyIFIPv4	= nil;
 		myIPAddress	= 0;
 		return _NET_LINK_LOST;
 	}
 	if (inet_aton([addr UTF8String], &inAddr) == 0) {
 		ERR(@"IP Address format error(%@)", addr);
 		CFRelease(value);
-		[primaryNIC release];
-		[scKeyIFIPv4 release];
-		primaryNIC	= nil;
-		scKeyIFIPv4	= nil;
+		self.primaryNIC	= nil;
+		self.scKeyIFIPv4	= nil;
 		myIPAddress	= 0;
 		return _NET_LINK_LOST;
 	}
@@ -1204,14 +1194,14 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	// State:/Network/Global/IPv4 を取得
 	value = (CFDictionaryRef)SCDynamicStoreCopyValue(scDynStore,
-													 (CFStringRef)scKeyNetIPv4);
+													 (CFStringRef)_scKeyNetIPv4);
 	if (!value) {
 		// キー自体がないのは、すべてのネットワークI/FがUnlink状態
-		if (primaryNIC) {
+		if (_primaryNIC) {
 			// いままではあったのに無くなった
 			DBG(@"All Network I/F becomes unlinked");
-			[primaryNIC release];
-			primaryNIC = nil;
+			
+			self.primaryNIC = nil;
 			return _NET_LINK_LOST;
 		}
 		// もともと無いので変化なし
@@ -1225,11 +1215,10 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		// この状況が発生するのか不明（ありえないと思われる）
 		ERR(@"Not exist prop %@", kSCDynamicStorePropNetPrimaryInterface);
 		CFRelease(value);
-		if (primaryNIC) {
+		if (_primaryNIC) {
 			// いままではあったのに無くなった
 			DBG(@"All Network I/F becomes unlinked");
-			[primaryNIC release];
-			primaryNIC = nil;
+			self.primaryNIC = nil;
 			return _NET_LINK_LOST;
 		}
 		// もともと無いので変化なし
@@ -1239,18 +1228,17 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	CFRetain(primaryIF);
 	CFRelease(value);
 
-	if (!primaryNIC) {
+	if (!_primaryNIC) {
 		// ネットワークが無い状態からある状態になった
-		primaryNIC = (NSString*)primaryIF;
+        self.primaryNIC = (__bridge NSString*)primaryIF;
 		DBG(@"A Network I/F becomes linked");
 		return _NET_LINK_GAINED;
 	}
 
-	if (![primaryNIC isEqualToString:(NSString*)primaryIF]) {
+    if (![_primaryNIC isEqualToString:(__bridge NSString*)primaryIF]) {
 		// 既にあるが変わった
-		DBG(@"Primary Network I/F changed(%@ -> %@)", primaryNIC, (NSString*)primaryIF);
-		[primaryNIC autorelease];
-		primaryNIC = (NSString*)primaryIF;
+        DBG(@"Primary Network I/F changed(%@ -> %@)", _primaryNIC, (NSString*)CFBridgingRelease(primaryIF));
+        self.primaryNIC = (__bridge NSString*)primaryIF;
 		return _NET_PRIMARY_IF_CHANGED;
 	}
 
@@ -1265,7 +1253,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	unsigned i;
 	for (i = 0; i < [changedKeys count]; i++) {
 		NSString* key = (NSString*)[changedKeys objectAtIndex:i];
-		if ([key isEqualToString:scKeyNetIPv4]) {
+		if ([key isEqualToString:_scKeyNetIPv4]) {
 			_NetUpdateState			ret;
 			NSNotificationCenter*	nc;
 			DBG(@"<SC>NetIFStatus changed (key[%d]:%@)", i, key);
@@ -1308,7 +1296,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 					ERR(@" Unknown Status(%d)", ret);
 					break;
 			}
-		} else if ([key isEqualToString:scKeyHostName]) {
+		} else if ([key isEqualToString:_scKeyHostName]) {
 			if ([self updateHostName]) {
 				DBG(@"<SC>HostName changed (key[%d]:%@)", i, key);
 				[[NSNotificationCenter defaultCenter] postNotificationName:NOTICE_HOSTNAME_CHANGED
@@ -1331,6 +1319,6 @@ void _DynamicStoreCallback(SCDynamicStoreRef	store,
 						   CFArrayRef			changedKeys,
 						   void*				info)
 {
-	MessageCenter* self = (MessageCenter*)info;
-	[self systemConfigurationUpdated:(NSArray*)changedKeys];
+    MessageCenter* self = (__bridge MessageCenter*)info;
+    [self systemConfigurationUpdated:(__bridge NSArray*)changedKeys];
 }

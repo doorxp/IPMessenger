@@ -126,7 +126,8 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 @synthesize sendSearchByHostName		= _sndSearchHost;
 @synthesize sendSearchByLogOnName		= _sndSearchLogon;
 @synthesize receiveWindowSize			= _rcvWinSize;
-
+@synthesize sendMessageFont             = _sendMessageFont;
+@synthesize absenceIndex                = _absenceIndex;
 /*----------------------------------------------------------------------------*
  * ファクトリ
  *----------------------------------------------------------------------------*/
@@ -241,7 +242,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 		[mutableDic setObject:NSLocalizedString(key2, nil) forKey:@"Message"];
 		[mutableArray addObject:mutableDic];
 	}
-	_defaultAbsences = [[NSArray alloc] initWithArray:mutableArray];
+	self.defaultAbsences = [[NSArray alloc] initWithArray:mutableArray];
 	#if IPMSG_LOG_TRC
 		// デバッグ用ログ出力
     TRC(@"defaultAbsences[%lu]=(", (unsigned long)[_defaultAbsences count]);
@@ -257,9 +258,9 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	// フォントのデフォルト値
 	str		= NSLocalizedString(@"Message.DefaultFontName", nil);
 	fVal	= 12;
-	_defaultMessageFont	= [[NSFont fontWithName:str size:fVal] retain];
+	self.defaultMessageFont	= [NSFont fontWithName:str size:fVal];
 	if (!_defaultMessageFont) {
-		_defaultMessageFont = [[NSFont systemFontOfSize:[NSFont systemFontSize]] retain];
+		self.defaultMessageFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
 	}
 	TRC(@"defaultMessageFont=%@", _defaultMessageFont);
 
@@ -272,8 +273,8 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	self.portNo						= [defaults integerForKey:NET_PORT_NO];
 	self.dialup						= [defaults boolForKey:NET_DIALUP];
 	dic								= [defaults dictionaryForKey:NET_BROADCAST];
-	_broadcastHostList				= [[NSMutableArray alloc] initWithArray:[dic objectForKey:@"Host"]];
-	_broadcastIPList				= [[NSMutableArray alloc] initWithArray:[dic objectForKey:@"IPAddress"]];
+	self.broadcastHostList				= [[NSMutableArray alloc] initWithArray:[dic objectForKey:@"Host"]];
+	self.broadcastIPList				= [[NSMutableArray alloc] initWithArray:[dic objectForKey:@"IPAddress"]];
     
     if (_broadcastIPList && ![_broadcastIPList containsObject:@"192.168.1.255"])
     {
@@ -311,11 +312,11 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	if (!array) {
 		array						= _defaultAbsences;
 	}
-	_absenceList					= [[NSMutableArray alloc] initWithArray:array];
+	self.absenceList					= [[NSMutableArray alloc] initWithArray:array];
 	self.absenceIndex				= -1;
 	// 通知拒否
 	array							= [defaults arrayForKey:REFUSE];
-	_refuseList						= [[self convertRefuseDefaultsToInfo:array] retain];
+    self.refuseList						= [self convertRefuseDefaultsToInfo:array];
 	// ログ
 	self.standardLogEnabled			= [defaults boolForKey:LOG_STD_ON];
 	self.logChainedWhenOpen			= [defaults boolForKey:LOG_STD_CHAIN];
@@ -335,7 +336,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	self.sendSearchByLogOnName		= [defaults boolForKey:SNDSEARCH_LOGON];
     self.sendSearchByUserAlpha      = [defaults boolForKey:SNDSEARCH_ALPHA];
     self.sendSearchByPinying        = [defaults boolForKey:SNDSEARCH_PINYING];
-	_sendUserListColDisp			= [[NSMutableDictionary alloc] init];
+	self.sendUserListColDisp			= [[NSMutableDictionary alloc] init];
 	dic								= [defaults dictionaryForKey:SNDWIN_USERLIST_COL];
 	if (dic) {
 		[_sendUserListColDisp setDictionary:dic];
@@ -427,25 +428,44 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 // 解放
 - (void)dealloc
 {
-	[_userName release];
-	[_groupName release];
-	[_password release];
-	[_quoteString release];
-	[_absenceList release];
-	[_refuseList release];
-	[_sendMessageFont release];
-	[_sendUserListColDisp release];
-	[_receiveSound release];
-	[_receiveMessageFont release];
-	[_standardLogFile release];
-	[_alternateLogFile release];
-	[_defaultMessageFont release];
-	[_defaultAbsences release];
+    
+    self.userName=nil;
+    self.groupName=nil;
+    self.password=nil;
+    self.quoteString=nil;
+    self.absenceList=nil;
+    self.refuseList=nil;
+    self.sendMessageFont=nil;
+//    self.sendUserListColDisp=nil;
+//    self.receiveSound=nil;
+    self.receiveMessageFont=nil;
+    self.standardLogFile=nil;
+    self.alternateLogFile=nil;
+    self.defaultMessageFont=nil;
+    self.defaultAbsences=nil;
 
-	[_broadcastHostList release];
-	[_broadcastIPList release];
-	[_broadcastAddresses release];
-	[super dealloc];
+    self.broadcastHostList=nil;
+    self.broadcastIPList=nil;
+    self.broadcastAddresses=nil;
+//	[_userName release];
+//	[_groupName release];
+//	[_password release];
+//	[_quoteString release];
+//	[_absenceList release];
+//	[_refuseList release];
+//	[_sendMessageFont release];
+//	[_sendUserListColDisp release];
+//	[_receiveSound release];
+//	[_receiveMessageFont release];
+//	[_standardLogFile release];
+//	[_alternateLogFile release];
+//	[_defaultMessageFont release];
+//	[_defaultAbsences release];
+//
+//	[_broadcastHostList release];
+//	[_broadcastIPList release];
+//	[_broadcastAddresses release];
+//	[super dealloc];
 }
 
 /*----------------------------------------------------------------------------*
@@ -641,15 +661,15 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 
 - (NSFont*)sendMessageFont
 {
-	return (_sendMessageFont) ? _sendMessageFont : _defaultMessageFont;
+	return (_sendMessageFont) ? _sendMessageFont : self.defaultMessageFont;
 }
 
-- (void)setSendMessageFont:(NSFont*)font
-{
-	[font retain];
-	[_sendMessageFont release];
-	_sendMessageFont = font;
-}
+//- (void)setSendMessageFont:(NSFont*)font
+//{
+//	[font retain];
+//	[_sendMessageFont release];
+//	_sendMessageFont = font;
+//}
 
 // ユーザリスト表示項目
 - (BOOL)sendWindowUserListColumnHidden:(id)identifier
@@ -675,16 +695,15 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 // 受信音
 - (NSString*)receiveSoundName
 {
-	return [_receiveSound name];
+	return [self.receiveSound name];
 }
 
 - (void)setReceiveSoundName:(NSString*)soundName
 {
-	[_receiveSound autorelease];
-	_receiveSound = nil;
+	self.receiveSound = nil;
 	if (soundName) {
 		if ([soundName length] > 0) {
-			_receiveSound = [[NSSound soundNamed:soundName] retain];
+			self.receiveSound = [NSSound soundNamed:soundName];
 		}
 	}
 }
@@ -700,12 +719,12 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	return (_receiveMessageFont) ? _receiveMessageFont : _defaultMessageFont;
 }
 
-- (void)setReceiveMessageFont:(NSFont*)font
-{
-	[font retain];
-	[_receiveMessageFont release];
-	_receiveMessageFont = font;
-}
+//- (void)setReceiveMessageFont:(NSFont*)font
+//{
+//	[font retain];
+//	[_receiveMessageFont release];
+//	_receiveMessageFont = font;
+//}
 
 /*----------------------------------------------------------------------------*
  * 「不在」関連
@@ -791,10 +810,9 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 - (void)upAbsenceAtIndex:(NSUInteger)index
 {
 	@try {
-		id obj = [[_absenceList objectAtIndex:index] retain];
+		id obj = [_absenceList objectAtIndex:index];
 		[_absenceList removeObjectAtIndex:index];
 		[_absenceList insertObject:obj atIndex:index - 1];
-		[obj release];
 	} @catch (NSException* exception) {
 		ERR(@"%@(index=%lu)", exception, index);
 	}
@@ -803,10 +821,9 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 - (void)downAbsenceAtIndex:(NSUInteger)index
 {
 	@try {
-		id obj = [[_absenceList objectAtIndex:index] retain];
+		id obj = [_absenceList objectAtIndex:index];
 		[_absenceList removeObjectAtIndex:index];
 		[_absenceList insertObject:obj atIndex:index + 1];
-		[obj release];
 	} @catch (NSException* exception) {
 		ERR(@"%@(index=%lu)", exception, index);
 	}
@@ -829,7 +846,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 
 - (BOOL)inAbsence
 {
-	return (_absenceIndex >= 0);
+	return (self.absenceIndex >= 0);
 }
 
 - (NSInteger)absenceIndex
@@ -897,10 +914,9 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 - (void)upRefuseInfoAtIndex:(NSUInteger)index
 {
 	@try {
-		id obj = [[_refuseList objectAtIndex:index] retain];
+		id obj = [_refuseList objectAtIndex:index];
 		[_refuseList removeObjectAtIndex:index];
 		[_refuseList insertObject:obj atIndex:index - 1];
-		[obj release];
 	} @catch (NSException* exception) {
 		ERR(@"%@(index=%lu)", exception, index);
 	}
@@ -909,10 +925,9 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 - (void)downRefuseInfoAtIndex:(NSUInteger)index
 {
 	@try {
-		id obj = [[_refuseList objectAtIndex:index] retain];
+		id obj = [_refuseList objectAtIndex:index];
 		[_refuseList removeObjectAtIndex:index];
 		[_refuseList insertObject:obj atIndex:index + 1];
-		[obj release];
 	} @catch (NSException* exception) {
 		ERR(@"%@(index=%lu)", exception, index);
 	}

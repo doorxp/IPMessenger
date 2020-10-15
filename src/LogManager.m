@@ -63,7 +63,6 @@ static NSString* _HEAD_END		= @"-------------------------------------\n";
 	if (self) {
 		if (!path) {
 			ERR(@"Param Error(path is null)");
-			[self release];
 			return nil;
 		}
 		_fileManager		= [[NSFileManager alloc] init];
@@ -83,13 +82,13 @@ static NSString* _HEAD_END		= @"-------------------------------------\n";
 }
 
 // 解放
-- (void)dealloc
-{
-	[_fileManager release];
-	[_filePath release];
-	[_dateFormat release];
-	[super dealloc];
-}
+//- (void)dealloc
+//{
+//	[_fileManager release];
+//	[_filePath release];
+//	[_dateFormat release];
+//	[super dealloc];
+//}
 
 /*============================================================================*
  * ログ出力
@@ -150,7 +149,7 @@ static NSString* _HEAD_END		= @"-------------------------------------\n";
 		[msg appendString:@"\n"];
 	}
 	[msg appendString:@"  at "];
-	[msg appendString:[_dateFormat stringFromDate:[NSCalendarDate date]]];
+	[msg appendString:[_dateFormat stringFromDate:[NSDate date]]];
 	if ([to count] > 1) {
 		[msg appendString:_sTypeMulticast];
 	}

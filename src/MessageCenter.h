@@ -46,25 +46,36 @@ typedef struct
 {
 	// 送受信関連
 	int						sockUDP;			// ソケットディスクリプタ
-	NSLock*					sockLock;			// ソケット送信排他ロック
-	NSMutableDictionary*	sendList;			// 応答待ちメッセージ一覧（再送用）
-	// 受信サーバ関連
-	NSConnection*			serverConnection;	// メッセージ受信スレッドとのコネクション
-	NSLock*					serverLock;			// サーバ待ち合わせ用ロック
+	
 	BOOL					serverShutdown;		// サーバ停止フラグ
-	// 現在値
-	NSString*				primaryNIC;			// 有線ネットワークインタフェース
+	
 	unsigned long			myIPAddress;		// ローカルホストアドレス
-	NSInteger				myPortNo;			// ソケットポート番号
-	NSString*				myHostName;			// コンピュータ名
+//	NSInteger				myPortNo;			// ソケットポート番号
+	
 	// DynamicStore関連
 	CFRunLoopSourceRef		runLoopSource;		// Run Loop Source Obj for SC Notification
 	SCDynamicStoreRef		scDynStore;			// DynamicStore
 	SCDynamicStoreContext	scDSContext;		// DynamicStoreContext
-	NSString*				scKeyHostName;		// DynamicStore Key [for LocalHostName]
-	NSString*				scKeyNetIPv4;		// DynamicStore Key [for Global IPv4]
-	NSString*				scKeyIFIPv4;		// DynamicStore Key [for IF IPv4 Address]
+	
 }
+
+
+@property(nonatomic, readwrite)   NSInteger                myPortNo;            // ソケットポート番号
+
+@property(nonatomic, strong)  NSString*                scKeyHostName;        // DynamicStore Key [for LocalHostName]
+@property(nonatomic, strong)  NSString*                scKeyNetIPv4;        // DynamicStore Key [for Global IPv4]
+@property(nonatomic, strong)  NSString*                scKeyIFIPv4;        // DynamicStore Key [for IF IPv4 Address]
+
+@property(nonatomic, strong)  NSString*                myHostName;            // コンピュータ名
+
+// 現在値
+@property(nonatomic, strong)  NSString*                primaryNIC;            // 有線ネットワークインタフェース
+
+@property(nonatomic, strong)  NSLock*                    sockLock;            // ソケット送信排他ロック
+@property(nonatomic, strong)  NSMutableDictionary*    sendList;            // 応答待ちメッセージ一覧（再送用）
+// 受信サーバ関連
+@property(nonatomic, strong)  NSConnection*            serverConnection;    // メッセージ受信スレッドとのコネクション
+@property(nonatomic, strong)  NSLock*                    serverLock;            // サーバ待ち合わせ用ロック
 
 // ファクトリ
 + (MessageCenter*)sharedCenter;

@@ -14,13 +14,13 @@
 
 @interface AttachmentFile : NSObject
 {
-	NSString*		_name;
-	NSString*		_nameEscaped;
-	NSString*		_path;
-	UInt64			_size;
-	UInt32			_attribute;
-	NSDate*			_createTime;
-	NSDate*			_modifyTime;
+//	NSString*		_name;
+//	NSString*		_nameEscaped;
+//	NSString*		_path;
+//	UInt64			_size;
+//	UInt32			_attribute;
+//	NSDate*			_createTime;
+//	NSDate*			_modifyTime;
 
 	OSType				hfsFileType;		// ファイルタイプ
 	OSType				hfsCreator;			// クリエータコード
@@ -28,6 +28,9 @@
 	unsigned			permission;			// POSIXファイルアクセス権
 	NSFileHandle*		handle;				// 出力ハンドル
 }
+
+@property (nonatomic, strong)NSString*        nameEscaped;
+@property (nonatomic, strong)NSFileHandle*        handle;                // 出力ハンドル
 
 @property(readonly)			NSString*	name;			// ファイル名
 @property(readonly)			NSString*	path;			// ファイルパス

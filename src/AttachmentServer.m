@@ -172,13 +172,13 @@ typedef struct {
 // 解放
 - (void)dealloc {
 // 全タイマストップは？
-	[attachDic release];
-	[lockObj release];
-	[serverLock release];
+//	[attachDic release];
+//	[lockObj release];
+//	[serverLock release];
 	if (serverSock != -1) {
 		close(serverSock);
 	}
-	[super dealloc];
+//	[super dealloc];
 }
 
 /*----------------------------------------------------------------------------*
@@ -486,7 +486,7 @@ typedef struct {
 
 // 要求受付スレッド
 - (void)serverThread:(id)obj {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
 	struct sockaddr_in	clientAddr;
 	socklen_t			len = sizeof(clientAddr);
 	fd_set				fdSet;
@@ -527,13 +527,14 @@ typedef struct {
 	DBG(@"ServerThread end.");
 
 	[serverLock unlock];
-	[pool release];
+    }
 }
 
 // ファイル送信スレッド
 - (void)attachSendThread:(id)obj
 {
-	NSAutoreleasePool*	pool	= [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
+
 	int					sock	= [[obj objectAtIndex:0] intValue];		// 送信ソケットディスクリプタ
 	UInt32				ipAddr;
 	UInt16				ipPort;
@@ -554,7 +555,6 @@ typedef struct {
 	// パラメタチェック
 	if (sock < 0) {
 		ERR(@"no socket(%d)", sock);
-		[pool release];
 		[NSThread exit];
 	}
 
@@ -680,7 +680,7 @@ typedef struct {
 
 	close(sock);
 	DBG(@"finish.(fd=%d)", sock);
-	[pool release];
+    }
 }
 
 // ディレクトリ送信

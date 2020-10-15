@@ -26,14 +26,13 @@
 
 	self = [super init];
 	// nibファイルロード
-	if (![NSBundle loadNibNamed:@"NoticeDialog.nib" owner:self]) {
-		[self autorelease];
+	if (![NSBundle.mainBundle loadNibNamed:@"NoticeDialog" owner:self topLevelObjects:nil]) {
 		return nil;
 	}
 	// 表示文字列設定
 	[titleLabel		setStringValue:title];
 	[messageLabel	setStringValue:msg];
-	[dateLabel		setObjectValue:((date) ? date : [NSCalendarDate date])];
+	[dateLabel		setObjectValue:((date) ? date : [NSDate date])];
 
 	// 画面表示位置計算
 	sw	= [[NSScreen mainScreen] visibleFrame].size.width;
@@ -59,7 +58,7 @@
 
 // ウィンドウクローズ時処理
 - (void)windowWillClose:(NSNotification*)aNotification {
-	[self release];
+	
 }
 
 @end

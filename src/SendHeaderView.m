@@ -32,7 +32,7 @@
 	gradient	= [[NSGradient alloc] initWithColors:colorArray];
 
 	[gradient drawInRect:rect angle:-90.0];
-	[gradient release];
+//	[gradient release];
 
 	// 下線描画
 	NSBezierPath*	path;

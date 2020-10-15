@@ -11,9 +11,9 @@
 
 @interface RetryInfo()
 @property(assign,readwrite)	UInt32		command;
-@property(assign,readwrite)	UserInfo*	toUser;
-@property(assign,readwrite)	NSString*	message;
-@property(assign,readwrite)	NSString*	option;
+@property(nonatomic,strong)	UserInfo*	toUser;
+@property(nonatomic,strong)	NSString*	message;
+@property(nonatomic,strong)	NSString*	option;
 @end
 
 /*============================================================================*
@@ -37,7 +37,7 @@
 					  message:(NSString*)msg
 					   option:(NSString*)opt
 {
-	return [[[RetryInfo alloc] initWithCommand:cmd to:to message:msg option:opt] autorelease];
+	return [[RetryInfo alloc] initWithCommand:cmd to:to message:msg option:opt];
 }
 
 /*----------------------------------------------------------------------------*
@@ -53,9 +53,9 @@
 	self = [super init];
 	if (self) {
 		self.command	= cmd;
-		self.toUser		= [to retain];
-		self.message	= [msg retain];
-		self.option		= [opt retain];
+		self.toUser		= to;
+		self.message	= msg;
+		self.option		= opt;
 		self.retryCount	= 0;
 	}
 	return self;
@@ -64,10 +64,14 @@
 // 解放
 - (void)dealloc
 {
-	[_toUser release];
-	[_message release];
-	[_option release];
-	[super dealloc];
+//	[_toUser release];
+//	[_message release];
+//	[_option release];
+//	[super dealloc];
+    
+    self.command    = nil;
+    self.toUser        = nil;
+    self.message    = nil;
 }
 
 @end

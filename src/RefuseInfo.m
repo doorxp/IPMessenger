@@ -27,9 +27,9 @@
 					string:(NSString*)aString
 				 condition:(IPRefuseCondition)aCondition
 {
-	return [[[RefuseInfo alloc] initWithTarget:aTarget
+	return [[RefuseInfo alloc] initWithTarget:aTarget
 										string:aString
-									 condition:aCondition] autorelease];
+									 condition:aCondition];
 }
 
 /*----------------------------------------------------------------------------*
@@ -53,8 +53,9 @@
 // 解放
 - (void)dealloc
 {
-	[_string release];
-	[super dealloc];
+//	[_string release];
+//	[super dealloc];
+    self.string = nil;
 }
 
 /*----------------------------------------------------------------------------*

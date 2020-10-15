@@ -21,8 +21,7 @@
 	self = [super init];
 
 	// nibファイルロード
-	if (![NSBundle loadNibNamed:@"PortChangeDialog.nib" owner:self]) {
-		[self autorelease];
+	if (![NSBundle.mainBundle loadNibNamed:@"PortChangeDialog" owner:self topLevelObjects:nil]) {
 		return nil;
 	}
 	[portNoField setObjectValue:[NSNumber numberWithInteger:[Config sharedConfig].portNo]];
@@ -66,7 +65,6 @@
 
 // ウィンドウクローズ時処理
 - (void)windowWillClose:(NSNotification*)aNotification {
-	[self release];
 }
 
 

@@ -34,12 +34,12 @@
 
 + (id)attachmentWithFile:(AttachmentFile*)attach
 {
-	return [[[Attachment alloc] initWithFile:attach] autorelease];
+	return [[Attachment alloc] initWithFile:attach];
 }
 
 + (id)attachmentWithMessage:(NSString*)str
 {
-	return [[[Attachment alloc] initWithMessage:str] autorelease];
+	return [[Attachment alloc] initWithMessage:str];
 }
 
 /*----------------------------------------------------------------------------*
@@ -78,14 +78,14 @@
 }
 
 // 解放
-- (void)dealloc
-{
-	[_fileID release];
-	[_file release];
-	[_icon release];
-	[_sentUsers release];
-	[super dealloc];
-}
+//- (void)dealloc
+//{
+//	[_fileID release];
+//	[_file release];
+//	[_icon release];
+//	[_sentUsers release];
+//	[super dealloc];
+//}
 
 /*----------------------------------------------------------------------------*
  * 送信ユーザ管理
@@ -138,11 +138,11 @@
 {
 	Attachment* newObj = [[self class] allocWithZone:zone];
 	if (newObj) {
-		newObj->_fileID		= [self->_fileID retain];
-		newObj->_file		= [self->_file retain];
-		newObj->_icon		= [self->_icon retain];
-		newObj->_download	= self->_download;
-		newObj->_sentUsers	= [self->_sentUsers retain];
+		newObj.fileID		= self.fileID;
+		newObj.file		= self.file;
+		newObj.icon		= self.icon;
+		newObj.isDownloaded	= self.isDownloaded;
+		newObj.sentUsers	= self.sentUsers;
 	}
 	return newObj;
 }

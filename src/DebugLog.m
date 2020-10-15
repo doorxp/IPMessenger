@@ -24,10 +24,13 @@ void IPMsgLog(NSString* level, const char* file, int line, const char* func, NSS
 	NSString*				str;
 	const char*				pFile;
 	if (!format) {
+        format = [NSDateFormatter new];
 #if LOG_SHOW_DATE
-		format = [[NSDateFormatter alloc] initWithDateFormat:@"%Y/%m/%d %H:%M:%S.%F" allowNaturalLanguage:NO];
+//		format = [[NSDateFormatter alloc] initWithDateFormat:@"%Y/%m/%d %H:%M:%S.%F" allowNaturalLanguage:NO];
+        [format setDateFormat:@"%Y/%m/%d %H:%M:%S.%F"];
 #else
-		format = [[NSDateFormatter alloc] initWithDateFormat:@"%H:%M:%S.%F" allowNaturalLanguage:NO];
+        [format setDateFormat:@"%H:%M:%S.%F"];
+//		format = [[NSDateFormatter alloc] initWithDateFormat:@"%H:%M:%S.%F" allowNaturalLanguage:NO];
 #endif
 	}
 	if (!writeLock) {

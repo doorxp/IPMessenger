@@ -38,16 +38,18 @@
 // 初期化
 - (id)init {
 	self = [super init];
-	receiveDic	= [[NSMutableDictionary alloc] init];
-	replyDic	= [[NSMutableDictionary alloc] init];
+	self.receiveDic	= [[NSMutableDictionary alloc] init];
+    self.replyDic	= [[NSMutableDictionary alloc] init];
 	return self;
 }
 
 // 解放
 - (void)dealloc {
-	[receiveDic	release];
-	[replyDic	release];
-	[super dealloc];
+//	[receiveDic	release];
+//	[replyDic	release];
+//	[super dealloc];
+    self.receiveDic = nil;
+    self.replyDic = nil;
 }
 
 /*----------------------------------------------------------------------------*
@@ -86,18 +88,18 @@
 
 // 管理する受信ウィンドウ数を返す
 - (NSInteger)numberOfReceiveWindows {
-	return [receiveDic count];
+	return [self.receiveDic count];
 }
 
 // キーに対応する受信ウィンドウを返す
 - (ReceiveControl*)receiveWindowForKey:(id)aKey {
-	return (ReceiveControl*)[receiveDic objectForKey:aKey];
+	return (ReceiveControl*)[self.receiveDic objectForKey:aKey];
 }
 
 // 受信ウィンドウを登録する
 - (void)setReceiveWindow:(ReceiveControl*)aWindow forKey:(id)aKey {
 	if (aKey && aWindow) {
-		[receiveDic setObject:aWindow forKey:aKey];
+		[self.receiveDic setObject:aWindow forKey:aKey];
 	}
 #if _DEBUG_DETAIL
 	[self report:[NSString stringWithFormat:@"WinMng:ReceiveWindow set(%@)", aKey]];
@@ -107,7 +109,7 @@
 // 受信ウィンドウを削除する
 - (void)removeReceiveWindowForKey:(id)aKey {
 	if (aKey) {
-		[receiveDic removeObjectForKey:aKey];
+		[self.receiveDic removeObjectForKey:aKey];
 	}
 #if _DEBUG_DETAIL
 	[self report:[NSString stringWithFormat:@"WinMng:ReceiveWindow remove(%@)", aKey]];
@@ -120,18 +122,18 @@
 
 // 管理する返信ウィンドウ数を返す
 - (NSInteger)numberOfReplyWindows {
-	return [replyDic count];
+	return [self.replyDic count];
 }
 
 // 返信ウィンドウを返す
 - (SendControl*)replyWindowForKey:(id)aKey {
-	return (SendControl*)[replyDic objectForKey:aKey];
+	return (SendControl*)[self.replyDic objectForKey:aKey];
 }
 
 // 返信ウィンドウを登録する
 - (void)setReplyWindow:(SendControl*)aWindow forKey:(id)aKey {
 	if (aKey && aWindow) {
-		[replyDic setObject:aWindow forKey:aKey];
+		[self.replyDic setObject:aWindow forKey:aKey];
 	}
 #if _DEBUG_DETAIL
 	[self report:[NSString stringWithFormat:@"WinMng:ReplyWindow set(%@)", aKey]];
@@ -141,7 +143,7 @@
 // 返信ウィンドウを削除する
 - (void)removeReplyWindowForKey:(id)aKey {
 	if (aKey) {
-		[replyDic removeObjectForKey:aKey];
+		[self.replyDic removeObjectForKey:aKey];
 	}
 #if _DEBUG_DETAIL
 	[self report:[NSString stringWithFormat:@"WinMng:ReplyWindow remove(%@)", aKey]];

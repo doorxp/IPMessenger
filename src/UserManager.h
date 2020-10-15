@@ -21,11 +21,11 @@
  * クラス定義
  *============================================================================*/
 
-@interface UserManager : NSObject {
-	NSMutableArray*		userList;		// ユーザ一覧
-	NSMutableSet*		dialupSet;		// ダイアルアップアドレス一覧
-	NSRecursiveLock*	lock;			// 更新排他用ロック
-}
+@interface UserManager : NSObject
+
+@property(nonatomic, strong) NSMutableArray*        userList;        // ユーザ一覧
+@property(nonatomic, strong) NSMutableSet*        dialupSet;        // ダイアルアップアドレス一覧
+@property(nonatomic, strong) NSRecursiveLock*    lock;            // 更新排他用ロック
 
 // ファクトリ
 + (UserManager*)sharedManager;

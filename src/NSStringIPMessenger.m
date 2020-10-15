@@ -14,7 +14,7 @@
 // IPMessenger用送受信文字列変換（C文字列→NSString)
 + (id)stringWithGB18030String:(const char*)cString
 {
-	return [[[NSString alloc] initWithGB18030String:cString] autorelease];
+	return [[NSString alloc] initWithGB18030String:cString];
 }
 
 // IPMessenger用送受信文字列変換（C文字列→NSString)
@@ -40,7 +40,7 @@
 		// 変換できない文字がある場合は安全な方法で変換する
 		NSData*			data1 = [str dataUsingEncoding:encoding
 								  allowLossyConversion:YES];
-		NSMutableData*	data2 = [[data1 mutableCopy] autorelease];
+		NSMutableData*	data2 = [data1 mutableCopy];
 		[data2 appendBytes:"\0" length:1];
 		return (const char*)[data2 bytes];
 	}

@@ -25,7 +25,7 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 	self = [super init];
 	if (self) {
 		// データのロード
-		[attachTable reloadData];
+        [_attachTable reloadData];
 
 		// 添付リスト変更の通知登録
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -38,25 +38,25 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
+//	[super dealloc];
 }
 
 - (IBAction)buttonPressed:(id)sender {
-	if (sender == deleteButton) {
-		id item = [attachTable itemAtRow:[attachTable selectedRow]];
+    if (sender == _deleteButton) {
+        id item = [_attachTable itemAtRow:[_attachTable selectedRow]];
 		if ([item isKindOfClass:[NSNumber class]]) {
 			if ([AttachmentServer isAvailable]) {
 				[[AttachmentServer sharedServer] removeAttachmentByMessageID:item];
-				[attachTable deselectAll:self];
+                [_attachTable deselectAll:self];
 			}
 		} else if ([item isKindOfClass:[Attachment class]]) {
 			if ([AttachmentServer isAvailable]) {
 				NSInteger	i;
-				for (i = [attachTable selectedRow]; i >= 0; i--) {
-					id val = [attachTable itemAtRow:i];
+                for (i = [_attachTable selectedRow]; i >= 0; i--) {
+                    id val = [_attachTable itemAtRow:i];
 					if ([val isKindOfClass:[NSNumber class]]) {
 						[[AttachmentServer sharedServer] removeAttachmentByMessageID:val fileID:[item fileID]];
-						[attachTable deselectAll:self];
+                        [_attachTable deselectAll:self];
 						break;
 					}
 				}
@@ -65,8 +65,8 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 			if ([AttachmentServer isAvailable]) {
 				NSInteger			i;
 				NSNumber*	fid = nil;
-				for (i = [attachTable selectedRow]; i >= 0; i--) {
-					id val = [attachTable itemAtRow:i];
+                for (i = [_attachTable selectedRow]; i >= 0; i--) {
+                    id val = [_attachTable itemAtRow:i];
 					if ([val isKindOfClass:[Attachment class]]) {
 						if (fid == nil) {
 							fid = [val fileID];
@@ -74,7 +74,7 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 					} else if ([val isKindOfClass:[NSNumber class]]) {
 						if (fid) {
 							[[AttachmentServer sharedServer] removeUser:item messageID:val fileID:fid];
-							[attachTable deselectAll:self];
+                            [_attachTable deselectAll:self];
 						} else {
 							ERR(@"Internal Error(fid is nil)");
 						}
@@ -89,15 +89,17 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 }
 
 - (IBAction)checkboxChanged:(id)sender {
-	if (sender == dispAlwaysCheck) {
-		[panel setHidesOnDeactivate:([dispAlwaysCheck state] == NSOffState)];
+	if (sender == self.dispAlwaysCheck) {
+		[self.panel setHidesOnDeactivate:([self.dispAlwaysCheck state] == NSOffState)];
 	} else {
 		ERR(@"Unknown Checkbox Changed(%@)", sender);
 	}
 }
 
 - (void)attachListChanged:(NSNotification*)aNotification {
-	[attachTable reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.attachTable reloadData];
+    });
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
@@ -164,22 +166,22 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-	[deleteButton setEnabled:([attachTable selectedRow] != -1)];
+    [_deleteButton setEnabled:([_attachTable selectedRow] != -1)];
 }
 
 - (void)windowDidMove:(NSNotification *)aNotification {
-	if ([panel isVisible]) {
+    if ([_panel isVisible]) {
 		NSUserDefaults*	defaults	= [NSUserDefaults standardUserDefaults];
-		NSPoint			origin		= [panel frame].origin;
+        NSPoint			origin		= [_panel frame].origin;
 		[defaults setObject:[NSNumber numberWithFloat:origin.x] forKey:ATTACHPNL_POS_X];
 		[defaults setObject:[NSNumber numberWithFloat:origin.y] forKey:ATTACHPNL_POS_Y];
 	}
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification {
-	if ([panel isVisible]) {
+    if ([_panel isVisible]) {
 		NSUserDefaults*	defaults	= [NSUserDefaults standardUserDefaults];
-		NSSize			size		= [panel frame].size;
+        NSSize			size		= [_panel frame].size;
 		[defaults setObject:[NSNumber numberWithFloat:size.width] forKey:ATTACHPNL_SIZE_W];
 		[defaults setObject:[NSNumber numberWithFloat:size.height] forKey:ATTACHPNL_SIZE_H];
 	}
@@ -200,13 +202,13 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 		windowFrame.size.height	= [sizeHeight floatValue];
 	} else {
 		NSRect screenFrame		= [[NSScreen mainScreen] frame];
-		windowFrame				= [panel frame];
+        windowFrame				= [_panel frame];
 		windowFrame.origin.x	= screenFrame.size.width - windowFrame.size.width - 5;
 		windowFrame.origin.y	= screenFrame.size.height - windowFrame.size.height
 									- [[NSStatusBar systemStatusBar] thickness] - 5;
 	}
-	[panel setFrame:windowFrame display:NO];
-	[panel setFloatingPanel:NO];
+    [_panel setFrame:windowFrame display:NO];
+	[_panel setFloatingPanel:NO];
 }
 
 @end

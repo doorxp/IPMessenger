@@ -15,10 +15,10 @@
  * クラス定義
  *============================================================================*/
 
-@interface WindowManager : NSObject {
-	NSMutableDictionary* receiveDic;	// 受信ウィンドウ一覧
-	NSMutableDictionary* replyDic;		// 返信ウィンドウ一覧
-}
+@interface WindowManager : NSObject
+
+@property(nonatomic, strong) NSMutableDictionary* receiveDic;    // 受信ウィンドウ一覧
+@property(nonatomic, strong) NSMutableDictionary* replyDic;        // 返信ウィンドウ一覧
 
 // ファクトリ
 + (WindowManager*)sharedManager;

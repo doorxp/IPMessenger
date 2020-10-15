@@ -18,7 +18,7 @@
 #import "AttachmentFile.h"
 #import "Attachment.h"
 #import "DebugLog.h"
-
+#import "AppControl.h"
 #include <unistd.h>
 
 /*============================================================================*
@@ -38,12 +38,10 @@
 	self = [super init];
 
 	if (!msg) {
-		[self autorelease];
 		return nil;
 	}
 
-	if (![NSBundle loadNibNamed:@"ReceiveWindow.nib" owner:self]) {
-		[self autorelease];
+	if (![NSBundle.mainBundle loadNibNamed:@"ReceiveWindow" owner:self topLevelObjects:nil]) {
 		return nil;
 	}
 
@@ -56,26 +54,26 @@
 	}
 
 	// 表示内容の設定
-	[dateLabel setObjectValue:msg.receiveDate];
-	[userNameLabel setStringValue:[[msg fromUser] summaryString]];
-	[messageArea setString:[msg appendix]];
+	[self.dateLabel setObjectValue:msg.receiveDate];
+	[self.userNameLabel setStringValue:[[msg fromUser] summaryString]];
+	[self.messageArea setString:[msg appendix]];
 	if ([msg multicast]) {
-		[infoBox setTitle:NSLocalizedString(@"RecvDlg.BoxTitleMulti", nil)];
+		[self.infoBox setTitle:NSLocalizedString(@"RecvDlg.BoxTitleMulti", nil)];
 	} else if ([msg broadcast]) {
-		[infoBox setTitle:NSLocalizedString(@"RecvDlg.BoxTitleBroad", nil)];
+		[self.infoBox setTitle:NSLocalizedString(@"RecvDlg.BoxTitleBroad", nil)];
 	} else if ([msg absence]) {
-		[infoBox setTitle:NSLocalizedString(@"RecvDlg.BoxTitleAbsence", nil)];
+		[self.infoBox setTitle:NSLocalizedString(@"RecvDlg.BoxTitleAbsence", nil)];
 	}
 	if (![msg sealed]) {
-		[sealButton removeFromSuperview];
-		[window makeFirstResponder:messageArea];
+		[self.sealButton removeFromSuperview];
+		[self.window makeFirstResponder:self.messageArea];
 	} else {
-		[replyButton setEnabled:NO];
-		[quotCheck setEnabled:NO];
-		[window makeFirstResponder:sealButton];
+		[self.replyButton setEnabled:NO];
+		[self.quotCheck setEnabled:NO];
+		[self.window makeFirstResponder:self.sealButton];
 	}
 	if ([msg locked]) {
-		[sealButton setTitle:NSLocalizedString(@"RecvDlg.LockBtnStr", nil)];
+		[self.sealButton setTitle:NSLocalizedString(@"RecvDlg.LockBtnStr", nil)];
 	}
 
 	// クリッカブルURL設定
@@ -84,7 +82,7 @@
 		NSScanner*					scanner;
 		NSCharacterSet*				charSet;
 		NSArray*					schemes;
-		attrStr	= [messageArea textStorage];
+		attrStr	= [self.messageArea textStorage];
 		scanner	= [NSScanner scannerWithString:[msg appendix]];
 		charSet	= [NSCharacterSet characterSetWithCharactersInString:NSLocalizedString(@"RecvDlg.URL.Delimiter", nil)];
 		schemes = [NSArray arrayWithObjects:@"http://", @"https://", @"ftp://", @"file://", @"rtsp://", @"afp://", @"mailto:", nil];
@@ -124,39 +122,41 @@
 		}
 	}
 
-	recvMsg = [msg retain];
-	[[WindowManager sharedManager] setReceiveWindow:self forKey:recvMsg];
+    self.recvMsg = msg ;
+	[[WindowManager sharedManager] setReceiveWindow:self forKey:self.recvMsg];
 
-	if (![recvMsg sealed]) {
+	if (![self.recvMsg sealed]) {
 		// 重要ログボタンの有効／無効
 		if (config.alternateLogEnabled) {
-			[altLogButton setEnabled:config.alternateLogEnabled];
+			[self.altLogButton setEnabled:config.alternateLogEnabled];
 		} else {
-			[altLogButton setHidden:YES];
+			[self.altLogButton setHidden:YES];
 		}
 
 		// 添付ボタンの有効／無効
-		if ([[recvMsg attachments] count] > 0) {
-			[attachButton setEnabled:YES];
+		if ([[self.recvMsg attachments] count] > 0) {
+			[self.attachButton setEnabled:YES];
 		}
 	}
 
 	[self setAttachHeader];
-	[attachTable reloadData];
-	[attachTable selectAll:self];
+	[self.attachTable reloadData];
+	[self.attachTable selectAll:self];
 
-	downloader = nil;
-	pleaseCloseMe = NO;
-	attachSheetRefreshTimer = nil;
+    self.downloader = nil;
+    self.pleaseCloseMe = NO;
+    self.attachSheetRefreshTimer = nil;
 
 	return self;
 }
 
 // 解放処理
 - (void)dealloc {
-	[recvMsg release];
-	[downloader release];
-	[super dealloc];
+    self.recvMsg = nil;
+    self.downloader = nil;
+//	[recvMsg release];
+//	[downloader release];
+//	[super dealloc];
 }
 
 /*----------------------------------------------------------------------------*
@@ -167,16 +167,16 @@
 	NSWindow* orgKeyWin = [NSApp keyWindow];
 	if (orgKeyWin) {
 		if ([[orgKeyWin delegate] isKindOfClass:[SendControl class]]) {
-			[window orderFront:self];
+			[self.window orderFront:self];
 			[orgKeyWin orderFront:self];
 		} else {
-			[window makeKeyAndOrderFront:self];
+			[self.window makeKeyAndOrderFront:self];
 		}
 	} else {
-		[window makeKeyAndOrderFront:self];
+		[self.window makeKeyAndOrderFront:self];
 	}
-	if (([[recvMsg attachments] count] > 0) && ![recvMsg sealed]) {
-		[attachDrawer open];
+	if (([[self.recvMsg attachments] count] > 0) && ![self.recvMsg sealed]) {
+		[self.attachDrawer open];
 	}
 }
 
@@ -185,48 +185,48 @@
  *----------------------------------------------------------------------------*/
 
 - (IBAction)buttonPressed:(id)sender {
-	if (sender == attachSaveButton) {
+	if (sender == self.attachSaveButton) {
 		NSOpenPanel* op = [NSOpenPanel openPanel];
-		[attachSaveButton setEnabled:NO];
+		[self.attachSaveButton setEnabled:NO];
 		[op setCanChooseFiles:NO];
 		[op setCanChooseDirectories:YES];
 		[op setPrompt:NSLocalizedString(@"RecvDlg.Attach.SelectBtn", nil)];
 
-        [op beginSheetModalForWindow:window
+        [op beginSheetModalForWindow:self.window
                    completionHandler:^(NSInteger result)
         {
             [self sheetDidEnd:op
                    returnCode:result
-                  contextInfo:sender];
+                  contextInfo:(__bridge void *)(sender)];
         }];
-	} else if (sender == attachSheetCancelButton) {
-		[downloader stopDownload];
+	} else if (sender == self.attachSheetCancelButton) {
+		[self.downloader stopDownload];
 	} else {
 		DBG(@"Unknown button pressed(%@)", sender);
 	}
 }
 
 - (void)attachTableDoubleClicked:(id)sender {
-	if (sender == attachTable) {
-		[self buttonPressed:attachSaveButton];
+	if (sender == self.attachTable) {
+		[self buttonPressed:self.attachSaveButton];
 	}
 }
 
 // シート終了処理
 - (void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)code contextInfo:(void*)info {
-	if (info == attachSaveButton) {
-		if (code == NSOKButton) {
+    if (info == (__bridge void *)(self.attachSaveButton)) {
+		if (code == NSModalResponseOK) {
 			NSFileManager*	fileManager	= [NSFileManager defaultManager];
 			NSString*		directory	= [[(NSOpenPanel*)sheet directoryURL] relativePath];
-			NSIndexSet*		indexes		= [attachTable selectedRowIndexes];
+			NSIndexSet*		indexes		= [self.attachTable selectedRowIndexes];
 			NSUInteger		index;
-			[downloader release];
-			downloader = [[AttachmentClient alloc] initWithRecvMessage:recvMsg saveTo:directory];
+		
+			self.downloader = [[AttachmentClient alloc] initWithRecvMessage:self.recvMsg saveTo:directory];
 			index = [indexes firstIndex];
 			while (index != NSNotFound) {
 				NSString*	path;
 				Attachment*	attach;
-				attach = [[recvMsg attachments] objectAtIndex:index];
+				attach = [[self.recvMsg attachments] objectAtIndex:index];
 				if (!attach) {
 					index = [indexes indexGreaterThanIndex:index];
 					continue;
@@ -258,7 +258,7 @@
 						break;
 					case NSAlertAlternateReturn:
 						DBG(@"overwrite canceled.");
-						[attachTable deselectRow:index];	// 選択解除
+						[self.attachTable deselectRow:index];	// 選択解除
 						index = [indexes indexGreaterThanIndex:index];
 						continue;
 					default:
@@ -266,66 +266,69 @@
 						break;
 					}
 				}
-				[downloader addTarget:attach];
+				[self.downloader addTarget:attach];
 				index = [indexes indexGreaterThanIndex:index];
 			}
 			[sheet orderOut:self];
-			if ([downloader numberOfTargets] == 0) {
+			if ([self.downloader numberOfTargets] == 0) {
 				WRN(@"downloader has no targets");
-				[downloader release];
-				downloader = nil;
+                self.downloader = nil;
 				return;
 			}
 			// ダウンロード準備（UI）
-			[attachSaveButton setEnabled:NO];
-			[attachTable setEnabled:NO];
-			[attachSheetProgress setIndeterminate:NO];
-			[attachSheetProgress setMaxValue:[downloader totalSize]];
-			[attachSheetProgress setDoubleValue:0];
+			[self.attachSaveButton setEnabled:NO];
+			[self.attachTable setEnabled:NO];
+			[self.attachSheetProgress setIndeterminate:NO];
+			[self.attachSheetProgress setMaxValue:[self.downloader totalSize]];
+			[self.attachSheetProgress setDoubleValue:0];
 			// シート表示
-			[NSApp beginSheet:attachSheet
-			   modalForWindow:window
-				modalDelegate:self
-			   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-				  contextInfo:nil];
+//			[NSApp beginSheet:attachSheet
+//			   modalForWindow:window
+//				modalDelegate:self
+//			   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+//				  contextInfo:nil];
+            
+            [self.window beginSheet:self.attachSheet completionHandler:^(NSModalResponse returnCode) {
+                [self sheetDidEnd:self.attachSheet returnCode:returnCode contextInfo:nil];
+            }];
+            
 			// ダウンロード（スレッド）開始
-			attachSheetRefreshTitle			= NO;
-			attachSheetRefreshFileName		= NO;
-			attachSheetRefreshPercentage	= NO;
-			attachSheetRefreshFileNum		= NO;
-			attachSheetRefreshDirNum		= NO;
-			attachSheetRefreshSize			= NO;
-			[downloader startDownload:self];
-			attachSheetRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
+            self.attachSheetRefreshTitle			= NO;
+            self.attachSheetRefreshFileName		= NO;
+            self.attachSheetRefreshPercentage	= NO;
+            self.attachSheetRefreshFileNum		= NO;
+            self.attachSheetRefreshDirNum		= NO;
+            self.attachSheetRefreshSize			= NO;
+			[self.downloader startDownload:self];
+            self.attachSheetRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
 																	   target:self
 																	 selector:@selector(downloadSheetRefresh:)
 																	 userInfo:nil
 																	  repeats:YES];
 		} else {
-			[attachSaveButton setEnabled:([attachTable numberOfSelectedRows] > 0)];
+			[self.attachSaveButton setEnabled:([self.attachTable numberOfSelectedRows] > 0)];
 		}
-	} else if (sheet == attachSheet) {
-		[attachSheetRefreshTimer invalidate];
-		attachSheetRefreshTimer = nil;
-		[recvMsg removeDownloadedAttachments];
+	} else if (sheet == self.attachSheet) {
+		[self.attachSheetRefreshTimer invalidate];
+        self.attachSheetRefreshTimer = nil;
+		[self.recvMsg removeDownloadedAttachments];
 		[sheet orderOut:self];
-		[attachSaveButton setEnabled:([attachTable numberOfSelectedRows] > 0)];
-		[attachTable reloadData];
+		[self.attachSaveButton setEnabled:([self.attachTable numberOfSelectedRows] > 0)];
+		[self.attachTable reloadData];
 		[self setAttachHeader];
-		[attachTable setEnabled:YES];
-		if ([[recvMsg attachments] count] <= 0) {
+		[self.attachTable setEnabled:YES];
+		if ([[self.recvMsg attachments] count] <= 0) {
 //			[attachDrawer performSelectorOnMainThread:@selector(close:) withObject:self waitUntilDone:YES];
-			[attachDrawer close];
-			[attachButton setEnabled:NO];
+			[self.attachDrawer close];
+			[self.attachButton setEnabled:NO];
 		}
-		[downloader autorelease];
-		downloader = nil;
+        self.downloader = nil;
 	}
-	else if (info == recvMsg) {
+    else if (info == (__bridge void *)(self.recvMsg)) {
 		[sheet orderOut:self];
-		if (code == NSOKButton) {
-			pleaseCloseMe = YES;
-			[window performClose:self];
+		if (code == NSModalResponseOK) {
+            self.pleaseCloseMe = YES;
+			[self.window performClose:self];
 		}
 	}
 }
@@ -337,8 +340,8 @@
 - (BOOL)validateMenuItem:(NSMenuItem*)item {
 	// 封書開封前はメニューとキーボードショートカットで返信できてしまわないようにする
 	// （メニューアイテムの判定方法が暫定）
-	if ([[item keyEquivalent] isEqualToString:@"r"] && ([item keyEquivalentModifierMask] & NSCommandKeyMask)) {
-		return [replyButton isEnabled];
+    if ([[item keyEquivalent] isEqualToString:@"r"] && ([item keyEquivalentModifierMask] & NSEventModifierFlagCommand)) {
+		return [self.replyButton isEnabled];
 	}
 	return YES;
 }
@@ -347,20 +350,20 @@
 - (IBAction)replyMessage:(id)sender {
 	Config*		config	= [Config sharedConfig];
 	NSString*	quotMsg	= nil;
-	id			sendCtl	= [[WindowManager sharedManager] replyWindowForKey:recvMsg];
+    id			sendCtl	= [[WindowManager sharedManager] replyWindowForKey:_recvMsg];
 	if (sendCtl) {
 		[[sendCtl window] makeKeyAndOrderFront:self];
 		return;
 	}
-	if ([quotCheck state]) {
+	if ([self.quotCheck state]) {
 		NSString* quote = config.quoteString;
 
 		// 選択範囲があれば選択範囲を引用、なければ全文引用
-		NSRange	range = [messageArea selectedRange];
+		NSRange	range = [self.messageArea selectedRange];
 		if (range.length <= 0) {
-			quotMsg = [messageArea string];
+			quotMsg = [self.messageArea string];
 		} else {
-			quotMsg = [[messageArea string] substringWithRange:range];
+			quotMsg = [[self.messageArea string] substringWithRange:range];
 		}
 		if (([quotMsg length] > 0) && ([quote length] > 0)) {
 			// 引用文字を入れる
@@ -382,7 +385,9 @@
 	}
 	// 送信ダイアログ作成
 	//sendCtl =
-    [[SendControl alloc] initWithSendMessage:quotMsg recvMessage:recvMsg];
+    
+    AppControl *appCtl = [NSApp delegate];
+    appCtl.lastDockDraggedWindow = [[SendControl alloc] initWithSendMessage:quotMsg recvMessage:self.recvMsg];
 }
 
 /*----------------------------------------------------------------------------*
@@ -391,84 +396,88 @@
 
 // 封書ボタン押下時処理
 - (IBAction)openSeal:(id)sender {
-	if ([recvMsg locked]) {
+	if ([self.recvMsg locked]) {
 		// 鍵付きの場合
 		// フィールド／ラベルをクリア
-		[pwdSheetField setStringValue: @""];
-		[pwdSheetErrorLabel setStringValue: @""];
+		[self.pwdSheetField setStringValue: @""];
+		[self.pwdSheetErrorLabel setStringValue: @""];
 		// シート表示
-		[NSApp beginSheet:pwdSheet
-		   modalForWindow:window
-			modalDelegate:self
-		   didEndSelector:@selector(pwdSheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
+//		[NSApp beginSheet:pwdSheet
+//		   modalForWindow:window
+//			modalDelegate:self
+//		   didEndSelector:@selector(pwdSheetDidEnd:returnCode:contextInfo:)
+//			  contextInfo:nil];
+        
+        [self.window beginSheet:self.pwdSheet completionHandler:^(NSModalResponse returnCode) {
+            [self pwdSheetDidEnd:self.pwdSheet returnCode:returnCode contextInfo:nil];
+        }];
 	} else {
 		// 封書消去
 		[sender removeFromSuperview];
-		[replyButton setEnabled:YES];
-		[quotCheck setEnabled:YES];
-		[altLogButton setEnabled:[Config sharedConfig].alternateLogEnabled];
-		if ([[recvMsg attachments] count] > 0) {
-			[attachButton setEnabled:YES];
-			[attachDrawer open];
+		[self.replyButton setEnabled:YES];
+		[self.quotCheck setEnabled:YES];
+		[self.altLogButton setEnabled:[Config sharedConfig].alternateLogEnabled];
+		if ([[self.recvMsg attachments] count] > 0) {
+			[self.attachButton setEnabled:YES];
+			[self.attachDrawer open];
 		}
 
 		// 封書開封通知送信
-		[[MessageCenter sharedCenter] sendOpenSealMessage:recvMsg];
+		[[MessageCenter sharedCenter] sendOpenSealMessage:self.recvMsg];
 	}
 }
 
 // パスワードシート終了処理
-- (void)pwdSheetDidEnd:(NSWindow*)sheet returnCode:(int)code contextInfo:(void*)info {
-	[pwdSheet orderOut:self];
+- (void)pwdSheetDidEnd:(NSWindow*)sheet returnCode:(NSModalResponse)code contextInfo:(void*)info {
+	[self.pwdSheet orderOut:self];
 }
 
 // パスワード入力シートOKボタン押下時処理
 - (IBAction)okPwdSheet:(id)sender {
 	NSString*	password	= [Config sharedConfig].password;
-	NSString*	input		= [pwdSheetField stringValue];
+	NSString*	input		= [self.pwdSheetField stringValue];
 
 	// パスワードチェック
 	if (password) {
 		if ([password length] > 0) {
 			if ([input length] <= 0) {
-				[pwdSheetErrorLabel setStringValue:NSLocalizedString(@"RecvDlg.PwdChk.NoPwd", nil)];
+				[self.pwdSheetErrorLabel setStringValue:NSLocalizedString(@"RecvDlg.PwdChk.NoPwd", nil)];
 				return;
 			}
 			if (![password isEqualToString:[NSString stringWithCString:crypt([input UTF8String], "IP") encoding:NSUTF8StringEncoding]] &&
 				![password isEqualToString:input]) {
 				// 平文とも比較するのはv0.4までとの互換性のため
-				[pwdSheetErrorLabel setStringValue:NSLocalizedString(@"RecvDlg.PwdChk.PwdErr", nil)];
+				[self.pwdSheetErrorLabel setStringValue:NSLocalizedString(@"RecvDlg.PwdChk.PwdErr", nil)];
 				return;
 			}
 		}
 	}
 
 	// 封書消去
-	[sealButton removeFromSuperview];
-	[replyButton setEnabled:YES];
-	[quotCheck setEnabled:YES];
-	[altLogButton setEnabled:[Config sharedConfig].alternateLogEnabled];
-	if ([[recvMsg attachments] count] > 0) {
-		[attachButton setEnabled:YES];
-		[attachDrawer open];
+	[self.sealButton removeFromSuperview];
+	[self.replyButton setEnabled:YES];
+	[self.quotCheck setEnabled:YES];
+	[self.altLogButton setEnabled:[Config sharedConfig].alternateLogEnabled];
+	if ([[self.recvMsg attachments] count] > 0) {
+		[self.attachButton setEnabled:YES];
+		[self.attachDrawer open];
 	}
 
 	// ログ出力
-	if ([recvMsg needLog]) {
-		[[LogManager standardLog] writeRecvLog:recvMsg];
-		[recvMsg setNeedLog:NO];
+	if ([self.recvMsg needLog]) {
+		[[LogManager standardLog] writeRecvLog:self.recvMsg];
+		[self.recvMsg setNeedLog:NO];
 	}
 
 	// 封書開封通知送信
-	[[MessageCenter sharedCenter] sendOpenSealMessage:recvMsg];
+	[[MessageCenter sharedCenter] sendOpenSealMessage:self.recvMsg];
 
-	[NSApp endSheet:pwdSheet returnCode:NSOKButton];
+	[NSApp endSheet:self.pwdSheet returnCode:NSModalResponseOK];
 }
 
 // パスワード入力シートキャンセルボタン押下時処理
 - (IBAction)cancelPwdSheet:(id)sender {
-	[NSApp endSheet:pwdSheet returnCode:NSCancelButton];
+	[NSApp endSheet:self.pwdSheet returnCode:NSModalResponseCancel];
 }
 
 /*----------------------------------------------------------------------------*
@@ -476,32 +485,32 @@
  *----------------------------------------------------------------------------*/
 
 - (void)downloadSheetRefresh:(NSTimer*)timer {
-	if (attachSheetRefreshTitle) {
-		NSUInteger num	= [downloader numberOfTargets];
-		NSUInteger index	= [downloader indexOfTarget] + 1;
+	if (self.attachSheetRefreshTitle) {
+		NSUInteger num	= [self.downloader numberOfTargets];
+		NSUInteger index	= [self.downloader indexOfTarget] + 1;
 		NSString* title = [NSString stringWithFormat:NSLocalizedString(@"RecvDlg.AttachSheet.Title", nil), index, num];
-		[attachSheetTitleLabel setStringValue:title];
-		attachSheetRefreshTitle = NO;
+		[self.attachSheetTitleLabel setStringValue:title];
+        self.attachSheetRefreshTitle = NO;
 	}
-	if (attachSheetRefreshFileName) {
-		[attachSheetFileNameLabel setStringValue:[downloader currentFile]];
-		attachSheetRefreshFileName = NO;
+	if (self.attachSheetRefreshFileName) {
+		[self.attachSheetFileNameLabel setStringValue:[self.downloader currentFile]];
+        self.attachSheetRefreshFileName = NO;
 	}
-	if (attachSheetRefreshFileNum) {
-		[attachSheetFileNumLabel setObjectValue:[NSNumber numberWithUnsignedInt:[downloader numberOfFile]]];
-		attachSheetRefreshFileNum = NO;
+	if (self.attachSheetRefreshFileNum) {
+		[self.attachSheetFileNumLabel setObjectValue:@([self.downloader numberOfFile])];
+        self.attachSheetRefreshFileNum = NO;
 	}
-	if (attachSheetRefreshDirNum) {
-		[attachSheetDirNumLabel setObjectValue:[NSNumber numberWithUnsignedInt:[downloader numberOfDirectory]]];
-		attachSheetRefreshDirNum = NO;
+	if (self.attachSheetRefreshDirNum) {
+		[self.attachSheetDirNumLabel setObjectValue:[NSNumber numberWithUnsignedInt:[self.downloader numberOfDirectory]]];
+        self.attachSheetRefreshDirNum = NO;
 	}
-	if (attachSheetRefreshPercentage) {
-		[attachSheetPercentageLabel setStringValue:[NSString stringWithFormat:@"%d %%", [downloader percentage]]];
-		attachSheetRefreshPercentage = NO;
+	if (self.attachSheetRefreshPercentage) {
+		[self.attachSheetPercentageLabel setStringValue:[NSString stringWithFormat:@"%d %%", [self.downloader percentage]]];
+        self.attachSheetRefreshPercentage = NO;
 	}
-	if (attachSheetRefreshSize) {
-		double		downSize	= [downloader downloadSize];
-		double		totalSize	= [downloader totalSize];
+	if (self.attachSheetRefreshSize) {
+		double		downSize	= [self.downloader downloadSize];
+		double		totalSize	= [self.downloader totalSize];
 		NSString*	str			= nil;
 		float		bps;
 		if (totalSize < 1024) {
@@ -526,34 +535,34 @@
 			totalSize /= 1024.0;
 			str = [NSString stringWithFormat:@"%.2f / %.2f GBytes", downSize, totalSize];
 		}
-		[attachSheetSizeLabel setStringValue:str];
-		bps = ((float)[downloader averageSpeed] / 1024.0f);
+		[self.attachSheetSizeLabel setStringValue:str];
+		bps = ((float)[self.downloader averageSpeed] / 1024.0f);
 		if (bps < 1024) {
-			[attachSheetSpeedLabel setStringValue:[NSString stringWithFormat:@"%0.1f KBytes/sec", bps]];
+			[self.attachSheetSpeedLabel setStringValue:[NSString stringWithFormat:@"%0.1f KBytes/sec", bps]];
 		} else {
 			bps /= 1024.0;
-			[attachSheetSpeedLabel setStringValue:[NSString stringWithFormat:@"%0.2f MBytes/sec", bps]];
+			[self.attachSheetSpeedLabel setStringValue:[NSString stringWithFormat:@"%0.2f MBytes/sec", bps]];
 		}
-		attachSheetRefreshSize = NO;
+        self.attachSheetRefreshSize = NO;
 	}
 }
 
 - (void)downloadWillStart {
-	[attachSheetTitleLabel setStringValue:NSLocalizedString(@"RecvDlg.AttachSheet.Start", nil)];
-	[attachSheetFileNameLabel setStringValue:@""];
-	attachSheetRefreshTitle			= NO;
-	attachSheetRefreshFileName		= NO;
-	attachSheetRefreshFileNum		= YES;
-	attachSheetRefreshDirNum		= YES;
-	attachSheetRefreshPercentage	= YES;
-	attachSheetRefreshSize			= YES;
+	[self.attachSheetTitleLabel setStringValue:NSLocalizedString(@"RecvDlg.AttachSheet.Start", nil)];
+	[self.attachSheetFileNameLabel setStringValue:@""];
+    self.attachSheetRefreshTitle			= NO;
+    self.attachSheetRefreshFileName		= NO;
+    self.attachSheetRefreshFileNum		= YES;
+    self.attachSheetRefreshDirNum		= YES;
+    self.attachSheetRefreshPercentage	= YES;
+    self.attachSheetRefreshSize			= YES;
 	[self downloadSheetRefresh:nil];
 }
 
 - (void)downloadDidFinished:(DownloadResult)result {
-	[attachSheetTitleLabel setStringValue:NSLocalizedString(@"RecvDlg.AttachSheet.Finish", nil)];
+	[self.attachSheetTitleLabel setStringValue:NSLocalizedString(@"RecvDlg.AttachSheet.Finish", nil)];
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-	[NSApp endSheet:attachSheet returnCode:NSOKButton];
+	[NSApp endSheet:self.attachSheet returnCode:NSModalResponseOK];
 	if ((result != DL_SUCCESS) && (result != DL_STOP)) {
 		NSString* msg = nil;
 		switch (result) {
@@ -591,38 +600,38 @@
 		}
 		NSBeginCriticalAlertSheet(	NSLocalizedString(@"RecvDlg.DownloadError.Title", nil),
 									NSLocalizedString(@"RecvDlg.DownloadError.OK", nil),
-									nil, nil, window, nil, nil, nil, nil, msg, result);
+									nil, nil, self.window, nil, nil, nil, nil, msg, result);
 	}
 }
 
 - (void)downloadFileChanged {
-	attachSheetRefreshFileName = YES;
+    self.attachSheetRefreshFileName = YES;
 }
 
 - (void)downloadNumberOfFileChanged {
-	attachSheetRefreshFileNum = YES;
+    self.attachSheetRefreshFileNum = YES;
 }
 
 - (void)downloadNumberOfDirectoryChanged {
-	attachSheetRefreshDirNum = YES;
+    self.attachSheetRefreshDirNum = YES;
 }
 
 - (void)downloadIndexOfTargetChanged {
-	attachSheetRefreshTitle	= YES;
+    self.attachSheetRefreshTitle	= YES;
 }
 
 - (void)downloadTotalSizeChanged {
-	[attachSheetProgress setMaxValue:[downloader totalSize]];
-	attachSheetRefreshSize = YES;
+	[self.attachSheetProgress setMaxValue:[self.downloader totalSize]];
+    self.attachSheetRefreshSize = YES;
 }
 
 - (void)downloadDownloadedSizeChanged {
-	[attachSheetProgress setDoubleValue:[downloader downloadSize]];
-	attachSheetRefreshSize = YES;
+	[self.attachSheetProgress setDoubleValue:[self.downloader downloadSize]];
+    self.attachSheetRefreshSize = YES;
 }
 
 - (void)downloadPercentageChanged {
-	attachSheetRefreshPercentage = YES;
+    self.attachSheetRefreshPercentage = YES;
 }
 
 /*----------------------------------------------------------------------------*
@@ -630,8 +639,8 @@
  *----------------------------------------------------------------------------*/
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView*)aTableView {
-	if (aTableView == attachTable) {
-		return [[recvMsg attachments] count];
+	if (aTableView == self.attachTable) {
+		return [[self.recvMsg attachments] count];
 	} else {
 		ERR(@"Unknown TableView(%@)", aTableView);
 	}
@@ -641,16 +650,16 @@
 - (id)tableView:(NSTableView*)aTableView
 		objectValueForTableColumn:(NSTableColumn*)aTableColumn
 		row:(int)rowIndex {
-	if (aTableView == attachTable) {
+	if (aTableView == self.attachTable) {
 		Attachment*					attach;
 		NSMutableAttributedString*	cellValue;
 		NSFileWrapper*				fileWrapper;
 		NSTextAttachment*			textAttachment;
-		if (rowIndex >= [[recvMsg attachments] count]) {
+		if (rowIndex >= [[self.recvMsg attachments] count]) {
 			ERR(@"invalid index(row=%d)", rowIndex);
 			return nil;
 		}
-		attach = [[recvMsg attachments] objectAtIndex:rowIndex];
+		attach = [[self.recvMsg attachments] objectAtIndex:rowIndex];
 		if (!attach) {
 			ERR(@"no attachments(row=%d)", rowIndex);
 			return nil;
@@ -661,14 +670,12 @@
 		fileWrapper		= [[NSFileWrapper alloc] initRegularFileWithContents:data];
 		textAttachment	= [[NSTextAttachment alloc] initWithFileWrapper:fileWrapper];
 		[(NSCell*)[textAttachment attachmentCell] setImage:attach.icon];
-		cellValue		= [[[NSMutableAttributedString alloc] initWithString:[[attach file] name]] autorelease];
+		cellValue		= [[NSMutableAttributedString alloc] initWithString:[[attach file] name]];
 		[cellValue replaceCharactersInRange:NSMakeRange(0, 0)
 					   withAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
 		[cellValue addAttribute:NSBaselineOffsetAttributeName
 						  value:[NSNumber numberWithFloat:-3.0]
 						  range:NSMakeRange(0, 1)];
-		[textAttachment release];
-		[fileWrapper release];
 		return cellValue;
 	} else {
 		ERR(@"Unknown TableView(%@)", aTableView);
@@ -679,19 +686,19 @@
 // ユーザリストの選択変更
 - (void)tableViewSelectionDidChange:(NSNotification*)aNotification {
 	NSTableView* table = [aNotification object];
-	if (table == attachTable) {
+	if (table == self.attachTable) {
 		float			size	= 0;
 		NSUInteger		index;
-		NSIndexSet*		selects = [attachTable selectedRowIndexes];
+		NSIndexSet*		selects = [self.attachTable selectedRowIndexes];
 		Attachment*		attach	= nil;
 
 		index = [selects firstIndex];
 		while (index != NSNotFound) {
-			attach	= [[recvMsg attachments] objectAtIndex:index];
+			attach	= [[self.recvMsg attachments] objectAtIndex:index];
 			size	+= (float)[attach file].size / 1024;
 			index	= [selects indexGreaterThanIndex:index];
 		}
-		[attachSaveButton setEnabled:([selects count] > 0)];
+		[self.attachSaveButton setEnabled:([selects count] > 0)];
 	} else {
 		ERR(@"Unknown TableView(%@)", table);
 	}
@@ -701,9 +708,9 @@
  * その他
  *----------------------------------------------------------------------------*/
 
-- (NSWindow*)window {
-	return window;
-}
+//- (NSWindow*)window {
+//	return window;
+//}
 
 // 一番奥のウィンドウを手前に移動
 - (IBAction)backWindowToFront:(id)sender {
@@ -725,54 +732,54 @@
 
 // メッセージ部フォント保存
 - (void)saveReceiveMessageFont:(id)sender {
-	[Config sharedConfig].receiveMessageFont = [messageArea font];
+	[Config sharedConfig].receiveMessageFont = [self.messageArea font];
 }
 
 // メッセージ部フォントを標準に戻す
 - (void)resetReceiveMessageFont:(id)sender {
-	[messageArea setFont:[Config sharedConfig].defaultReceiveMessageFont];
+	[self.messageArea setFont:[Config sharedConfig].defaultReceiveMessageFont];
 }
 
 // 重要ログボタン押下時処理
 - (IBAction)writeAlternateLog:(id)sender
 {
 	if ([Config sharedConfig].logWithSelectedRange) {
-		[[LogManager alternateLog] writeRecvLog:recvMsg withRange:[messageArea selectedRange]];
+		[[LogManager alternateLog] writeRecvLog:self.recvMsg withRange:[self.messageArea selectedRange]];
 	} else {
-		[[LogManager alternateLog] writeRecvLog:recvMsg];
+		[[LogManager alternateLog] writeRecvLog:self.recvMsg];
 	}
-	[altLogButton setEnabled:NO];
+	[self.altLogButton setEnabled:NO];
 }
 
 // Nibファイルロード時処理
 - (void)awakeFromNib {
 	Config* config	= [Config sharedConfig];
 	NSSize	size	= config.receiveWindowSize;
-	NSRect	frame	= [window frame];
+	NSRect	frame	= [self.window frame];
 
 	// ウィンドウ位置、サイズ決定
 	int sw	= [[NSScreen mainScreen] visibleFrame].size.width;
 	int sh	= [[NSScreen mainScreen] visibleFrame].size.height;
-	int ww	= [window frame].size.width;
-	int wh	= [window frame].size.height;
+	int ww	= [self.window frame].size.width;
+	int wh	= [self.window frame].size.height;
 	frame.origin.x = (sw - ww) / 2 + (rand() % (sw / 4)) - sw / 8;
 	frame.origin.y = (sh - wh) / 2 + (rand() % (sh / 4)) - sh / 8;
 	if ((size.width != 0) || (size.height != 0)) {
 		frame.size.width	= size.width;
 		frame.size.height	= size.height;
 	}
-	[window setFrame:frame display:NO];
+	[self.window setFrame:frame display:NO];
 
 	// 引用チェックをデフォルト判定
 	if (config.quoteCheckDefault) {
-		[quotCheck setState:YES];
+		[self.quotCheck setState:YES];
 	}
 
 	// 添付リストの行設定
-	[attachTable setRowHeight:16.0];
+	[self.attachTable setRowHeight:16.0];
 
 	// 添付テーブルダブルクリック時処理
-	[attachTable setDoubleAction:@selector(attachTableDoubleClicked:)];
+	[self.attachTable setDoubleAction:@selector(attachTableDoubleClicked:)];
 
 //	[attachSheetProgress setUsesThreadedAnimation:YES];
 }
@@ -781,37 +788,37 @@
 - (void)windowDidResize:(NSNotification *)notification
 {
 	// ウィンドウサイズを保存
-	[Config sharedConfig].receiveWindowSize = [window frame].size;
+	[Config sharedConfig].receiveWindowSize = [self.window frame].size;
 }
 
 // ウィンドウクローズ判定処理
 - (BOOL)windowShouldClose:(id)sender {
-	if (!pleaseCloseMe && ([[recvMsg attachments] count] > 0)) {
+	if (!self.pleaseCloseMe && ([[self.recvMsg attachments] count] > 0)) {
 		// 添付ファイルが残っているがクローズするか確認
 		NSBeginAlertSheet(	NSLocalizedString(@"RecvDlg.CloseWithAttach.Title", nil),
 							NSLocalizedString(@"RecvDlg.CloseWithAttach.OK", nil),
 							NSLocalizedString(@"RecvDlg.CloseWithAttach.Cancel", nil),
 							nil,
-							window,
+                          self.window,
 							self,
 							@selector(sheetDidEnd:returnCode:contextInfo:),
 							nil,
-							recvMsg,
+                          (__bridge void *)(self.recvMsg),
 							NSLocalizedString(@"RecvDlg.CloseWithAttach.Msg", nil));
-		[attachDrawer open];
+		[self.attachDrawer open];
 		return NO;
 	}
-	if (!pleaseCloseMe && ![replyButton isEnabled]) {
+	if (!self.pleaseCloseMe && ![self.replyButton isEnabled]) {
 		// 未開封だがクローズするか確認
 		NSBeginAlertSheet(	NSLocalizedString(@"RecvDlg.CloseWithSeal.Title", nil),
 							NSLocalizedString(@"RecvDlg.CloseWithSeal.OK", nil),
 							NSLocalizedString(@"RecvDlg.CloseWithSeal.Cancel", nil),
 							nil,
-							window,
+                          self.window,
 							self,
 							@selector(sheetDidEnd:returnCode:contextInfo:),
 							nil,
-							recvMsg,
+                          (__bridge void *)(self.recvMsg),
 							NSLocalizedString(@"RecvDlg.CloseWithSeal.Msg", nil));
 		return NO;
 	}
@@ -821,20 +828,19 @@
 
 // ウィンドウクローズ時処理
 - (void)windowWillClose:(NSNotification*)aNotification {
-	if ([[recvMsg attachments] count] > 0) {
+	if ([[self.recvMsg attachments] count] > 0) {
 		// 添付ファイルが残っている場合破棄通知
-		[[MessageCenter sharedCenter] sendReleaseAttachmentMessage:recvMsg];
+		[[MessageCenter sharedCenter] sendReleaseAttachmentMessage:self.recvMsg];
 	}
-	[[WindowManager sharedManager] removeReceiveWindowForKey:recvMsg];
+	[[WindowManager sharedManager] removeReceiveWindowForKey:self.recvMsg];
 // なぜか解放されないので手動で
-[attachDrawer release];
-	[self release];
+
 }
 
 - (void)setAttachHeader {
 	NSString*		format	= NSLocalizedString(@"RecvDlg.Attach.Header", nil);
-	NSString*		title	= [NSString stringWithFormat:format, [[recvMsg attachments] count]];
-	[[[attachTable tableColumnWithIdentifier:@"Attachment"] headerCell] setStringValue:title];
+	NSString*		title	= [NSString stringWithFormat:format, [[self.recvMsg attachments] count]];
+	[[[self.attachTable tableColumnWithIdentifier:@"Attachment"] headerCell] setStringValue:title];
 }
 
 @end

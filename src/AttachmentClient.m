@@ -46,6 +46,8 @@
 
 @implementation AttachmentClient
 
+@synthesize numberOfDirectory = _numberOfDir;
+
 /*----------------------------------------------------------------------------*
  * 初期化／解放
  *----------------------------------------------------------------------------*/
@@ -54,34 +56,33 @@
 - (id)initWithRecvMessage:(RecvMessage*)msg saveTo:(NSString*)path {
 	self 			= [super init];
 	_listener		= nil;
-	message			= [msg retain];
+	self.message			= msg ;
 	stop			= NO;
-	targets			= [[NSMutableArray alloc] init];
-	lock			= [[NSLock alloc] init];
-	savePath		= [path copy];
-	startDate		= nil;
-	numberOfFile	= 0;
-	numberOfDir		= 0;
-	indexOfTarget	= 0;
-	currentFile		= @"";
-	totalSize		= 0;
-	downloadSize	= 0;
-	percentage		= 0;
+	self.targets			= [[NSMutableArray alloc] init];
+    self.lock			= [[NSLock alloc] init];
+    self.savePath		= [path copy];
+    self.startDate		= nil;
+	_numberOfFile	= 0;
+	_numberOfDir		= 0;
+	_indexOfTarget	= 0;
+    self.currentFile		= @"";
+    _totalSize		= 0;
+    _downloadSize	= 0;_percentage		= 0;
 
 	return self;
 }
 
-// 解放
-- (void)dealloc {
-	[message release];
-	[targets release];
-	[lock release];
-	[startDate release];
-	[savePath release];
-	[connection release];
-    self.listener = nil;
-	[super dealloc];
-}
+//// 解放
+//- (void)dealloc {
+//	[message release];
+//	[targets release];
+//	[lock release];
+//	[startDate release];
+//	[savePath release];
+//	[connection release];
+//    self.listener = nil;
+//	[super dealloc];
+//}
 
 /*----------------------------------------------------------------------------*
  * 対象添付ファイル管理
@@ -89,15 +90,15 @@
 
 // ファイル数
 - (NSUInteger)numberOfTargets {
-	return [targets count];
+	return [_targets count];
 }
 
 // 追加
 - (void)addTarget:(Attachment*)attachment {
-	if ([lock tryLock]) {
-		[targets addObject:attachment];
-		totalSize += [attachment file].size;
-		[lock unlock];
+	if ([self.lock tryLock]) {
+		[_targets addObject:attachment];
+		_totalSize += [attachment file].size;
+		[self.lock unlock];
 	} else {
 		WRN(@"try lock err.");
 	}
@@ -109,13 +110,13 @@
 
 // ダウンロード開始
 - (void)startDownload:(id<AttachmentClientListener>)obj {
-	if ([lock tryLock]) {
+	if ([self.lock tryLock]) {
 		NSPort*		port1 = [NSPort port];
 		NSPort*		port2 = [NSPort port];
 		NSArray*	array = [NSArray arrayWithObjects:port2, port1, nil];
-		connection	= [[NSConnection alloc] initWithReceivePort:port1 sendPort:port2];
+		self.connection	= [[NSConnection alloc] initWithReceivePort:port1 sendPort:port2];
 		stop		= NO;
-		[connection setRootObject:obj];
+		[self.connection setRootObject:obj];
 		[NSThread detachNewThreadSelector:@selector(downloadThread:) toTarget:self withObject:array];
 	} else {
 		WRN(@"try lock err.");
@@ -131,47 +132,47 @@
  * getter
  *----------------------------------------------------------------------------*/
 
-- (unsigned)indexOfTarget {
-	return indexOfTarget;
-}
+//- (unsigned)indexOfTarget {
+//	return indexOfTarget;
+//}
 
-- (NSString*)currentFile {
-	return currentFile;
-}
+//- (NSString*)currentFile {
+//	return currentFile;
+//}
 
-- (unsigned)numberOfFile {
-	return numberOfFile;
-}
+//- (unsigned)numberOfFile {
+//	return numberOfFile;
+//}
 
-- (unsigned)numberOfDirectory {
-	return numberOfDir;
-}
+//- (unsigned)numberOfDirectory {
+//	return numberOfDir;
+//}
 
-- (unsigned long long)totalSize {
-	return totalSize;
-}
+//- (unsigned long long)totalSize {
+//	return totalSize;
+//}
 
-- (unsigned long long)downloadSize {
-	return downloadSize;
-}
-
-- (unsigned)percentage {
-	return percentage;
-}
+//- (unsigned long long)downloadSize {
+//	return downloadSize;
+//}
+//
+//- (unsigned)percentage {
+//	return percentage;
+//}
 
 - (unsigned)averageSpeed {
 	NSTimeInterval interval;
-	if (!startDate) {
+    if (!_startDate) {
 		return 0;
 	}
-	if (downloadSize == 0) {
+	if (_downloadSize == 0) {
 		return 0;
 	}
-	interval = -[startDate timeIntervalSinceNow];
+	interval = -[_startDate timeIntervalSinceNow];
 	if (interval == 0) {
 		return 0;
 	}
-	return (unsigned)(downloadSize / interval);
+	return (unsigned)(_downloadSize / interval);
 }
 
 /*----------------------------------------------------------------------------*
@@ -180,8 +181,8 @@
 
 // 添付ダウンロードスレッド
 - (void)downloadThread:(id)portArray {
-	NSAutoreleasePool*	pool	= [[NSAutoreleasePool alloc] init];
-	NSInteger					num 	= [targets count];
+    @autoreleasepool {
+	NSInteger					num 	= [_targets count];
 	DownloadResult		result	= DL_SUCCESS;
 	NSConnection*		conn	= [[NSConnection alloc] initWithReceivePort:[portArray objectAtIndex:0]
 																   sendPort:[portArray objectAtIndex:1]];
@@ -192,23 +193,23 @@
 	DBG(@"start download thread.");
 
 	// ステータス管理開始
-	[startDate release];
-	startDate		= [[NSDate alloc] init];
-	numberOfFile	= 0;
-	numberOfDir		= 0;
-	currentFile		= nil;
-	downloadSize	= 0;
-	percentage		= 0;
+
+	self.startDate		= [[NSDate alloc] init];
+        _numberOfFile	= 0;
+        _numberOfDir		= 0;
+	self.currentFile		= nil;
+        _downloadSize	= 0;
+        _percentage		= 0;
 	[_listener downloadWillStart];
 	// 添付毎ダウンロードループ
-	for (indexOfTarget = 0; ((indexOfTarget < num) && !stop); indexOfTarget++) {
+        for (_indexOfTarget = 0; ((_indexOfTarget < num) && !stop); _indexOfTarget++) {
 		int					sock;
 		struct sockaddr_in	addr;
-		Attachment* 		attach = [targets objectAtIndex:indexOfTarget];
+            Attachment* 		attach = [_targets objectAtIndex:_indexOfTarget];
 		char				buf[256];
 
 		if (!attach) {
-			ERR(@"internal error(attach is nil,index=%d)", indexOfTarget);
+            ERR(@"internal error(attach is nil,index=%d)", _indexOfTarget);
 			result = DL_INTERNAL_ERROR;
 			break;
 		}
@@ -227,7 +228,7 @@
 		memset(&addr, 0, sizeof(addr));
 		addr.sin_family			= AF_INET;
 		addr.sin_port			= htons([[MessageCenter sharedCenter] myPortNo]);
-		addr.sin_addr.s_addr	= htonl([message fromUser].ipAddressNumber);
+		addr.sin_addr.s_addr	= htonl([_message fromUser].ipAddressNumber);
 		if (connect(sock, (struct sockaddr*)&addr, sizeof(addr)) != 0) {
 			ERR(@"connect error");
 			close(sock);
@@ -244,7 +245,7 @@
 
 		// リクエスト送信
 		UInt32	command = [attach.file isRegularFile] ? IPMSG_GETFILEDATA : IPMSG_GETDIRFILES;
-		BOOL	utf8	= (BOOL)(([message command] & IPMSG_UTF8OPT) != 0);
+		BOOL	utf8	= (BOOL)(([_message command] & IPMSG_UTF8OPT) != 0);
 
 		if (utf8) {
 			command |= IPMSG_UTF8OPT;
@@ -255,7 +256,7 @@
 						[NSUserName() GB18030String],
 						[[[MessageCenter sharedCenter] myHostName] GB18030String],
 						command,
-						message.packetNo,
+						_message.packetNo,
 						[[attach fileID] intValue],
 						0U);
 		// リクエスト送信
@@ -305,11 +306,11 @@
 	}
 	[_listener downloadDidFinished:result];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [lock unlock];
+        [self.lock unlock];
     });
-	[conn release];
+	
 	DBG(@"stop download thread.");
-	[pool release];
+    }
 }
 
 
@@ -325,7 +326,7 @@
 
 	[self newFileDownloadStart:[file name]];
 	// 保存先ディレクトリ指定
-	[file setDirectory:savePath];
+	[file setDirectory:_savePath];
 	DBG(@"file:start download file(%@)", [file name]);
 
 	/*------------------------------------------------------------------------*
@@ -368,7 +369,7 @@
 {
 	char				buf[8192];		// バッファサイズを変更可能に？
 	long				headerSize;
-	NSString*			currentDir	= savePath;
+	NSString*			currentDir	= self.savePath;
 	DownloadResult		result		= DL_SUCCESS;
 	AttachmentFile*		file;
 	ssize_t	remain;
@@ -387,7 +388,7 @@
 		buf[4] = '\0';
 		headerSize = strtol(buf, NULL, 16);
 		if (headerSize == 0) {
-			DBG(@"dir:download complete1(%@)", savePath);
+			DBG(@"dir:download complete1(%@)", _savePath);
 			break;
 		} else if (headerSize < 0) {
 			ERR(@"dir:download internal error(headerSize=%ld,buf=%s)", headerSize, buf);
@@ -437,16 +438,16 @@
 		} else if ([file isDirectory]) {
 			[self newFileDownloadStart:[file name]];
 			currentDir = file.path;
-			DBG(@"dir:chdir to child (-> \"%@\")", [currentDir substringFromIndex:[savePath length] + 1]);
+			DBG(@"dir:chdir to child (-> \"%@\")", [currentDir substringFromIndex:[_savePath length] + 1]);
 		} else if ([file isParentDirectory]) {
 			currentDir = file.path;
 			DBG(@"dir:chdir to parent(<- \"%@\")",
-					([currentDir length] > [savePath length]) ? [currentDir substringFromIndex:[savePath length] + 1] : @"");
+					([currentDir length] > [_savePath length]) ? [currentDir substringFromIndex:[_savePath length] + 1] : @"");
 		}
 		// ファイル受信
 		remain = file.size;
 		if (remain > 0) {
-			totalSize += remain;
+            _totalSize += remain;
 			[_listener downloadTotalSizeChanged];
 			while (remain > 0) {
 				ssize_t size = MIN((ssize_t)sizeof(buf), remain);
@@ -481,8 +482,8 @@
 		}
 
 		// 終了判定
-		if ([currentDir isEqualToString:savePath]) {
-			DBG(@"dir:download complete2(%@)", savePath);
+		if ([currentDir isEqualToString:_savePath]) {
+			DBG(@"dir:download complete2(%@)", _savePath);
 			break;
 		}
 	}
@@ -559,28 +560,28 @@
  *----------------------------------------------------------------------------*/
 
 - (void)incrementNumberOfFile {
-	numberOfFile++;
+    _numberOfFile++;
 	[_listener downloadNumberOfFileChanged];
 }
 
 - (void)incrementNumberOfDirectory {
-	numberOfDir++;
+    _numberOfDir++;
 	[_listener downloadNumberOfDirectoryChanged];
 }
 
 - (void)newFileDownloadStart:(NSString*)fileName {
-	currentFile = fileName;
+	self.currentFile = fileName;
 	[_listener downloadFileChanged];
 }
 
 - (void)newDataDownload:(unsigned long long)size {
 	if (size > 0) {
-		downloadSize += size;
+        _downloadSize += size;
 		[_listener downloadDownloadedSizeChanged];
-		if (totalSize > 0) {
-			unsigned newPer = ((float)downloadSize / (float)totalSize) * 100 + 0.5;
-			if (newPer != percentage) {
-				percentage = newPer;
+        if (_totalSize > 0) {
+			unsigned newPer = ((float)_downloadSize / (float)_totalSize) * 100 + 0.5;
+            if (newPer != _percentage) {
+                _percentage = newPer;
 				[_listener downloadPercentageChanged];
 			}
 		}

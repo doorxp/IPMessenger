@@ -375,7 +375,7 @@
             </connections>
         </customObject>
         <window title="IP Messenger Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="327" userLabel="PrefPanel" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="616" y="333" width="489" height="361"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
@@ -389,11 +389,11 @@
                         <tabViewItems>
                             <tabViewItem label="General" identifier="general" id="258">
                                 <view key="view" id="248">
-                                    <rect key="frame" x="10" y="25" width="489" height="316"/>
+                                    <rect key="frame" x="10" y="29" width="489" height="312"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="252">
-                                            <rect key="frame" x="13" y="277" width="82" height="16"/>
+                                            <rect key="frame" x="13" y="273" width="82" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="78" id="pCr-ns-e1A"/>
                                             </constraints>
@@ -404,7 +404,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="301">
-                                            <rect key="frame" x="13" y="236" width="82" height="17"/>
+                                            <rect key="frame" x="13" y="232" width="82" height="17"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Group :" id="1199">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -412,7 +412,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="282">
-                                            <rect key="frame" x="100" y="274" width="369" height="22"/>
+                                            <rect key="frame" x="100" y="270" width="369" height="22"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1198">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -423,7 +423,7 @@
                                             </connections>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="244">
-                                            <rect key="frame" x="158" y="181" width="173" height="32"/>
+                                            <rect key="frame" x="158" y="177" width="173" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="W7C-nj-Gfr"/>
                                             </constraints>
@@ -436,7 +436,7 @@
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="582">
-                                            <rect key="frame" x="100" y="234" width="369" height="21"/>
+                                            <rect key="frame" x="100" y="230" width="369" height="21"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1200">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -447,7 +447,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="705">
-                                            <rect key="frame" x="111" y="259" width="188" height="14"/>
+                                            <rect key="frame" x="111" y="255" width="188" height="14"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="184" id="f8w-TO-E4a"/>
                                             </constraints>
@@ -458,7 +458,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="706">
-                                            <rect key="frame" x="111" y="219" width="188" height="14"/>
+                                            <rect key="frame" x="111" y="215" width="188" height="14"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="14" id="0CV-S3-5PM"/>
                                             </constraints>
@@ -469,7 +469,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button translatesAutoresizingMaskIntoConstraints="NO" id="1056">
-                                            <rect key="frame" x="14" y="128" width="181" height="18"/>
+                                            <rect key="frame" x="14" y="124" width="181" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="177" id="d4E-oX-XVx"/>
                                             </constraints>
@@ -881,7 +881,7 @@
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <clipView key="contentView" id="nc7-n2-KgZ">
                                                             <rect key="frame" x="1" y="1" width="193" height="166"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" id="275">
                                                                     <rect key="frame" x="0.0" y="0.0" width="193" height="166"/>
@@ -1022,7 +1022,7 @@
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <clipView key="contentView" id="1w6-0w-7Cr">
                                                             <rect key="frame" x="1" y="1" width="305" height="203"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" id="278">
                                                                     <rect key="frame" x="0.0" y="0.0" width="305" height="203"/>
@@ -1928,7 +1928,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" id="7ql-6Z-wSl">
                             <rect key="frame" x="1" y="1" width="259" height="122"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <outlineView appearanceType="darkAqua" verticalHuggingPriority="750" allowsExpansionToolTips="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="1005" id="1002">
                                     <rect key="frame" x="0.0" y="0.0" width="259" height="122"/>

@@ -58,23 +58,33 @@ typedef enum
 
 @interface AttachmentClient : NSObject {
 	// ダウンロード管理変数
-	RecvMessage*		message;		// 受信メッセージ
-	NSMutableArray*		targets;		// ダウンロード対象添付ファイルリスト
-	NSLock*				lock;			// ダウンロード処理中ロック
+
 	BOOL				stop;			// ダウンロード中止フラグ
-	NSString*			savePath;		// 保存先パス
+	
 	id					_listener;		// コールバックオブジェクト
-	NSConnection*		connection;		// ダウンロードスレッドとのコネクション
-	// ステータス管理変数
-	NSDate*				startDate;		// 開始時刻
-	unsigned			indexOfTarget;	// ダウンロード中添付ファイルインデックス
-	NSString*			currentFile;	// ダウンロード中ファイル／ディレクトリ名
-	unsigned			numberOfFile;	// 処理済みファイル数
-	unsigned			numberOfDir;	// 処理済みディレクトリ数
-	unsigned long long	totalSize;		// 全体サイズ
-	unsigned long long	downloadSize;	// ダウンロード済みサイズ
-	unsigned			percentage;		// ダウンロード済率
+	
+	
+	
+	
 }
+
+@property(nonatomic, strong)  RecvMessage*        message;        // 受信メッセージ
+@property(nonatomic, strong)  NSMutableArray*        targets;        // ダウンロード対象添付ファイルリスト
+@property(nonatomic, strong)  NSLock*                lock;            // ダウンロード処理中ロック
+@property(nonatomic, strong)  NSString*            savePath;        // 保存先パス
+@property(nonatomic, strong)  NSConnection*        connection;        // ダウンロードスレッドとのコネクション
+// ステータス管理変数
+@property(nonatomic, strong)  NSDate*                startDate;        // 開始時刻
+@property(nonatomic, strong)  NSString*            currentFile;    // ダウンロード中ファイル／ディレクトリ名
+
+@property(nonatomic, readwrite)unsigned long long    totalSize;        // 全体サイズ
+@property(nonatomic, readwrite)unsigned long long    downloadSize;    // ダウンロード済みサイズ
+@property(nonatomic, readwrite)unsigned            percentage;        // ダウンロード済率
+
+@property(nonatomic, readwrite)unsigned            indexOfTarget;    // ダウンロード中添付ファイルインデックス
+
+@property(nonatomic, readwrite)unsigned            numberOfFile;    // 処理済みファイル数
+@property(nonatomic, readwrite)unsigned            numberOfDirectory;    // 処理済みディレクトリ数
 
 // 初期化
 - (id)initWithRecvMessage:(RecvMessage*)msg saveTo:(NSString*)path;

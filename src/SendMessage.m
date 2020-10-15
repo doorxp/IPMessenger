@@ -13,7 +13,7 @@
 @interface SendMessage()
 @property(assign,readwrite)	NSInteger	packetNo;
 @property(copy,readwrite)	NSString*	message;
-@property(retain,readwrite)	NSArray*	attachments;
+@property(strong, nonatomic)NSArray*	attachments;
 @property(assign,readwrite)	BOOL		sealed;
 @property(assign,readwrite)	BOOL		locked;
 @end
@@ -37,10 +37,10 @@
 					seal:(BOOL)seal
 					lock:(BOOL)lock
 {
-	return [[[SendMessage alloc] initWithMessage:msg
+	return [[SendMessage alloc] initWithMessage:msg
 									 attachments:attach
 											seal:seal
-											lock:lock] autorelease];
+											lock:lock];
 }
 
 /*============================================================================*
@@ -68,9 +68,11 @@
 // 解放
 - (void)dealloc
 {
-	[_message release];
-	[_attach release];
-	[super dealloc];
+    self.message = nil;
+    self.attachments = nil;
+//	[_message release];
+//	[_attach release];
+//	[super dealloc];
 }
 
 /*============================================================================*
@@ -88,11 +90,11 @@
 {
 	SendMessage* newObj	= [[SendMessage allocWithZone:zone] init];
 	if (newObj) {
-		newObj->_packetNo	= self->_packetNo;
-		newObj->_message	= [self->_message retain];
-		newObj->_attach		= [self->_attach retain];
-		newObj->_sealed		= self->_sealed;
-		newObj->_locked		= self->_locked;
+		newObj.packetNo	= self.packetNo;
+		newObj.message	= self.message;
+		newObj.attachments		= self.attachments;
+		newObj.sealed		= self.sealed;
+		newObj.locked		= self.locked;
 	} else {
 		ERR(@"copy error(%@)", self);
 	}
