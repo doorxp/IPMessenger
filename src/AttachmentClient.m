@@ -203,113 +203,116 @@
 	[_listener downloadWillStart];
 	// 添付毎ダウンロードループ
         for (_indexOfTarget = 0; ((_indexOfTarget < num) && !stop); _indexOfTarget++) {
-		int					sock;
-		struct sockaddr_in	addr;
+            int					sock;
+            struct sockaddr_in	addr;
             Attachment* 		attach = [_targets objectAtIndex:_indexOfTarget];
-		char				buf[256];
-
-		if (!attach) {
-            ERR(@"internal error(attach is nil,index=%d)", _indexOfTarget);
-			result = DL_INTERNAL_ERROR;
-			break;
-		}
-
-		[_listener downloadIndexOfTargetChanged];
-
-		// ソケット準備
-		sock = socket(AF_INET, SOCK_STREAM, 0);
-		if (sock == -1) {
-			ERR(@"socket open error");
-			result = DL_SOCKET_ERROR;
-			break;
-		}
-
-		// 接続
-		memset(&addr, 0, sizeof(addr));
-		addr.sin_family			= AF_INET;
-		addr.sin_port			= htons([[MessageCenter sharedCenter] myPortNo]);
-		addr.sin_addr.s_addr	= htonl([_message fromUser].ipAddressNumber);
-		if (connect(sock, (struct sockaddr*)&addr, sizeof(addr)) != 0) {
-			ERR(@"connect error");
-			close(sock);
-			result = DL_CONNECT_ERROR;
-			break;
-		}
-		/*
-		if (fcntl(sock, F_SETFL, O_NONBLOCK) == -1) {
-			ERR(@"socket option set error(errorno=%d)", errno);
-			result = DL_SOCKET_ERROR;
-			break;
-		}
-		*/
-
-		// リクエスト送信
-		UInt32	command = [attach.file isRegularFile] ? IPMSG_GETFILEDATA : IPMSG_GETDIRFILES;
-		BOOL	utf8	= (BOOL)(([_message command] & IPMSG_UTF8OPT) != 0);
-
-		if (utf8) {
-			command |= IPMSG_UTF8OPT;
-		}
-		sprintf(buf, "%d:%ld:%s:%s:%u:%lx:%x:%x:",
-						IPMSG_VERSION,
-						[MessageCenter nextMessageID],
-						[NSUserName() GB18030String],
-						[[[MessageCenter sharedCenter] myHostName] GB18030String],
-						command,
-						_message.packetNo,
-						[[attach fileID] intValue],
-						0U);
-		// リクエスト送信
-		if (send(sock, buf, strlen(buf) + 1, 0) < 0) {
-			ERR(@"file:attach request send error.(%s)", buf);
-			close(sock);
-			result = DL_COMMUNICATION_ERROR;
-			break;
-		}
-//		DBG(@"send file/dir request=%s", buf);
-
-		// ファイルダウンロード
-		if ([[attach file] isRegularFile]) {
-			result = [self downloadFile:attach.file from:sock];
-			if (result == DL_SUCCESS) {
-				attach.isDownloaded = YES;
-			} else {
-				ERR(@"download file error.(%@)", attach.file.name);
-				close(sock);
-				break;
-			}
-			[self incrementNumberOfFile];
-		}
-		// ディレクトリダウンロード
-		else if ([[attach file] isDirectory]) {
-			result = [self downloadDir:attach.file from:sock useUTF8:utf8];
-			if (result == DL_SUCCESS) {
-				attach.isDownloaded = YES;
-			} else {
-				ERR(@"download dir error.(%@)", attach.file.name);
-				close(sock);
-				break;
-			}
-			[self incrementNumberOfDirectory];
-		}
-		// リソースフォーク（未実装）
-		// その他（未サポート）
-		else {
-			ERR(@"unsupported file type(%@)", attach.file.path);
-		}
-
-		// ソケットクローズ
-		close(sock);
-	}
-	if (stop) {
-		result = DL_STOP;
-	}
-	[_listener downloadDidFinished:result];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.lock unlock];
-    });
-	
-	DBG(@"stop download thread.");
+            char				buf[256];
+            
+            if (!attach) {
+                ERR(@"internal error(attach is nil,index=%d)", _indexOfTarget);
+                result = DL_INTERNAL_ERROR;
+                break;
+            }
+            
+            [_listener downloadIndexOfTargetChanged];
+            
+            // ソケット準備
+            sock = socket(AF_INET, SOCK_STREAM, 0);
+            if (sock == -1) {
+                ERR(@"socket open error");
+                result = DL_SOCKET_ERROR;
+                break;
+            }
+            
+            // 接続
+            memset(&addr, 0, sizeof(addr));
+            addr.sin_family			= AF_INET;
+            addr.sin_port			= htons([[MessageCenter sharedCenter] myPortNo]);
+            addr.sin_addr.s_addr	= htonl([_message fromUser].ipAddressNumber);
+            
+            NSLog(@"%ld %u %@", (long)[MessageCenter sharedCenter].myPortNo, (unsigned int)[_message fromUser].ipAddressNumber, [_message fromUser].ipAddress);
+            
+            if (connect(sock, (struct sockaddr*)&addr, sizeof(addr)) != 0) {
+                ERR(@"connect error");
+                close(sock);
+                result = DL_CONNECT_ERROR;
+                break;
+            }
+            /*
+             if (fcntl(sock, F_SETFL, O_NONBLOCK) == -1) {
+             ERR(@"socket option set error(errorno=%d)", errno);
+             result = DL_SOCKET_ERROR;
+             break;
+             }
+             */
+            
+            // リクエスト送信
+            UInt32	command = [attach.file isRegularFile] ? IPMSG_GETFILEDATA : IPMSG_GETDIRFILES;
+            BOOL	utf8	= (BOOL)(([_message command] & IPMSG_UTF8OPT) != 0);
+            
+            if (utf8) {
+                command |= IPMSG_UTF8OPT;
+            }
+            sprintf(buf, "%d:%ld:%s:%s:%u:%lx:%x:%x:",
+                    IPMSG_VERSION,
+                    [MessageCenter nextMessageID],
+                    [NSUserName() GB18030String],
+                    [[[MessageCenter sharedCenter] myHostName] GB18030String],
+                    command,
+                    _message.packetNo,
+                    [[attach fileID] intValue],
+                    0U);
+            // リクエスト送信
+            if (send(sock, buf, strlen(buf) + 1, 0) < 0) {
+                ERR(@"file:attach request send error.(%s)", buf);
+                close(sock);
+                result = DL_COMMUNICATION_ERROR;
+                break;
+            }
+            //		DBG(@"send file/dir request=%s", buf);
+            
+            // ファイルダウンロード
+            if ([[attach file] isRegularFile]) {
+                result = [self downloadFile:attach.file from:sock];
+                if (result == DL_SUCCESS) {
+                    attach.isDownloaded = YES;
+                } else {
+                    ERR(@"download file error.(%@)", attach.file.name);
+                    close(sock);
+                    break;
+                }
+                [self incrementNumberOfFile];
+            }
+            // ディレクトリダウンロード
+            else if ([[attach file] isDirectory]) {
+                result = [self downloadDir:attach.file from:sock useUTF8:utf8];
+                if (result == DL_SUCCESS) {
+                    attach.isDownloaded = YES;
+                } else {
+                    ERR(@"download dir error.(%@)", attach.file.name);
+                    close(sock);
+                    break;
+                }
+                [self incrementNumberOfDirectory];
+            }
+            // リソースフォーク（未実装）
+            // その他（未サポート）
+            else {
+                ERR(@"unsupported file type(%@)", attach.file.path);
+            }
+            
+            // ソケットクローズ
+            close(sock);
+        }
+        if (stop) {
+            result = DL_STOP;
+        }
+        [_listener downloadDidFinished:result];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.lock unlock];
+        });
+        
+        DBG(@"stop download thread.");
     }
 }
 

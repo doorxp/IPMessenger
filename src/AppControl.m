@@ -634,4 +634,19 @@
 	}
 }
 
+- (void)applicationWillUnhide:(NSNotification *)notification {
+    
+}
+
+- (void)applicationDidUnhide:(NSNotification *)notification {
+    
+}
+
+- (void)applicationWillBecomeActive:(NSNotification *)notification {
+    
+}
+
+- (void)application:(NSApplication *)application didUpdateUserActivity:(NSUserActivity *)userActivity {
+    
+}
 @end

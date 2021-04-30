@@ -69,7 +69,7 @@
 //	[_option release];
 //	[super dealloc];
     
-    self.command    = nil;
+    self.command    = 0;
     self.toUser        = nil;
     self.message    = nil;
 }

@@ -51,6 +51,8 @@
 	 * 準備
 	 *------------------------------------------------------------------------*/
 
+    printf("===>%s\n", buf);
+    
     TRC(@"start parsing(buf=0x%08llX,len=%lu)--------", (unsigned long long)buf, (unsigned long)len);
 
 	// パラメタチェック
@@ -100,8 +102,8 @@
 	 * バッファ解析
 	 *------------------------------------------------------------------------*/
 
-	char*	ptr;				// ワーク
-	char*	tok;				// ワーク
+	char*	ptr = NULL;				// ワーク
+	char*	tok = NULL;				// ワーク
 	char*	message		= NULL;	// 追加部C文字列
 	char*	subMessage	= NULL;	// 追加部オプションC文字列
 	char*	subMessage2	= NULL;	// 追加部オプションUTF-8文字列
