@@ -13,16 +13,10 @@
  *============================================================================*/
 
 @interface NoticeControl : NSObject
-{
-	IBOutlet NSWindow*		window;			// ダイアログ
-	IBOutlet NSTextField*	titleLabel;		// タイトルラベル
-	IBOutlet NSTextField*	messageLabel;	// メッセージラベル
-	IBOutlet NSTextField*	dateLabel;		// 日付ラベル
-}
 
-// 初期化
-- (id)initWithTitle:(NSString*)title
-			message:(NSString*)msg
-			   date:(NSDate*)date;
+
++ (void)noticeTitle:(NSString*)title
+            message:(NSString*)msg
+               date:(NSDate*)date;
 
 @end

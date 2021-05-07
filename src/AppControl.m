@@ -379,13 +379,23 @@
 	NSWindow*		win;
 	while ((win = (NSWindow*)[e nextObject])) {
 		if ([win isVisible] && [[win delegate] isKindOfClass:[ReceiveControl class]]) {
-			NSInteger ret = NSRunCriticalAlertPanel(
-								NSLocalizedString(@"ShutDown.Confirm1.Title", nil),
-								NSLocalizedString(@"ShutDown.Confirm1.Msg", nil),
-								NSLocalizedString(@"ShutDown.Confirm1.OK", nil),
-								NSLocalizedString(@"ShutDown.Confirm1.Cancel", nil),
-								nil);
-			if (ret == NSAlertAlternateReturn) {
+            
+            NSAlert *alert = [NSAlert new];
+            alert.alertStyle = NSAlertStyleCritical;
+            alert.messageText = NSLocalizedString(@"ShutDown.Confirm1.Title", nil);
+            alert.informativeText = NSLocalizedString(@"ShutDown.Confirm1.Msg", nil);
+            [alert addButtonWithTitle:NSLocalizedString(@"ShutDown.Confirm1.OK", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"ShutDown.Confirm1.Cancel", nil)];
+            
+            
+            NSInteger ret = [alert runModal];
+//            NSRunCriticalAlertPanel(
+//								NSLocalizedString(@"ShutDown.Confirm1.Title", nil),
+//								NSLocalizedString(@"ShutDown.Confirm1.Msg", nil),
+//								NSLocalizedString(@"ShutDown.Confirm1.OK", nil),
+//								NSLocalizedString(@"ShutDown.Confirm1.Cancel", nil),
+//								nil);
+			if (ret == NSAlertSecondButtonReturn) {
 				[win makeKeyAndOrderFront:self];
 				// 終了キャンセル
 				return NSTerminateCancel;
@@ -396,17 +406,28 @@
 	// ノンポップアップの未読メッセージがあれば終了確認
 	[_receiveQueueLock lock];
 	if ([_receiveQueue count] > 0) {
-		NSInteger ret = NSRunCriticalAlertPanel(
-								NSLocalizedString(@"ShutDown.Confirm2.Title", nil),
-								NSLocalizedString(@"ShutDown.Confirm2.Msg", nil),
-								NSLocalizedString(@"ShutDown.Confirm2.OK", nil),
-								NSLocalizedString(@"ShutDown.Confirm2.Other", nil),
-								NSLocalizedString(@"ShutDown.Confirm2.Cancel", nil));
-		if (ret == NSAlertOtherReturn) {
+        
+        NSAlert *alert = [NSAlert new];
+        alert.messageText = NSLocalizedString(@"ShutDown.Confirm2.Title", nil);
+        alert.informativeText = NSLocalizedString(@"ShutDown.Confirm2.Msg", nil);
+        [alert addButtonWithTitle:NSLocalizedString(@"ShutDown.Confirm2.OK", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"ShutDown.Confirm2.Other", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"ShutDown.Confirm2.Cancel", nil)];
+        
+        
+        NSInteger ret = [alert runModal];
+        
+//        NSRunCriticalAlertPanel(
+//								NSLocalizedString(@"ShutDown.Confirm2.Title", nil),
+//								NSLocalizedString(@"ShutDown.Confirm2.Msg", nil),
+//								NSLocalizedString(@"ShutDown.Confirm2.OK", nil),
+//								NSLocalizedString(@"ShutDown.Confirm2.Other", nil),
+//								NSLocalizedString(@"ShutDown.Confirm2.Cancel", nil));
+		if (ret == NSAlertThirdButtonReturn) {
 			[_receiveQueueLock unlock];
 			// 終了キャンセル
 			return NSTerminateCancel;
-		} else if (ret == NSAlertAlternateReturn) {
+		} else if (ret == NSAlertSecondButtonReturn) {
 			[_receiveQueueLock unlock];
 			[self applicationShouldHandleReopen:NSApp hasVisibleWindows:NO];
 			// 終了キャンセル
@@ -501,6 +522,7 @@
 
 //DBG(@"#window = %d", [[NSApp windows] count]);
 	wins = [NSApp windows];
+    
 	for (i = 0; i < [wins count]; i++) {
 		NSWindow* win = [wins objectAtIndex:i];
 //		[win orderFront:self];
@@ -510,7 +532,16 @@
 			noWin = NO;
 			break;
 		}
+        
+//        if([win.delegate isKindOfClass:SendControl.class]) {
+//            sender = win;
+//        }
 	}
+    
+    if(noWin) {
+        [self newMessage:self];
+    }
+    
 	if (_activatedFlag != -1) {
 		if ((noWin || !_activatedFlag) &&
 			!b && config.openNewOnDockClick) {
@@ -607,11 +638,14 @@
 			title	= NSLocalizedString(@"Log.ConvFail.Title", nil);
 			message	= NSLocalizedString(@"Log.ConvFail.Message", nil);
 			ok		= NSLocalizedString(@"Log.ConvFail.OK", nil);
-			alert = [NSAlert alertWithMessageText:title
-									defaultButton:ok 
-								  alternateButton:nil
-									  otherButton:nil
-						informativeTextWithFormat:@"%@",message];
+//			alert = [NSAlert alertWithMessageText:title
+//									defaultButton:ok
+//								  alternateButton:nil
+//									  otherButton:nil
+//						informativeTextWithFormat:@"%@",message];
+            alert.messageText = title;
+            alert.informativeText = message;
+            [alert addButtonWithTitle:ok];
 			[alert setAlertStyle:NSAlertStyleCritical];
 			[alert runModal];
 		}
@@ -624,11 +658,14 @@
 	if ([converter.backupPath length] > 0) {
 		title	= NSLocalizedString(@"Log.Backup.Title", nil);
 		ok		= NSLocalizedString(@"Log.Backup.OK", nil);
-		alert = [NSAlert alertWithMessageText:title
-								defaultButton:ok
-							  alternateButton:nil
-								  otherButton:nil
-					informativeTextWithFormat:@"%@",converter.backupPath];
+//		alert = [NSAlert alertWithMessageText:title
+//								defaultButton:ok
+//							  alternateButton:nil
+//								  otherButton:nil
+//					informativeTextWithFormat:@"%@",converter.backupPath];
+        alert.messageText = title;
+        alert.informativeText = converter.backupPath;
+        [alert addButtonWithTitle:ok];
 		[alert setAlertStyle:NSAlertStyleInformational];
 		[alert runModal];
 	}

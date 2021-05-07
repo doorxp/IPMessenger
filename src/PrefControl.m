@@ -423,8 +423,8 @@
 
 		// シート表示
         
-        [panel beginSheet:refuseSheet completionHandler:^(NSModalResponse returnCode) {
-            [self sheetDidEnd:refuseSheet returnCode:returnCode contextInfo:nil];
+        [panel beginSheet:self->refuseSheet completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self->refuseSheet returnCode:returnCode contextInfo:nil];
         }];
         
 //		[NSApp beginSheet:refuseSheet

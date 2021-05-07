@@ -364,7 +364,7 @@ DQ
             <connections>
                 <outlet property="initialFirstResponder" destination="43" id="66"/>
             </connections>
-            <point key="canvasLocation" x="-91" y="553"/>
+            <point key="canvasLocation" x="-357" y="564"/>
         </window>
         <drawer trailingOffset="15" id="98">
             <size key="contentSize" width="200" height="200"/>
@@ -393,7 +393,7 @@ DQ
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="Attachment" editable="NO" width="166.29901123046875" minWidth="75.299003601074219" maxWidth="1000" id="147">
+                                    <tableColumn identifier="Attachment" editable="NO" width="137.29901123046875" minWidth="75.299003601074219" maxWidth="1000" id="147">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Attachments">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -443,15 +443,15 @@ DQ
         <window title="Download panel" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="127" userLabel="DownloadPanel" customClass="NSPanel" propertyAccessControl="none">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="272" y="568" width="488" height="311"/>
+            <rect key="contentRect" x="272" y="568" width="538" height="338"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="128">
-                <rect key="frame" x="0.0" y="0.0" width="488" height="311"/>
+                <rect key="frame" x="0.0" y="0.0" width="649" height="338"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="152">
-                        <rect key="frame" x="385" y="21" width="70" height="32"/>
+                        <rect key="frame" x="546" y="20" width="70" height="32"/>
                         <buttonCell key="cell" type="push" title="STOP" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="202">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -461,7 +461,7 @@ DQ
                         </connections>
                     </button>
                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" translatesAutoresizingMaskIntoConstraints="NO" id="PKD-YP-6Xp">
-                        <rect key="frame" x="40" y="40" width="428" height="199"/>
+                        <rect key="frame" x="40" y="67" width="589" height="199"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="132">
                                 <rect key="frame" x="-2" y="183" width="149" height="16"/>
@@ -480,16 +480,16 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <box boxType="custom" borderType="none" titlePosition="noTitle" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V63-I5-9xw">
-                                <rect key="frame" x="0.0" y="137" width="428" height="12"/>
+                                <rect key="frame" x="0.0" y="137" width="589" height="12"/>
                                 <view key="contentView" id="qq9-e7-WdC">
-                                    <rect key="frame" x="0.0" y="0.0" width="428" height="12"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="589" height="12"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <progressIndicator wantsLayer="YES" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="130">
-                                            <rect key="frame" x="0.0" y="0.0" width="384" height="12"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="545" height="12"/>
                                         </progressIndicator>
                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="151">
-                                            <rect key="frame" x="390" y="-1" width="40" height="14"/>
+                                            <rect key="frame" x="551" y="-1" width="40" height="14"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="100 %" id="201">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -508,7 +508,7 @@ DQ
                                 </view>
                             </box>
                             <customView autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eth-sh-yiF">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="127"/>
+                                <rect key="frame" x="0.0" y="0.0" width="589" height="127"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="vertical" alignment="trailing" spacing="25" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="we4-Zs-W1n">
                                         <rect key="frame" x="0.0" y="0.0" width="83" height="127"/>
@@ -641,7 +641,7 @@ DQ
                 </subviews>
                 <constraints>
                     <constraint firstItem="SKV-0j-5Xn" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="PKD-YP-6Xp" secondAttribute="bottom" constant="20" symbolic="YES" id="VUY-6v-YDZ"/>
-                    <constraint firstItem="M6z-n3-NRM" firstAttribute="bottom" secondItem="152" secondAttribute="bottom" constant="8" id="dXX-vh-R7m"/>
+                    <constraint firstItem="152" firstAttribute="top" secondItem="PKD-YP-6Xp" secondAttribute="bottom" constant="20" symbolic="YES" id="dCT-8Q-VBv"/>
                     <constraint firstItem="SKV-0j-5Xn" firstAttribute="trailing" secondItem="PKD-YP-6Xp" secondAttribute="trailing" constant="20" symbolic="YES" id="nwY-XJ-KPq"/>
                     <constraint firstItem="PKD-YP-6Xp" firstAttribute="top" secondItem="SKV-0j-5Xn" secondAttribute="top" constant="20" symbolic="YES" id="rVH-ij-sge"/>
                     <constraint firstItem="PKD-YP-6Xp" firstAttribute="leading" secondItem="M6z-n3-NRM" secondAttribute="leading" constant="20" symbolic="YES" id="stN-IQ-3b5"/>
@@ -651,7 +651,7 @@ DQ
                 <viewLayoutGuide key="safeArea" id="SKV-0j-5Xn"/>
                 <viewLayoutGuide key="layoutMargins" id="M6z-n3-NRM"/>
             </view>
-            <point key="canvasLocation" x="-634" y="154.5"/>
+            <point key="canvasLocation" x="-490" y="163"/>
         </window>
     </objects>
     <resources>

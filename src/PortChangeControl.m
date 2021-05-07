@@ -10,7 +10,21 @@
 #import "Config.h"
 #import "DebugLog.h"
 
+@interface PortChangeControl()
+
+@property(nonatomic, strong) IBOutlet NSPanel*        panel;
+@property(nonatomic, strong) IBOutlet NSTextField*    portNoField;
+@property(nonatomic, strong) IBOutlet NSButton*        okButton;
+
+- (IBAction)buttonPressed:(id)sender;
+- (IBAction)textChanged:(id)sender;
+
+- (void)show;
+@end
+
 @implementation PortChangeControl
+
+@synthesize panel,portNoField,okButton;
 
 /*----------------------------------------------------------------------------*
  * 初期化
@@ -32,9 +46,18 @@
 	[panel makeKeyAndOrderFront:self];
 
 	// モーダル開始
-	[NSApp runModalForWindow:panel];
+	
 
 	return self;
+}
+
+- (void)show {
+    [NSApp runModalForWindow:panel];
+}
+
++ (void)show {
+    PortChangeControl *alert = [PortChangeControl new];
+    [alert show];
 }
 
 - (IBAction)buttonPressed:(id)sender {

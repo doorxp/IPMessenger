@@ -153,14 +153,14 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
-//        NSAlert *alert = [NSAlert new];
-//        alert.messageText = NSLocalizedString(@"Err.DynStoreCreate..title", nil);
-//        alert.informativeText = NSLocalizedString(@"Err.DynStoreCreate.msg", nil);
-//        [alert addButtonWithTitle:@"OK"];
-//        [alert runModal];
-		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.DynStoreCreate..title", nil),
-								NSLocalizedString(@"Err.DynStoreCreate.msg", nil),
-								@"OK", nil, nil);
+        NSAlert *alert = [NSAlert new];
+        alert.messageText = NSLocalizedString(@"Err.DynStoreCreate..title", nil);
+        alert.informativeText = NSLocalizedString(@"Err.DynStoreCreate.msg", nil);
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+//		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.DynStoreCreate..title", nil),
+//								NSLocalizedString(@"Err.DynStoreCreate.msg", nil),
+//								@"OK", nil, nil);
 		// プログラム終了
 		[NSApp terminate:self];
 		return nil;
@@ -185,9 +185,15 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
-		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.NetCheck.title", nil),
-								NSLocalizedString(@"Err.NetCheck.msg", nil),
-								@"OK", nil, nil);
+//		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.NetCheck.title", nil),
+//								NSLocalizedString(@"Err.NetCheck.msg", nil),
+//								@"OK", nil, nil);
+        
+        NSAlert *alert = [NSAlert new];
+        alert.messageText =NSLocalizedString(@"Err.NetCheck.title", nil);
+        alert.informativeText =NSLocalizedString(@"Err.NetCheck.msg", nil);
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
 	}
 
 	// 乱数初期化
@@ -198,9 +204,15 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
-		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.UDPSocketOpen.title", nil),
-								NSLocalizedString(@"Err.UDPSocketOpen.msg", nil),
-								@"OK", nil, nil);
+//		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.UDPSocketOpen.title", nil),
+//								NSLocalizedString(@"Err.UDPSocketOpen.msg", nil),
+//								@"OK", nil, nil);
+        
+        NSAlert *alert = [NSAlert new];
+        alert.messageText =NSLocalizedString(@"Err.UDPSocketOpen.title", nil);
+        alert.informativeText =NSLocalizedString(@"Err.UDPSocketOpen.msg", nil);
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
 		// プログラム終了
 		[NSApp terminate:self];
 //		[self autorelease];
@@ -215,24 +227,33 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	// ソケットバインド
 	while (bind(sockUDP, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-		NSInteger result;
+        NSModalResponse result;
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
-		result = NSRunCriticalAlertPanel(
-							NSLocalizedString(@"Err.UDPSocketBind.title", nil),
-							NSLocalizedString(@"Err.UDPSocketBind.msg", nil),
-							NSLocalizedString(@"Err.UDPSocketBind.ok", nil),
-							nil,
-							NSLocalizedString(@"Err.UDPSocketBind.alt", nil),
-							_myPortNo);
-		if (result == NSModalResponseOK) {
+        
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSAlertStyleCritical;
+        alert.messageText = NSLocalizedString(@"Err.UDPSocketBind.title", nil);
+        alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"Err.UDPSocketBind.msg", nil), _myPortNo];
+        [alert addButtonWithTitle:NSLocalizedString(@"Err.UDPSocketBind.ok", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Err.UDPSocketBind.alt", nil)];
+        
+//		result = NSRunCriticalAlertPanel(
+//							NSLocalizedString(@"Err.UDPSocketBind.title", nil),
+//							NSLocalizedString(@"Err.UDPSocketBind.msg", nil),
+//							NSLocalizedString(@"Err.UDPSocketBind.ok", nil),
+//							nil,
+//							NSLocalizedString(@"Err.UDPSocketBind.alt", nil),
+//							_myPortNo);
+        result = [alert runModal];
+		if (result == NSAlertFirstButtonReturn) {
 			// プログラム終了
 			[NSApp terminate:self];
 //			[self autorelease];
 			return nil;
 		}
-		[[PortChangeControl alloc] init];
+		[PortChangeControl show];
 		self.myPortNo		= config.portNo;
 		addr.sin_port	= htons(_myPortNo);
 	}
@@ -521,13 +542,21 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	RetryInfo*	retryInfo	= [_sendList objectForKey:msgid];
 	if (retryInfo) {
 		if (retryInfo.retryCount >= RETRY_MAX) {
-			NSInteger ret = NSRunCriticalAlertPanel(
-								NSLocalizedString(@"Send.Retry.Title", nil),
-								NSLocalizedString(@"Send.Retry.Msg", nil),
-								NSLocalizedString(@"Send.Retry.OK", nil),
-								NSLocalizedString(@"Send.Retry.Cancel", nil),
-								nil, [retryInfo toUser].userName);
-			if (ret == NSAlertAlternateReturn) {
+            NSAlert *alert = [NSAlert new];
+            alert.alertStyle = NSAlertStyleCritical;
+            alert.messageText = NSLocalizedString(@"Send.Retry.Title", nil);
+            alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"Send.Retry.Msg", nil), [retryInfo toUser].userName];
+            [alert addButtonWithTitle:NSLocalizedString(@"Send.Retry.OK", nil)];
+            [alert addButtonWithTitle:NSLocalizedString(@"Send.Retry.Cancel", nil)];
+            NSInteger ret = [alert runModal];
+            
+//            NSRunCriticalAlertPanel(
+//								NSLocalizedString(@"Send.Retry.Title", nil),
+//								NSLocalizedString(@"Send.Retry.Msg", nil),
+//								NSLocalizedString(@"Send.Retry.OK", nil),
+//								NSLocalizedString(@"Send.Retry.Cancel", nil),
+//								nil, [retryInfo toUser].userName);
+			if (ret != NSAlertFirstButtonReturn) {
 				// 再送キャンセル
 				// 応答待ちメッセージ一覧からメッセージのエントリを削除
 				[_sendList removeObjectForKey:msgid];
@@ -781,9 +810,9 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		}
 		if (config.noticeSealOpened) {
 			// 封書が開封されたダイアログを表示
-			[[NoticeControl alloc] initWithTitle:NSLocalizedString(@"SealOpenDlg.title", nil)
-										 message:[fromUser summaryString]
-											date:nil];
+            [NoticeControl noticeTitle:NSLocalizedString(@"SealOpenDlg.title", nil)
+                              message:[fromUser summaryString]
+                                 date:nil];
 		}
 		break;
 	case IPMSG_DELMSG:		// 封書破棄通知パケット
@@ -832,9 +861,9 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		break;
 	case IPMSG_SENDABSENCEINFO:
 		// 不在情報をダイアログに出す
-		[[NoticeControl alloc] initWithTitle:[fromUser summaryString]
-									 message:appendix
-										date:nil];
+            [NoticeControl noticeTitle:[fromUser summaryString]
+                              message:appendix
+                                 date:nil];
 		break;
 	/*-------- 添付関連 ---------*/
 	case IPMSG_RELEASEFILES:	// 添付破棄通知
@@ -1116,10 +1145,12 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 			return _NET_LINK_LOST;
 		}
         self.scKeyIFIPv4 = (__bridge NSString*)key;
+        CFRelease(key);
 	}
 
 	// State:/Network/Interface/<PrimaryNetworkInterface>/IPv4 取得
 	value = (CFDictionaryRef)SCDynamicStoreCopyValue(scDynStore, (CFStringRef)_scKeyIFIPv4);
+    
 	if (!value) {
 		// 値なし（ありえないはず）
 		ERR(@"value get error (%@)", _scKeyIFIPv4);
@@ -1232,13 +1263,15 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 		// ネットワークが無い状態からある状態になった
         self.primaryNIC = (__bridge NSString*)primaryIF;
 		DBG(@"A Network I/F becomes linked");
+        CFRelease(primaryIF);
 		return _NET_LINK_GAINED;
 	}
 
     if (![_primaryNIC isEqualToString:(__bridge NSString*)primaryIF]) {
 		// 既にあるが変わった
-        DBG(@"Primary Network I/F changed(%@ -> %@)", _primaryNIC, (NSString*)CFBridgingRelease(primaryIF));
+//        DBG(@"Primary Network I/F changed(%@ -> %@)", _primaryNIC, (NSString*)CFBridgingRelease(primaryIF));
         self.primaryNIC = (__bridge NSString*)primaryIF;
+        CFRelease(primaryIF);
 		return _NET_PRIMARY_IF_CHANGED;
 	}
 

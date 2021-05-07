@@ -13,8 +13,20 @@
  * クラス実装
  *============================================================================*/
 
-@implementation NoticeControl
+@interface NoticeControl()
+// 初期化
+- (id)initWithTitle:(NSString*)title
+            message:(NSString*)msg
+               date:(NSDate*)date;
 
+@property(nonatomic, strong) IBOutlet NSWindow*        window;            // ダイアログ
+@property(nonatomic, strong) IBOutlet NSTextField*    titleLabel;        // タイトルラベル
+@property(nonatomic, strong) IBOutlet NSTextField*    messageLabel;    // メッセージラベル
+@property(nonatomic, strong) IBOutlet NSTextField*    dateLabel;        // 日付ラベル
+@end
+
+@implementation NoticeControl
+@synthesize window,titleLabel,messageLabel,dateLabel;
 /*----------------------------------------------------------------------------*
  * 初期化
  *----------------------------------------------------------------------------*/
@@ -43,13 +55,24 @@
 	centerPoint.y = (sh - wh) / 2 + (rand() % (sh / 4)) - sh / 8;
 	[window setFrameOrigin:centerPoint];
 
-	// ウィンドウメニューから除外
-	[window setExcludedFromWindowsMenu:YES];
-
-	// ダイアログ表示
-	[window makeKeyAndOrderFront:self];
+	
 
 	return self;
+}
+
+- (void)show {
+    // ウィンドウメニューから除外
+    [window setExcludedFromWindowsMenu:YES];
+
+    // ダイアログ表示
+    [window makeKeyAndOrderFront:self];
+}
+
++ (void)noticeTitle:(NSString*)title
+            message:(NSString*)msg
+               date:(NSDate*)date {
+    NoticeControl *control = [[NoticeControl alloc] initWithTitle:title message:msg date:date];
+    [control show];
 }
 
 /*----------------------------------------------------------------------------*

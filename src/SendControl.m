@@ -36,7 +36,7 @@ static NSDate*				lastTimeOfEntrySent	= nil;
 static NSMutableDictionary*	userListColumns		= nil;
 static NSRecursiveLock*		userListColsLock	= nil;
 
-@interface SendControl()
+@interface SendControl()<NSSplitViewDelegate>
 - (void)updateSearchFieldPlaceholder;
 @end
 
@@ -77,10 +77,11 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	if (msg) {
 		if ([msg length] > 0) {
 			// 引用文字列行末の改行がなければ追加
+            NSRange r = NSMakeRange(self.messageArea.string.length, 0);
 			if ([msg characterAtIndex:[msg length] - 1] != '\n') {
-				[self.messageArea insertText:[msg stringByAppendingString:@"\n"]];
+				[self.messageArea insertText:[msg stringByAppendingString:@"\n"] replacementRange:r];
 			} else {
-				[self.messageArea insertText:msg];
+				[self.messageArea insertText:msg replacementRange:r];
 			}
 		}
 	}
@@ -121,6 +122,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	// ファーストレスポンダ設定
 	[self.window makeFirstResponder:self.messageArea];
 
+    self.splitView.translatesAutoresizingMaskIntoConstraints = false;
+    
 	return self;
 }
 
@@ -214,13 +217,13 @@ static NSRecursiveLock*		userListColsLock	= nil;
 - (void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)code contextInfo:(void*)info {
     if (info == (__bridge void *)(self.sendButton)) {
 		[sheet orderOut:self];
-		if (code == NSModalResponseOK) {
+		if (code == NSModalResponseOK || code == NSAlertFirstButtonReturn) {
 			// 不在モードを解除してメッセージを送信
 			[(id)[NSApp delegate] setAbsenceOff];
 			[self sendMessage:self];
 		}
     } else if (info == (__bridge void *)(self.attachAddButton)) {
-		if (code == NSModalResponseOK) {
+		if (code == NSModalResponseOK || code == NSAlertFirstButtonReturn) {
 			NSOpenPanel*	op = (NSOpenPanel*)sheet;
 			//NSString*		fn = [op filename];
             NSString*		fn = [[op URL] relativePath];
@@ -250,26 +253,28 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 	if (config.inAbsence) {
 		// 不在モードを解除して送信するか確認
-		NSBeginAlertSheet(	NSLocalizedString(@"SendDlg.AbsenceOff.Title", nil),
-							NSLocalizedString(@"SendDlg.AbsenceOff.OK", nil),
-							NSLocalizedString(@"SendDlg.AbsenceOff.Cancel", nil),
-							nil,
-                          self.window,
-							self,
-							@selector(sheetDidEnd:returnCode:contextInfo:),
-							nil,
-                          (__bridge void *)(sender),
-							NSLocalizedString(@"SendDlg.AbsenceOff.Msg", nil),
-								[config absenceTitleAtIndex:config.absenceIndex]);
+//		NSBeginAlertSheet(	NSLocalizedString(@"SendDlg.AbsenceOff.Title", nil),
+//							NSLocalizedString(@"SendDlg.AbsenceOff.OK", nil),
+//							NSLocalizedString(@"SendDlg.AbsenceOff.Cancel", nil),
+//							nil,
+//                          self.window,
+//							self,
+//							@selector(sheetDidEnd:returnCode:contextInfo:),
+//							nil,
+//                          (__bridge void *)(sender),
+//							NSLocalizedString(@"SendDlg.AbsenceOff.Msg", nil),
+//								[config absenceTitleAtIndex:config.absenceIndex]);
         
-//        NSAlert *alert = [NSAlert new];
-//        [alert addButtonWithTitle:NSLocalizedString(@"SendDlg.AbsenceOff.OK", nil)]
-//        [alert addButtonWithTitle:<#(nonnull NSString *)#>]
-//        [alert addButtonWithTitle:<#(nonnull NSString *)#>]
-//        
-//        [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
-//            [self sheetDidEnd:window returnCode:returnCode contextInfo:sender];
-//        }];
+        NSAlert *alert = [NSAlert new];
+        alert.messageText = NSLocalizedString(@"SendDlg.AbsenceOff.Title", nil);
+        alert.informativeText = [NSString stringWithFormat:NSLocalizedString(@"SendDlg.AbsenceOff.Msg", nil), [config absenceTitleAtIndex:config.absenceIndex]];
+        
+        [alert addButtonWithTitle:NSLocalizedString(@"SendDlg.AbsenceOff.OK", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"SendDlg.AbsenceOff.Cancel", nil)];
+        
+        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self.window returnCode:returnCode contextInfo:(__bridge void *)(sender)];
+        }];
         
 		return;
 	}
@@ -320,46 +325,49 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	}
 }
 
-//// SplitViewのリサイズ制限
-//- (float)splitView				:(NSSplitView*)sender
-//		  constrainMinCoordinate:(float)proposedMin
-//					 ofSubviewAt:(int)offset {
+// SplitViewのリサイズ制限
+- (CGFloat)splitView				:(NSSplitView*)sender
+		  constrainMinCoordinate:(CGFloat)proposedMin
+					 ofSubviewAt:(NSInteger)offset {
 //	if (offset == 0) {
 //		// 上側ペインの最小サイズを制限
 //		return 90;
 //	}
 //	return proposedMin;
-//}
-//
-//// SplitViewのリサイズ制限
-//- (float)splitView				:(NSSplitView*)sender
-//		  constrainMaxCoordinate:(float)proposedMax
-//					 ofSubviewAt:(int)offset {
-//	if (offset == 0) {
-//		// 上側ペインの最大サイズを制限
-//		return [sender frame].size.height - [sender dividerThickness] - 2;
-//	}
-//	return proposedMax;
-//}
+    return 60;
+}
+
+// SplitViewのリサイズ制限
+- (CGFloat)splitView				:(NSSplitView*)sender
+		  constrainMaxCoordinate:(CGFloat)proposedMax
+					 ofSubviewAt:(NSInteger)offset {
+    float m = [sender frame].size.height - [sender dividerThickness] - 60;
+    return  m;
+}
 
 // SplitViewのリサイズ処理
 - (void)splitView:(NSSplitView*)sender resizeSubviewsWithOldSize:(NSSize)oldSize
 {
-	NSSize	newSize	= [sender frame].size;
-	float	divider	= [sender dividerThickness];
-	NSRect	frame1	= [self.splitSubview1 frame];
-	NSRect	frame2	= [self.splitSubview2 frame];
+    [sender adjustSubviews];
+//	NSSize	newSize	= [sender frame].size;
+//	float	divider	= [sender dividerThickness];
+//	NSRect	frame1	= [self.splitSubview1 frame];
+//	NSRect	frame2	= [self.splitSubview2 frame];
+//
+//	frame1.size.width	= newSize.width;
+//	if (frame1.size.height > newSize.height - divider) {
+//		// ヘッダ部の高さは変更しないがSplitViewの大きさ内には納める
+//		frame1.size.height = newSize.height - divider;
+//	}
+//	frame2.origin.x		= 0;
+//	frame2.size.width	= newSize.width + 2;
+//	frame2.size.height	= newSize.height - frame1.size.height - divider;
+//	[self.splitSubview1 setFrame:frame1];
+//	[self.splitSubview2 setFrame:frame2];
+}
 
-	frame1.size.width	= newSize.width;
-	if (frame1.size.height > newSize.height - divider) {
-		// ヘッダ部の高さは変更しないがSplitViewの大きさ内には納める
-		frame1.size.height = newSize.height - divider;
-	}
-	frame2.origin.x		= -1;
-	frame2.size.width	= newSize.width + 2;
-	frame2.size.height	= newSize.height - frame1.size.height - divider;
-	[self.splitSubview1 setFrame:frame1];
-	[self.splitSubview2 setFrame:frame2];
+- (NSRect)splitView:(NSSplitView *)splitView effectiveRect:(NSRect)proposedEffectiveRect forDrawnRect:(NSRect)drawnRect ofDividerAtIndex:(NSInteger)dividerIndex {
+    return  proposedEffectiveRect;
 }
 
 /*----------------------------------------------------------------------------*

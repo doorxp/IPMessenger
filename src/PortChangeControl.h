@@ -9,13 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface PortChangeControl : NSObject
-{
-	IBOutlet NSPanel*		panel;
-	IBOutlet NSTextField*	portNoField;
-	IBOutlet NSButton*		okButton;
-}
 
-- (IBAction)buttonPressed:(id)sender;
-- (IBAction)textChanged:(id)sender;
+
+
+
++ (void)show;
 
 @end
