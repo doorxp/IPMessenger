@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, IPMsgIconBoundType) {
 @property(assign,readwrite)	BOOL				hideReceiveWindowOnReply;	// 送信時受信ウィンドウをクローズ
 @property(assign,readwrite)	BOOL				noticeSealOpened;			// 開封確認を行う
 @property(assign,readwrite)	BOOL				allowSendingToMultiUser;	// 複数ユーザ宛送信を許可
-@property(retain, readonly)	NSFont*				sendMessageFont;			// 送信ウィンドウメッセージ部フォント
+@property(retain, strong)	NSFont*				sendMessageFont;			// 送信ウィンドウメッセージ部フォント
 @property(readonly)			NSFont*				defaultSendMessageFont;		// 送信ウィンドウメッセージ標準フォント
 // 受信
 @property(retain,nonatomic)	NSSound*			receiveSound;				// 受信音

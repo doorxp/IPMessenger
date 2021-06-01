@@ -664,6 +664,10 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 	return (_sendMessageFont) ? _sendMessageFont : self.defaultMessageFont;
 }
 
+- (void)setSendMessageFont:(NSFont *)sendMessageFont {
+    _sendMessageFont = sendMessageFont;
+}
+
 //- (void)setSendMessageFont:(NSFont*)font
 //{
 //	[font retain];
@@ -721,9 +725,7 @@ static NSString* SNDSEARCH_LOGON		= @"SendWindowSearchByLogOnName";
 
 //- (void)setReceiveMessageFont:(NSFont*)font
 //{
-//	[font retain];
-//	[_receiveMessageFont release];
-//	_receiveMessageFont = font;
+//    _receiveMessageFont = font;
 //}
 
 /*----------------------------------------------------------------------------*

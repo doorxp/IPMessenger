@@ -51,7 +51,7 @@
 	 * 準備
 	 *------------------------------------------------------------------------*/
 
-    printf("===>%s\n", buf);
+    printf("===>%s\n", (const char *)buf);
     
     TRC(@"start parsing(buf=0x%08llX,len=%lu)--------", (unsigned long long)buf, (unsigned long)len);
 
@@ -120,7 +120,7 @@
 
 	// バージョン番号
 	if (!(tok = strtok_r(buffer, MESSAGE_SEPARATOR, &ptr))) {
-		ERR(@"msg:illegal format(version get error,\"%s\")", buf);
+		ERR(@"msg:illegal format(version get error,\"%s\")", (const char*)buf);
 		return nil;
 	}
 	if (strtol(tok, NULL, 10) != IPMSG_VERSION) {
@@ -131,7 +131,7 @@
 
 	// パケット番号
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
-		ERR(@"msg:illegal format(version get error,\"%s\")", buf);
+		ERR(@"msg:illegal format(version get error,\"%s\")", (const char*)buf);
 		return nil;
 	}
 	self.packetNo = strtol(tok, NULL, 10);
@@ -139,7 +139,7 @@
 
 	// ログイン名
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
-		ERR(@"msg:illegal format(logOn get error,\"%s\")", buf);
+		ERR(@"msg:illegal format(logOn get error,\"%s\")", (const char*)buf);
 		return nil;
 	}
 	self.logOnUser = [[NSString alloc] initWithGB18030String:tok];
@@ -147,7 +147,7 @@
 
 	// ホスト名
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
-		ERR(@"msg:illegal format(host get error,\"%s\")", buf);
+		ERR(@"msg:illegal format(host get error,\"%s\")", (const char*)buf);
 		return nil;
 	}
     self.hostName = [[NSString alloc] initWithGB18030String:tok];
@@ -155,7 +155,7 @@
 
 	// コマンド番号
 	if (!(tok = strtok_r(NULL, MESSAGE_SEPARATOR, &ptr))) {
-		ERR(@"msg:illegal format(command get error,\"%s\")", buf);
+		ERR(@"msg:illegal format(command get error,\"%s\")", (const char*)buf);
 		return nil;
 	}
     self.command = strtoul(tok, NULL, 10);
