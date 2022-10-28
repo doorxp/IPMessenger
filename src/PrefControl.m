@@ -194,12 +194,16 @@
 		[bcastSheetResolveCheck setEnabled:NO];
 		[bcastSheet setInitialFirstResponder:bcastSheetField];
 
+        [bcastSheet beginSheet:panel completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self->bcastSheet returnCode:returnCode contextInfo:nil];
+        }];
+        
 		// シート表示
-		[NSApp beginSheet:bcastSheet
-		   modalForWindow:panel
-			modalDelegate:self
-		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-			  contextInfo:nil];
+//		[NSApp beginSheet:bcastSheet
+//		   modalForWindow:panel
+//			modalDelegate:self
+//		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+//			  contextInfo:nil];
 	}
 	// ブロードキャストアドレス削除ボタン
 	else if (sender == netBroadDeleteButton) {
@@ -341,16 +345,25 @@
 	// 不在定義初期化ボタン
 	else if (sender == absenceResetButton) {
 		// 不在モードを解除して送信するか確認
-		NSBeginCriticalAlertSheet(	NSLocalizedString(@"Pref.AbsenceReset.Title", nil),
-									NSLocalizedString(@"Pref.AbsenceReset.OK", nil),
-									NSLocalizedString(@"Pref.AbsenceReset.Cancel", nil),
-									nil,
-									panel,
-									self,
-									@selector(sheetDidEnd:returnCode:contextInfo:),
-									nil,
-                                  (__bridge void *)(sender),
-									NSLocalizedString(@"Pref.AbsenceReset.Msg", nil));
+//		NSBeginCriticalAlertSheet(	NSLocalizedString(@"Pref.AbsenceReset.Title", nil),
+//									NSLocalizedString(@"Pref.AbsenceReset.OK", nil),
+//									NSLocalizedString(@"Pref.AbsenceReset.Cancel", nil),
+//									nil,
+//									panel,
+//									self,
+//									@selector(sheetDidEnd:returnCode:contextInfo:),
+//									nil,
+//                                  (__bridge void *)(sender),
+//									NSLocalizedString(@"Pref.AbsenceReset.Msg", nil));
+        
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSAlertStyleCritical;
+        alert.messageText = NSLocalizedString(@"Pref.AbsenceReset.Title", nil);
+        [alert addButtonWithTitle:NSLocalizedString(@"Pref.AbsenceReset.OK", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Pref.AbsenceReset.Cancel", nil)];
+        [alert beginSheetModalForWindow:panel completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self->panel returnCode:returnCode contextInfo:(__bridge void *)(sender)];
+        }];
 	}
 	// 不在シートOKボタン
 	else if (sender == absenceSheetOKButton) {

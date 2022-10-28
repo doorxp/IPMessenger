@@ -353,10 +353,18 @@
 		if ([fileManager fileExistsAtPath:self.path]) {
 			if (![fileManager removeItemAtPath:self.path error:NULL]) {
 				ERR(@"remove error exist file(%@)", self.path);
-				NSRunAlertPanel(NSLocalizedString(@"RecvDlg.Attach.NoPermission.Title", nil),
-								NSLocalizedString(@"RecvDlg.Attach.NoPermission.Msg", nill),
-								NSLocalizedString(@"RecvDlg.Attach.NoPermission.OK", nil),
-								nil, nil, self.path);
+//				NSRunAlertPanel(NSLocalizedString(@"RecvDlg.Attach.NoPermission.Title", nil),
+//								NSLocalizedString(@"RecvDlg.Attach.NoPermission.Msg", nil),
+//								NSLocalizedString(@"RecvDlg.Attach.NoPermission.OK", nil),
+//								nil, nil, self.path);
+                
+                NSAlert *alert = [NSAlert new];
+                alert.informativeText = NSLocalizedString(@"RecvDlg.Attach.NoPermission.Title", nil);
+                alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"RecvDlg.Attach.NoPermission.Msg", nil), self.path];
+                
+                [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.Attach.NoPermission.OK", nil)];
+                
+                [alert runModal];
 			}
 		}
 		// ファイル作成
@@ -381,10 +389,18 @@
 		if ([fileManager fileExistsAtPath:self.path]) {
 			if (![fileManager removeItemAtPath:self.path error:NULL]) {
 				ERR(@"remove error exist dir(%@)", self.path);
-				NSRunAlertPanel(NSLocalizedString(@"RecvDlg.Attach.NoPermission.Title", nil),
-								NSLocalizedString(@"RecvDlg.Attach.NoPermission.Msg", nill),
-								NSLocalizedString(@"RecvDlg.Attach.NoPermission.OK", nil),
-								nil, nil, self.path);
+//				NSRunAlertPanel(NSLocalizedString(@"RecvDlg.Attach.NoPermission.Title", nil),
+//								NSLocalizedString(@"RecvDlg.Attach.NoPermission.Msg", nill),
+//								NSLocalizedString(@"RecvDlg.Attach.NoPermission.OK", nil),
+//								nil, nil, self.path);
+                
+                NSAlert *alert = [NSAlert new];
+                alert.informativeText = NSLocalizedString(@"RecvDlg.Attach.NoPermission.Title", nil);
+                alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"RecvDlg.Attach.NoPermission.Msg", nil), self.path];
+                
+                [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.Attach.NoPermission.OK", nil)];
+                
+                [alert runModal];
 			}
 		}
 		// ディレクトリ作成

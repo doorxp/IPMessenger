@@ -237,26 +237,46 @@
 					// 上書き確認
 					NSInteger result;
 					WRN(@"file exists(%@)", path);
+                    NSAlert *alert = [NSAlert new];
 					if ([[attach file] isDirectory]) {
-						result = NSRunAlertPanel(	NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Title", nil),
-													NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Msg", nil),
-													NSLocalizedString(@"RecvDlg.AttachDirOverwrite.OK", nil),
-													NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Cancel", nil),
-													nil,
-													[[attach file] name]);
+//						result = NSRunAlertPanel(	NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Title", nil),
+//													NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Msg", nil),
+//													NSLocalizedString(@"RecvDlg.AttachDirOverwrite.OK", nil),
+//													NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Cancel", nil),
+//													nil,
+//													[[attach file] name]);
+                        
+                        alert.messageText = NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Title", nil);
+                        alert.informativeText = [NSString stringWithFormat: NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Msg", nil), [[attach file] name]];
+                        
+                        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.AttachDirOverwrite.OK", nil)];
+                        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.AttachDirOverwrite.Cancel", nil)];
+                        
+                       
+                        
+                        
 					} else {
-						result = NSRunAlertPanel(	NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Title", nil),
-													NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Msg", nil),
-													NSLocalizedString(@"RecvDlg.AttachFileOverwrite.OK", nil),
-													NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Cancel", nil),
-													nil,
-													[[attach file] name]);
+//						result = NSRunAlertPanel(	NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Title", nil),
+//													NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Msg", nil),
+//													NSLocalizedString(@"RecvDlg.AttachFileOverwrite.OK", nil),
+//													NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Cancel", nil),
+//													nil,
+//													[[attach file] name]);
+                        
+                        alert.messageText = NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Title", nil);
+                        alert.informativeText = [NSString stringWithFormat: NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Msg", nil), [[attach file] name]];
+                        
+                        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.AttachFileOverwrite.OK", nil)];
+                        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.AttachFileOverwrite.Cancel", nil)];
 					}
+                    
+                    result = [alert runModal];
+                    
 					switch (result) {
-					case NSAlertDefaultReturn:
+					case NSAlertFirstButtonReturn:
 						DBG(@"overwrite ok.");
 						break;
-					case NSAlertAlternateReturn:
+					case NSAlertSecondButtonReturn:
 						DBG(@"overwrite canceled.");
 						[self.attachTable deselectRow:index];	// 選択解除
 						index = [indexes indexGreaterThanIndex:index];
@@ -598,9 +618,17 @@
 			msg = NSLocalizedString(@"RecvDlg.DownloadError.OtherError", nil);
 			break;
 		}
-		NSBeginCriticalAlertSheet(	NSLocalizedString(@"RecvDlg.DownloadError.Title", nil),
-									NSLocalizedString(@"RecvDlg.DownloadError.OK", nil),
-									nil, nil, self.window, nil, nil, nil, nil, msg, result);
+//		NSBeginCriticalAlertSheet(	NSLocalizedString(@"RecvDlg.DownloadError.Title", nil),
+//									NSLocalizedString(@"RecvDlg.DownloadError.OK", nil),
+//									nil, nil, self.window, nil, nil, nil, nil, msg, result);
+        
+        NSAlert *alert = [NSAlert new];
+        alert.messageText = NSLocalizedString(@"RecvDlg.DownloadError.Title", nil);
+        alert.informativeText = [NSString stringWithFormat:msg, result];
+        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.DownloadError.OK", nil)];
+        
+        [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        
 	}
 }
 
@@ -795,31 +823,53 @@
 - (BOOL)windowShouldClose:(id)sender {
 	if (!self.pleaseCloseMe && ([[self.recvMsg attachments] count] > 0)) {
 		// 添付ファイルが残っているがクローズするか確認
-		NSBeginAlertSheet(	NSLocalizedString(@"RecvDlg.CloseWithAttach.Title", nil),
-							NSLocalizedString(@"RecvDlg.CloseWithAttach.OK", nil),
-							NSLocalizedString(@"RecvDlg.CloseWithAttach.Cancel", nil),
-							nil,
-                          self.window,
-							self,
-							@selector(sheetDidEnd:returnCode:contextInfo:),
-							nil,
-                          (__bridge void *)(self.recvMsg),
-							NSLocalizedString(@"RecvDlg.CloseWithAttach.Msg", nil));
+//		NSBeginAlertSheet(	NSLocalizedString(@"RecvDlg.CloseWithAttach.Title", nil),
+//							NSLocalizedString(@"RecvDlg.CloseWithAttach.OK", nil),
+//							NSLocalizedString(@"RecvDlg.CloseWithAttach.Cancel", nil),
+//							nil,
+//                          self.window,
+//							self,
+//							@selector(sheetDidEnd:returnCode:contextInfo:),
+//							nil,
+//                          (__bridge void *)(self.recvMsg),
+//							NSLocalizedString(@"RecvDlg.CloseWithAttach.Msg", nil));
+        
+        
+        NSAlert *alert = [NSAlert new];
+        alert.messageText = NSLocalizedString(@"RecvDlg.CloseWithAttach.Title", nil);
+        alert.informativeText = NSLocalizedString(@"RecvDlg.CloseWithAttach.Msg", nil);
+        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.CloseWithAttach.OK", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.CloseWithAttach.Cancel", nil)];
+        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self.window returnCode:returnCode contextInfo:(__bridge void *)(self.recvMsg)];
+        }];
+        
+        
 		[self.attachDrawer open];
 		return NO;
 	}
 	if (!self.pleaseCloseMe && ![self.replyButton isEnabled]) {
 		// 未開封だがクローズするか確認
-		NSBeginAlertSheet(	NSLocalizedString(@"RecvDlg.CloseWithSeal.Title", nil),
-							NSLocalizedString(@"RecvDlg.CloseWithSeal.OK", nil),
-							NSLocalizedString(@"RecvDlg.CloseWithSeal.Cancel", nil),
-							nil,
-                          self.window,
-							self,
-							@selector(sheetDidEnd:returnCode:contextInfo:),
-							nil,
-                          (__bridge void *)(self.recvMsg),
-							NSLocalizedString(@"RecvDlg.CloseWithSeal.Msg", nil));
+//		NSBeginAlertSheet(	NSLocalizedString(@"RecvDlg.CloseWithSeal.Title", nil),
+//							NSLocalizedString(@"RecvDlg.CloseWithSeal.OK", nil),
+//							NSLocalizedString(@"RecvDlg.CloseWithSeal.Cancel", nil),
+//							nil,
+//                          self.window,
+//							self,
+//							@selector(sheetDidEnd:returnCode:contextInfo:),
+//							nil,
+//                          (__bridge void *)(self.recvMsg),
+//							NSLocalizedString(@"RecvDlg.CloseWithSeal.Msg", nil));
+        
+        NSAlert *alert = [NSAlert new];
+        alert.messageText = NSLocalizedString(@"RecvDlg.CloseWithSeal.Title", nil);
+        alert.informativeText = NSLocalizedString(@"RecvDlg.CloseWithSeal.Msg", nil);
+        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.CloseWithSeal.OK", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"RecvDlg.CloseWithSeal.Cancel", nil)];
+        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+            [self sheetDidEnd:self.window returnCode:returnCode contextInfo:(__bridge void *)(self.recvMsg)];
+        }];
+        
 		return NO;
 	}
 

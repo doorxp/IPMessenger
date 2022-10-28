@@ -116,10 +116,21 @@ typedef struct {
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
-		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.TCPSocketOpen.title", nil),
-								NSLocalizedString(@"Err.TCPSocketOpen.msg", nil),
-								NSLocalizedString(@"Err.TCPSocketOpen.ok", nil),
-								nil, nil);
+//		NSRunCriticalAlertPanel(NSLocalizedString(@"Err.TCPSocketOpen.title", nil),
+//								NSLocalizedString(@"Err.TCPSocketOpen.msg", nil),
+//								NSLocalizedString(@"Err.TCPSocketOpen.ok", nil),
+//								nil, nil);
+//
+        
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSAlertStyleCritical;
+        alert.informativeText = NSLocalizedString(@"Err.TCPSocketOpen.title", nil);
+        alert.messageText = NSLocalizedString(@"Err.TCPSocketOpen.msg", nil);
+        
+        [alert addButtonWithTitle:NSLocalizedString(@"Err.TCPSocketOpen.ok", nil)];
+        
+        [alert runModal];
+        
 		return self;
 	}
 
@@ -135,11 +146,21 @@ typedef struct {
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
-		NSRunCriticalAlertPanel(
-							NSLocalizedString(@"Err.TCPSocketBind.title", nil),
-							NSLocalizedString(@"Err.TCPSocketBind.msg", nil),
-							NSLocalizedString(@"Err.TCPSocketBind.ok", nil),
-							nil, nil, portNo);
+//		NSRunCriticalAlertPanel(
+//							NSLocalizedString(@"Err.TCPSocketBind.title", nil),
+//							NSLocalizedString(@"Err.TCPSocketBind.msg", nil),
+//							NSLocalizedString(@"Err.TCPSocketBind.ok", nil),
+//							nil, nil, portNo);
+        
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSAlertStyleCritical;
+        alert.informativeText = NSLocalizedString(@"Err.TCPSocketBind.title", nil);
+        alert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Err.TCPSocketBind.msg", nil), portNo];
+        
+        [alert addButtonWithTitle:NSLocalizedString(@"Err.TCPSocketBind.ok", nil)];
+        
+        [alert runModal];
+        
 		return self;
 	}
 
@@ -153,11 +174,22 @@ typedef struct {
 		// Dockアイコンバウンド
 		[NSApp requestUserAttention:NSCriticalRequest];
 		// エラーダイアログ表示
-		NSRunCriticalAlertPanel(
-							NSLocalizedString(@"Err.TCPSocketListen.title", nil),
-							NSLocalizedString(@"Err.TCPSocketListen.msg", nil),
-							NSLocalizedString(@"Err.TCPSocketListen.ok", nil),
-							nil, nil);
+//		NSRunCriticalAlertPanel(
+//							NSLocalizedString(@"Err.TCPSocketListen.title", nil),
+//							NSLocalizedString(@"Err.TCPSocketListen.msg", nil),
+//							NSLocalizedString(@"Err.TCPSocketListen.ok", nil),
+//							nil, nil);
+        
+        
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSAlertStyleCritical;
+        alert.informativeText = NSLocalizedString(@"Err.TCPSocketListen.title", nil);
+        alert.messageText = NSLocalizedString(@"Err.TCPSocketListen.msg", nil);
+        
+        [alert addButtonWithTitle:NSLocalizedString(@"Err.TCPSocketListen.ok", nil)];
+        
+        [alert runModal];
+        
 		return self;
 	}
 

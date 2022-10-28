@@ -21,7 +21,7 @@
 		duringDragging = NO;
 		// ファイルのドラッグを受け付ける
 		if ([AttachmentServer isAvailable]) {
-			[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+			[self registerForDraggedTypes:@[NSFilenamesPboardType]];
 		}
 	}
 	return self;
