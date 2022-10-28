@@ -116,7 +116,7 @@ typedef NS_ENUM(NSInteger, IPMsgIconBoundType) {
 @property(assign,readwrite)	BOOL				nonPopupWhenAbsence;		// 不在時ノンポップアップ受信
 @property(assign,readwrite)	IPMsgIconBoundType	iconBoundModeInNonPopup;	// ノンポップアップ受信時アイコンバウンド種別
 @property(assign,readwrite)	BOOL				useClickableURL;			// クリッカブルURLを使用する
-@property(retain,readwrite)	NSFont*				receiveMessageFont;			// 受信ウィンドウメッセージ部フォント
+@property(nonatomic, retain,readwrite)	NSFont*				receiveMessageFont;			// 受信ウィンドウメッセージ部フォント
 @property(readonly)			NSFont*				defaultReceiveMessageFont;	// 受信ウィンドウメッセージ標準フォント
 // ログ
 @property(assign,readwrite)	BOOL				standardLogEnabled;			// 標準ログを使用する

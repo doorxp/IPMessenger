@@ -26,7 +26,7 @@
 	OSType				hfsCreator;			// クリエータコード
 	UInt16				finderFlags;		// Finder属性フラグ（Carbon）
 	unsigned			permission;			// POSIXファイルアクセス権
-	NSFileHandle*		handle;				// 出力ハンドル
+//	NSFileHandle*		handle;				// 出力ハンドル
 }
 
 @property (nonatomic, strong)NSString*        nameEscaped;

@@ -80,7 +80,7 @@
 	hfsCreator		= 0;
 	finderFlags		= 0;
 	permission		= 0;
-	handle			= nil;
+    _handle			= nil;
 
 	fileManager = [NSFileManager defaultManager];
 	// ファイル存在チェック
@@ -332,10 +332,10 @@
 - (BOOL)openFileForWrite {
 	NSFileManager* fileManager = [NSFileManager defaultManager];
 
-	if (handle) {
+    if (_handle) {
 		// 既に開いていれば閉じる（バグ）
 		WRN(@"openToRead:Recalled(%@)", self.path);
-		[handle closeFile];
+        [_handle closeFile];
 //		[handle release];
 		self.handle = nil;
 	}
@@ -518,7 +518,7 @@
 	hfsCreator		= 0;
 	finderFlags		= 0;
 	permission		= 0;
-	handle			= nil;
+    _handle			= nil;
 
 	/*------------------------------------------------------------------------*
 	 * ファイル名
