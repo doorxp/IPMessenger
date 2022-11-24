@@ -498,16 +498,17 @@ static NSRecursiveLock*		userListColsLock	= nil;
 }
 
 - (void)drawerWillOpen:(NSNotification *)notification {
-    self.attachDrawer.contentView.superview.layer.backgroundColor = NSColor.redColor.CGColor;
-    self.attachDrawer.contentView.appearance = NSAppearance.currentAppearance;
-    self.attachDrawer.contentView.window.appearance = NSAppearance.currentAppearance;
-    self.attachDrawer.contentView.superview.appearance = NSAppearance.currentAppearance;
+    self.attachDrawer.contentView.wantsLayer = true;
+    self.attachDrawer.contentView.layer.backgroundColor = self.window.backgroundColor.CGColor;
+    NSView *frame = self.attachDrawer.contentView.superview;
+    frame.wantsLayer = true;
+    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
 }
 
 - (void)drawerDidOpen:(NSNotification *)notification {
-//    attachDrawer.contentView.window.backgroundColor = window.backgroundColor;
-//    attachDrawer.contentView.subviews[0].layer.backgroundColor = window.backgroundColor.CGColor;
-//    attachDrawer.contentView.superview.layer.backgroundColor = window.backgroundColor.CGColor;
+    NSView *frame = self.attachDrawer.contentView.superview;
+    frame.wantsLayer = true;
+    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
 }
 
 /*----------------------------------------------------------------------------*
