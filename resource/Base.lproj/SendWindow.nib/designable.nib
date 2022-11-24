@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -67,23 +67,23 @@
                         </constraints>
                     </customView>
                     <splitView focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="114">
-                        <rect key="frame" x="20" y="50" width="531" height="265"/>
+                        <rect key="frame" x="20" y="56" width="531" height="259"/>
                         <subviews>
                             <box autoresizesSubviews="NO" fixedFrame="YES" boxType="secondary" borderType="none" title="Title" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="32">
-                                <rect key="frame" x="0.0" y="0.0" width="531" height="161"/>
+                                <rect key="frame" x="0.0" y="0.0" width="531" height="157"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" id="fgq-BU-sDU">
-                                    <rect key="frame" x="0.0" y="0.0" width="531" height="161"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="531" height="157"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26">
-                                            <rect key="frame" x="0.0" y="0.0" width="443" height="161"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="443" height="157"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="6d1-Oj-U09">
-                                                <rect key="frame" x="1" y="1" width="441" height="159"/>
+                                                <rect key="frame" x="1" y="1" width="441" height="155"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" autosaveName="SendWindow.UserList" rowHeight="24" headerView="216" id="23">
-                                                        <rect key="frame" x="0.0" y="0.0" width="441" height="142"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="441" height="138"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -202,7 +202,7 @@
                                             </tableHeaderView>
                                         </scrollView>
                                         <stackView autoresizesSubviews="NO" distribution="fill" orientation="vertical" alignment="centerX" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zId-rZ-shq">
-                                            <rect key="frame" x="451" y="86" width="80" height="55"/>
+                                            <rect key="frame" x="451" y="82" width="80" height="55"/>
                                             <subviews>
                                                 <textField autoresizesSubviews="NO" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="285">
                                                     <rect key="frame" x="12" y="41" width="57" height="14"/>
@@ -263,14 +263,14 @@
                                 <font key="titleFont" metaFont="system"/>
                             </box>
                             <scrollView autoresizesSubviews="NO" fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="113">
-                                <rect key="frame" x="0.0" y="170" width="531" height="95"/>
+                                <rect key="frame" x="0.0" y="166" width="531" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <clipView key="contentView" autoresizesSubviews="NO" id="LaR-B9-33P">
-                                    <rect key="frame" x="1" y="1" width="514" height="93"/>
+                                    <rect key="frame" x="1" y="1" width="514" height="91"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="112" customClass="SendMessageView">
-                                            <rect key="frame" x="0.0" y="0.0" width="514" height="93"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="514" height="91"/>
                                             <connections>
                                                 <outlet property="delegate" destination="10" id="176"/>
                                                 <outlet property="nextKeyView" destination="10" id="184"/>
@@ -291,7 +291,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="211">
-                                    <rect key="frame" x="515" y="1" width="15" height="93"/>
+                                    <rect key="frame" x="515" y="1" width="15" height="91"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                 </scroller>
                             </scrollView>
@@ -305,13 +305,13 @@
                         </connections>
                     </splitView>
                     <box verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" borderType="line" title="Box" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QJQ-OZ-JpY">
-                        <rect key="frame" x="17" y="16" width="537" height="34"/>
+                        <rect key="frame" x="17" y="16" width="537" height="40"/>
                         <view key="contentView" id="Laq-xA-yop">
-                            <rect key="frame" x="4" y="5" width="529" height="14"/>
+                            <rect key="frame" x="4" y="5" width="529" height="20"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                                    <rect key="frame" x="442" y="-10" width="94" height="32"/>
+                                    <rect key="frame" x="442" y="-7" width="94" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="zsq-Ga-ebm"/>
                                     </constraints>
@@ -329,7 +329,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button toolTip="封書付きメッセージにします" translatesAutoresizingMaskIntoConstraints="NO" id="9">
-                                    <rect key="frame" x="395" y="-1" width="44" height="16"/>
+                                    <rect key="frame" x="395" y="2" width="44" height="16"/>
                                     <buttonCell key="cell" type="check" title="Seal" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="197">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
@@ -340,7 +340,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button toolTip="相手が封書を開封する際にパスワード入力を強制します" translatesAutoresizingMaskIntoConstraints="NO" id="10">
-                                    <rect key="frame" x="340" y="-1" width="46" height="16"/>
+                                    <rect key="frame" x="340" y="2" width="46" height="16"/>
                                     <buttonCell key="cell" type="check" title="Lock" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" enabled="NO" inset="2" id="198">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
@@ -351,10 +351,10 @@ DQ
                                     </connections>
                                 </button>
                                 <button autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="188">
-                                    <rect key="frame" x="-3" y="-7" width="32" height="27"/>
+                                    <rect key="frame" x="-3" y="-4" width="32" height="27"/>
                                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="Attach" imagePosition="only" alignment="center" borderStyle="border" id="202">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="label"/>
+                                        <font key="font" metaFont="system"/>
                                     </buttonCell>
                                     <connections>
                                         <action selector="toggle:" target="103" id="189"/>
@@ -364,19 +364,19 @@ DQ
                             </subviews>
                             <constraints>
                                 <constraint firstItem="188" firstAttribute="leading" secondItem="Laq-xA-yop" secondAttribute="leading" id="09o-9P-Mqr"/>
+                                <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" id="1y5-sW-ejg"/>
+                                <constraint firstItem="188" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Laq-xA-yop" secondAttribute="top" id="5rZ-7Y-L52"/>
                                 <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" id="81s-Or-lpM"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="188" secondAttribute="bottom" id="C2k-MF-QmG"/>
                                 <constraint firstItem="8" firstAttribute="leading" secondItem="9" secondAttribute="trailing" constant="10" id="DHo-mU-hO1"/>
-                                <constraint firstItem="188" firstAttribute="centerY" secondItem="Laq-xA-yop" secondAttribute="centerY" id="Jz1-QD-OEj"/>
                                 <constraint firstItem="10" firstAttribute="centerY" secondItem="Laq-xA-yop" secondAttribute="centerY" id="MbB-uG-R6E"/>
-                                <constraint firstItem="8" firstAttribute="centerY" secondItem="Laq-xA-yop" secondAttribute="centerY" id="Rol-Ij-CDp"/>
+                                <constraint firstItem="188" firstAttribute="centerY" secondItem="Laq-xA-yop" secondAttribute="centerY" id="Sa7-UO-SZv"/>
                                 <constraint firstItem="10" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="188" secondAttribute="trailing" constant="8" symbolic="YES" id="gxv-W8-ZFZ"/>
                                 <constraint firstItem="9" firstAttribute="centerY" secondItem="Laq-xA-yop" secondAttribute="centerY" id="jA9-5v-8dw"/>
                                 <constraint firstItem="9" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="10" id="kAH-lE-eeX"/>
+                                <constraint firstItem="8" firstAttribute="top" secondItem="Laq-xA-yop" secondAttribute="top" id="wzj-Lu-s9Z"/>
                             </constraints>
                         </view>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="eIF-tq-SkF"/>
-                        </constraints>
                     </box>
                 </subviews>
                 <constraints>
@@ -416,7 +416,7 @@ DQ
                     <rect key="frame" x="0.0" y="0.0" width="195" height="281"/>
                     <clipView key="contentView" id="yvX-Oi-U8h">
                         <rect key="frame" x="1" y="1" width="178" height="279"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="14" headerView="215" id="166">
                                 <rect key="frame" x="0.0" y="0.0" width="178" height="262"/>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -50,13 +50,13 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <box title="Message from..." translatesAutoresizingMaskIntoConstraints="NO" id="11">
-                        <rect key="frame" x="37" y="276" width="335" height="81"/>
+                        <rect key="frame" x="37" y="266" width="335" height="91"/>
                         <view key="contentView" id="2fo-9h-xYF">
-                            <rect key="frame" x="3" y="3" width="329" height="61"/>
+                            <rect key="frame" x="4" y="5" width="327" height="69"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="9">
-                                    <rect key="frame" x="131" y="45" width="68" height="15"/>
+                                    <rect key="frame" x="130" y="53" width="68" height="15"/>
                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="UserName" id="186">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -64,13 +64,13 @@
                                     </textFieldCell>
                                 </textField>
                                 <box borderType="line" title="Box" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eil-Rc-QF6">
-                                    <rect key="frame" x="-3" y="7" width="335" height="38"/>
+                                    <rect key="frame" x="-3" y="7" width="333" height="46"/>
                                     <view key="contentView" id="IK2-tl-dmL">
-                                        <rect key="frame" x="3" y="3" width="329" height="20"/>
+                                        <rect key="frame" x="4" y="5" width="325" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                                                <rect key="frame" x="51" y="3" width="228" height="14"/>
+                                                <rect key="frame" x="49" y="6" width="228" height="14"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Sunday, September 2, 2001 at 9:47:12 AM" id="185">
                                                     <dateFormatter key="formatter" dateStyle="full" timeStyle="medium" id="16"/>
                                                     <font key="font" metaFont="smallSystem"/>
@@ -79,7 +79,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <button toolTip="Save message to Alternate Log File" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="19">
-                                                <rect key="frame" x="286" y="-4" width="26" height="27"/>
+                                                <rect key="frame" x="276" y="-4" width="32" height="33"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="19" secondAttribute="height" multiplier="1:1" id="ygF-6G-QgK"/>
                                                 </constraints>
@@ -115,19 +115,19 @@
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <box verticalHuggingPriority="249" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="hLv-4q-sU5">
-                        <rect key="frame" x="37" y="76" width="335" height="204"/>
+                        <rect key="frame" x="37" y="76" width="335" height="194"/>
                         <view key="contentView" id="kyr-wO-uvl">
-                            <rect key="frame" x="3" y="3" width="329" height="186"/>
+                            <rect key="frame" x="4" y="5" width="327" height="174"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <scrollView horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="93">
-                                    <rect key="frame" x="0.0" y="0.0" width="329" height="186"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="327" height="174"/>
                                     <clipView key="contentView" copiesOnScroll="NO" id="ixa-aP-Ca5">
-                                        <rect key="frame" x="1" y="1" width="312" height="184"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <rect key="frame" x="1" y="1" width="310" height="172"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92" customClass="ReceiveMessageView">
-                                                <rect key="frame" x="0.0" y="0.0" width="313" height="110"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="311" height="110"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                             </customView>
                                         </subviews>
@@ -138,12 +138,12 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="212">
-                                        <rect key="frame" x="313" y="1" width="15" height="184"/>
+                                        <rect key="frame" x="311" y="1" width="15" height="172"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                 </scrollView>
                                 <button horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="37">
-                                    <rect key="frame" x="0.0" y="-1" width="329" height="188"/>
+                                    <rect key="frame" x="0.0" y="-1" width="327" height="176"/>
                                     <buttonCell key="cell" type="smallSquare" title="Open" bezelStyle="smallSquare" alignment="center" borderStyle="border" inset="2" id="191">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -171,11 +171,11 @@ DQ
                     <box borderType="line" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XGU-92-pmP">
                         <rect key="frame" x="37" y="36" width="335" height="44"/>
                         <view key="contentView" id="o19-ew-rHg">
-                            <rect key="frame" x="3" y="3" width="329" height="26"/>
+                            <rect key="frame" x="4" y="5" width="327" height="24"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button toolTip="Open/Close Attachments Drawer" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="119">
-                                    <rect key="frame" x="17" y="0.0" width="26" height="25"/>
+                                    <rect key="frame" x="17" y="-2" width="32" height="27"/>
                                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="Attach" imagePosition="only" alignment="center" enabled="NO" borderStyle="border" inset="2" id="192">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="label"/>
@@ -185,7 +185,7 @@ DQ
                                     </connections>
                                 </button>
                                 <stackView autoresizesSubviews="NO" distribution="fill" orientation="horizontal" alignment="centerY" spacing="55" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="wew-Z8-752">
-                                    <rect key="frame" x="148" y="-2" width="161" height="30"/>
+                                    <rect key="frame" x="146" y="-3" width="161" height="30"/>
                                     <subviews>
                                         <button autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13">
                                             <rect key="frame" x="-1" y="7" width="53" height="16"/>
@@ -384,7 +384,7 @@ DQ
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" id="HIB-3c-tun">
                         <rect key="frame" x="1" y="1" width="178" height="217"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="14" headerView="216" id="145">
                                 <rect key="frame" x="0.0" y="0.0" width="178" height="192"/>
@@ -393,7 +393,7 @@ DQ
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="Attachment" editable="NO" width="137.29901123046875" minWidth="75.299003601074219" maxWidth="1000" id="147">
+                                    <tableColumn identifier="Attachment" editable="NO" width="137" minWidth="75.299003601074219" maxWidth="1000" id="147">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Attachments">
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
