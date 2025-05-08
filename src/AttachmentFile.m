@@ -13,6 +13,7 @@
 #import "NSStringIPMessenger.h"
 #import "DebugLog.h"
 #import <ApplicationServices/ApplicationServices.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 /*============================================================================*
  * プライベートメソッド定義
@@ -306,17 +307,25 @@
 	}
 	// ディレクトリ
 	if ([self isDirectory]) {
-		if ([[self.name pathExtension] isEqualToString:@"app"]) {
-			return [ws iconForFileType:@"app"];
-		}
-		return [ws iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
+        NSImage *ret = [ws iconForFile:self.name];
+        if(ret == nil) {
+            ret = [ws iconForContentType:[UTType typeWithFilenameExtension:NSFileTypeForHFSTypeCode(kGenericFolderIcon)]];
+//            ret =  [ws iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
+        }
+        return ret;
+//		if ([[self.name pathExtension] isEqualToString:@"app"]) {
+//			return [ws iconForFileType:@"app"];
+//		}
+//		return [ws iconForFileType:NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
 	}
 	// ファイルタイプあり
 	if (hfsFileType != 0) {
-		return [ws iconForFileType:NSFileTypeForHFSTypeCode(hfsFileType)];
+//		return [ws iconForFileType:NSFileTypeForHFSTypeCode(hfsFileType)];
+        return [ws iconForContentType:[UTType typeWithFilenameExtension:NSFileTypeForHFSTypeCode(hfsFileType)]];
 	}
 	// 最後のたのみ拡張子
-	return [ws iconForFileType:[self.name pathExtension]];
+//	return [ws iconForFileType:[self.name pathExtension]];
+    return [ws iconForFile:self.name];
 }
 
 /*----------------------------------------------------------------------------*

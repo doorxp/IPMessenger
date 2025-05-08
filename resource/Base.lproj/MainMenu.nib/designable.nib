@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -398,7 +398,7 @@
                                                 <stackView autoresizesSubviews="NO" distribution="fillProportionally" orientation="vertical" alignment="trailing" spacing="50" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j1x-oX-S3w">
                                                     <rect key="frame" x="0.0" y="28" width="45" height="82"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="252">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="252">
                                                             <rect key="frame" x="7" y="66" width="40" height="16"/>
                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="User :" id="1197">
                                                                 <font key="font" metaFont="system"/>
@@ -406,7 +406,7 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="301">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="301">
                                                             <rect key="frame" x="-2" y="0.0" width="49" height="16"/>
                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Group :" id="1199">
                                                                 <font key="font" metaFont="system"/>
@@ -430,7 +430,7 @@
                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="249" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GCY-jp-OpG">
                                                             <rect key="frame" x="0.0" y="59" width="458" height="51"/>
                                                             <subviews>
-                                                                <textField autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="282" propertyAccessControl="none">
+                                                                <textField autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="282" propertyAccessControl="none">
                                                                     <rect key="frame" x="0.0" y="21" width="458" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="Io6-Xt-NXj"/>
@@ -444,7 +444,7 @@
                                                                         <outlet property="delegate" destination="399" id="646"/>
                                                                     </connections>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="249" verticalHuggingPriority="749" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="705">
+                                                                <textField focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="705">
                                                                     <rect key="frame" x="-2" y="0.0" width="462" height="13"/>
                                                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Do not use ( : ) or reserved characters" id="1201">
                                                                         <font key="font" metaFont="label"/>
@@ -465,7 +465,7 @@
                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="249" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u3b-Ky-Yus">
                                                             <rect key="frame" x="0.0" y="0.0" width="458" height="51"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="582">
+                                                                <textField focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="582">
                                                                     <rect key="frame" x="0.0" y="21" width="458" height="30"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="30" id="lOG-Hj-Eab"/>
@@ -479,7 +479,7 @@
                                                                         <outlet property="delegate" destination="399" id="647"/>
                                                                     </connections>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="249" verticalHuggingPriority="749" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="706">
+                                                                <textField focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="706">
                                                                     <rect key="frame" x="-2" y="0.0" width="462" height="13"/>
                                                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Do not use ( : ) or reserved characters" id="1202">
                                                                         <font key="font" metaFont="label"/>
@@ -528,7 +528,7 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="244">
-                                            <rect key="frame" x="199" y="127" width="152" height="32"/>
+                                            <rect key="frame" x="200" y="127" width="151" height="32"/>
                                             <buttonCell key="cell" type="push" title="Password Setting..." bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="1196">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -561,7 +561,7 @@
                                                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="7" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gun-nJ-tY8">
                                                     <rect key="frame" x="0.0" y="120" width="179" height="21"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="328">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="328">
                                                             <rect key="frame" x="-2" y="3" width="114" height="16"/>
                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Quote character : " id="1187">
                                                                 <font key="font" metaFont="system"/>
@@ -569,7 +569,7 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="250">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="250">
                                                             <rect key="frame" x="117" y="0.0" width="62" height="21"/>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1183">
                                                                 <font key="font" metaFont="system"/>
@@ -676,7 +676,7 @@
                                             <rect key="frame" x="158" y="354" width="273" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="253" id="1179">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="menu"/>
+                                                <font key="font" metaFont="message"/>
                                                 <menu key="menu" title="OtherViews" id="292">
                                                     <items>
                                                         <menuItem title="None" state="on" id="253"/>
@@ -687,7 +687,7 @@
                                                 <action selector="popupChanged:" target="399" id="581"/>
                                             </connections>
                                         </popUpButton>
-                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="200">
+                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="200">
                                             <rect key="frame" x="18" y="360" width="137" height="16"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="New message sound :" id="1176">
                                                 <font key="font" metaFont="system"/>
@@ -779,7 +779,7 @@
                                                 <action selector="matrixChanged:" target="399" id="1128"/>
                                             </connections>
                                         </matrix>
-                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1123">
+                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1123">
                                             <rect key="frame" x="41" y="234" width="256" height="14"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Action of Dock Icon when IP Messenger inactive" id="1181">
                                                 <font key="font" metaFont="smallSystem"/>
@@ -827,11 +827,11 @@
                                                     <scrollView autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="318">
                                                         <rect key="frame" x="20" y="18" width="394" height="301"/>
                                                         <clipView key="contentView" id="3Bm-NW-34i">
-                                                            <rect key="frame" x="1" y="1" width="377" height="299"/>
+                                                            <rect key="frame" x="1" y="1" width="392" height="299"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" id="212">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="377" height="299"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="392" height="299"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -857,12 +857,12 @@
                                                                 </tableView>
                                                             </subviews>
                                                         </clipView>
-                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1264">
+                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1264">
                                                             <rect key="frame" x="-100" y="-100" width="148" height="15"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="1263">
-                                                            <rect key="frame" x="378" y="1" width="15" height="299"/>
+                                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1263">
+                                                            <rect key="frame" x="377" y="1" width="16" height="299"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
@@ -978,7 +978,7 @@
                                                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="7" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mkE-dV-VfD">
                                                     <rect key="frame" x="0.0" y="317" width="273" height="40"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="768">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="768">
                                                             <rect key="frame" x="-2" y="12" width="89" height="16"/>
                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Port Number :" id="1215">
                                                                 <font key="font" metaFont="system"/>
@@ -986,7 +986,7 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="771">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="771">
                                                             <rect key="frame" x="92" y="10" width="72" height="21"/>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="1217">
                                                                 <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="770">
@@ -1004,7 +1004,7 @@
                                                                 <outlet property="delegate" destination="399" id="789"/>
                                                             </connections>
                                                         </textField>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="767">
+                                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="767">
                                                             <rect key="frame" x="169" y="13" width="106" height="14"/>
                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="（default is 2425）" id="1214">
                                                                 <font key="font" metaFont="smallSystem"/>
@@ -1027,7 +1027,7 @@
                                                         <real value="3.4028234663852886e+38"/>
                                                     </customSpacing>
                                                 </stackView>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="769">
+                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="769">
                                                     <rect key="frame" x="-2" y="299" width="263" height="13"/>
                                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Changes take effect after IP Messenger is relaunched" id="1216">
                                                         <font key="font" metaFont="label"/>
@@ -1037,13 +1037,13 @@
                                                 </textField>
                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="205">
                                                     <rect key="frame" x="-2" y="263" width="142" height="32"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="b1k-EH-D9C"/>
-                                                    </constraints>
                                                     <buttonCell key="cell" type="check" title="Dial-up connection" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1211">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="b1k-EH-D9C"/>
+                                                    </constraints>
                                                     <connections>
                                                         <action selector="checkboxChanged:" target="399" id="749"/>
                                                     </connections>
@@ -1057,11 +1057,11 @@
                                                             <scrollView autoresizesSubviews="NO" appearanceType="darkAqua" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="269">
                                                                 <rect key="frame" x="20" y="18" width="376" height="203"/>
                                                                 <clipView key="contentView" id="nc7-n2-KgZ">
-                                                                    <rect key="frame" x="1" y="1" width="359" height="201"/>
+                                                                    <rect key="frame" x="1" y="1" width="374" height="201"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" id="275">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="201"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="201"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                                             <color key="backgroundColor" red="0.3294117647" green="0.3294117647" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
@@ -1087,12 +1087,12 @@
                                                                         </tableView>
                                                                     </subviews>
                                                                 </clipView>
-                                                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1266">
+                                                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1266">
                                                                     <rect key="frame" x="-100" y="-100" width="141" height="15"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
-                                                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="1265">
-                                                                    <rect key="frame" x="360" y="1" width="15" height="201"/>
+                                                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1265">
+                                                                    <rect key="frame" x="359" y="1" width="16" height="201"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                 </scroller>
                                                             </scrollView>
@@ -1170,7 +1170,7 @@
                                                 <rect key="frame" x="4" y="5" width="464" height="242"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="894">
+                                                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="894">
                                                         <rect key="frame" x="18" y="213" width="430" height="28"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="1157">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -1183,11 +1183,11 @@ You are not displayed on the other user's list, either.</string>
                                                     <scrollView horizontalHuggingPriority="247" verticalHuggingPriority="750" horizontalCompressionResistancePriority="747" verticalCompressionResistancePriority="748" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="297">
                                                         <rect key="frame" x="20" y="18" width="346" height="187"/>
                                                         <clipView key="contentView" id="1w6-0w-7Cr">
-                                                            <rect key="frame" x="1" y="1" width="329" height="185"/>
+                                                            <rect key="frame" x="1" y="1" width="344" height="185"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" id="278">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="329" height="185"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="344" height="185"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="3" height="2"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1213,12 +1213,12 @@ You are not displayed on the other user's list, either.</string>
                                                                 </tableView>
                                                             </subviews>
                                                         </clipView>
-                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="1260">
+                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1260">
                                                             <rect key="frame" x="-100" y="-100" width="148" height="15"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="1259">
-                                                            <rect key="frame" x="330" y="1" width="15" height="185"/>
+                                                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1259">
+                                                            <rect key="frame" x="329" y="1" width="16" height="185"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
@@ -1351,7 +1351,7 @@ You are not displayed on the other user's list, either.</string>
                                                             <action selector="checkboxChanged:" target="399" id="731"/>
                                                         </connections>
                                                     </button>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="241">
+                                                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="241">
                                                         <rect key="frame" x="18" y="26" width="56" height="14"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="File Path :" id="1159">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -1369,7 +1369,7 @@ You are not displayed on the other user's list, either.</string>
                                                             <action selector="buttonPressed:" target="399" id="733"/>
                                                         </connections>
                                                     </button>
-                                                    <textField autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="741">
+                                                    <textField autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="741">
                                                         <rect key="frame" x="80" y="18" width="336" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="4tM-ue-2zG"/>
@@ -1421,7 +1421,7 @@ You are not displayed on the other user's list, either.</string>
                                                             <action selector="checkboxChanged:" target="399" id="732"/>
                                                         </connections>
                                                     </button>
-                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="247">
+                                                    <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="247">
                                                         <rect key="frame" x="18" y="26" width="56" height="14"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="File Path :" id="1164">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -1439,7 +1439,7 @@ You are not displayed on the other user's list, either.</string>
                                                             <action selector="buttonPressed:" target="399" id="734"/>
                                                         </connections>
                                                     </button>
-                                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="743">
+                                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="743">
                                                         <rect key="frame" x="80" y="18" width="336" height="30"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="Ywj-KU-ZXp"/>
@@ -1549,7 +1549,7 @@ You are not displayed on the other user's list, either.</string>
                                                 <action selector="matrixChanged:" target="399" id="1319"/>
                                             </connections>
                                         </matrix>
-                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1322">
+                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1322">
                                             <rect key="frame" x="328" y="233" width="171" height="32"/>
                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="1323">
                                                 <font key="font" metaFont="system"/>
@@ -1593,24 +1593,24 @@ will force the update check.</string>
             </connections>
             <point key="canvasLocation" x="-23" y="1192.5"/>
         </window>
-        <window title="Address" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="348" userLabel="BroadcastPanel" customClass="NSPanel" propertyAccessControl="all">
+        <window title="Address" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="348" userLabel="BroadcastPanel" customClass="NSPanel" propertyAccessControl="none">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="494" y="464" width="454" height="240"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
             <value key="minSize" type="size" width="454" height="240"/>
             <view key="contentView" id="341">
-                <rect key="frame" x="0.0" y="0.0" width="454" height="242"/>
+                <rect key="frame" x="0.0" y="0.0" width="454" height="240"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <box title="Address or Hostname" translatesAutoresizingMaskIntoConstraints="NO" id="609">
-                        <rect key="frame" x="17" y="76" width="420" height="146"/>
+                        <rect key="frame" x="17" y="76" width="420" height="164"/>
                         <view key="contentView" id="C3E-ts-JGX">
-                            <rect key="frame" x="4" y="5" width="412" height="124"/>
+                            <rect key="frame" x="4" y="5" width="412" height="142"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="599">
-                                    <rect key="frame" x="20" y="86" width="372" height="18"/>
+                                    <rect key="frame" x="20" y="104" width="372" height="18"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     <size key="cellSize" width="118" height="18"/>
                                     <size key="intercellSpacing" width="4" height="2"/>
@@ -1637,7 +1637,7 @@ will force the update check.</string>
                                         <outlet property="nextKeyView" destination="608" id="693"/>
                                     </connections>
                                 </matrix>
-                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="608">
+                                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="608">
                                     <rect key="frame" x="20" y="20" width="372" height="21"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1220">
                                         <font key="font" metaFont="system"/>
@@ -1648,16 +1648,16 @@ will force the update check.</string>
                                         <outlet property="nextKeyView" destination="350" id="690"/>
                                     </connections>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="612">
-                                    <rect key="frame" x="39" y="65" width="82" height="13"/>
+                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="612">
+                                    <rect key="frame" x="39" y="83" width="82" height="13"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="e.g.. 192.168.0.1" id="1221">
                                         <font key="font" metaFont="label"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="613">
-                                    <rect key="frame" x="157" y="65" width="129" height="13"/>
+                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="613">
+                                    <rect key="frame" x="157" y="83" width="129" height="13"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Needs resolvable address" id="1222">
                                         <font key="font" metaFont="label"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1665,7 +1665,7 @@ will force the update check.</string>
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="757">
-                                    <rect key="frame" x="176" y="46" width="216" height="16"/>
+                                    <rect key="frame" x="176" y="46" width="216" height="34"/>
                                     <buttonCell key="cell" type="check" title="Check if the address can be resolved" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" enabled="NO" state="on" inset="2" id="1223">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="smallSystem"/>
@@ -1695,7 +1695,7 @@ will force the update check.</string>
                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="11" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aIY-20-IzT">
                         <rect key="frame" x="188" y="32" width="226" height="40"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="615">
+                            <textField focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="615">
                                 <rect key="frame" x="-2" y="13" width="84" height="14"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Error Message" id="1224">
                                     <font key="font" metaFont="smallSystem"/>
@@ -1749,7 +1749,7 @@ DQ
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="609" firstAttribute="top" secondItem="341" secondAttribute="top" constant="20" symbolic="YES" id="2Tv-Xc-udq"/>
+                    <constraint firstItem="609" firstAttribute="top" secondItem="341" secondAttribute="top" id="BNI-sY-d4P"/>
                     <constraint firstItem="609" firstAttribute="trailing" secondItem="PGT-59-szg" secondAttribute="trailing" id="Vly-tG-Exu"/>
                     <constraint firstItem="609" firstAttribute="leading" secondItem="PGT-59-szg" secondAttribute="leading" id="dsg-bj-7mo"/>
                     <constraint firstItem="aIY-20-IzT" firstAttribute="top" secondItem="609" secondAttribute="bottom" constant="8" symbolic="YES" id="fwD-XD-yTS"/>
@@ -1781,7 +1781,7 @@ DQ
                                         <stackView autoresizesSubviews="NO" distribution="fill" orientation="vertical" alignment="trailing" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zXe-Hn-mVy">
                                             <rect key="frame" x="0.0" y="12" width="160" height="68"/>
                                             <subviews>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="360">
+                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="360">
                                                     <rect key="frame" x="-2" y="52" width="164" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="160" id="Zjq-3P-YaQ"/>
@@ -1792,7 +1792,7 @@ DQ
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="358">
+                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="358">
                                                     <rect key="frame" x="-2" y="26" width="164" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="160" id="b87-oE-4fO"/>
@@ -1803,7 +1803,7 @@ DQ
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="355">
+                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="355">
                                                     <rect key="frame" x="-2" y="0.0" width="164" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="160" id="jyc-Vv-2ih"/>
@@ -1829,7 +1829,7 @@ DQ
                                         <stackView autoresizesSubviews="NO" distribution="fill" orientation="vertical" alignment="trailing" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" translatesAutoresizingMaskIntoConstraints="NO" id="eDM-wp-7q5">
                                             <rect key="frame" x="167" y="6" width="239" height="80"/>
                                             <subviews>
-                                                <textField autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="356" customClass="NSSecureTextField">
+                                                <textField autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="356" customClass="NSSecureTextField">
                                                     <rect key="frame" x="0.0" y="60" width="239" height="20"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" alignment="left" drawsBackground="YES" id="1228">
                                                         <font key="font" metaFont="system"/>
@@ -1840,7 +1840,7 @@ DQ
                                                         <outlet property="nextKeyView" destination="354" id="479"/>
                                                     </connections>
                                                 </textField>
-                                                <textField autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="354" customClass="NSSecureTextField">
+                                                <textField autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="354" customClass="NSSecureTextField">
                                                     <rect key="frame" x="0.0" y="30" width="239" height="20"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" alignment="left" drawsBackground="YES" id="1226">
                                                         <font key="font" metaFont="system"/>
@@ -1851,7 +1851,7 @@ DQ
                                                         <outlet property="nextKeyView" destination="362" id="480"/>
                                                     </connections>
                                                 </textField>
-                                                <textField autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="362" customClass="NSSecureTextField">
+                                                <textField autoresizesSubviews="NO" focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="362" customClass="NSSecureTextField">
                                                     <rect key="frame" x="0.0" y="0.0" width="239" height="20"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="border" alignment="left" drawsBackground="YES" id="1231">
                                                         <font key="font" metaFont="system"/>
@@ -1898,9 +1898,9 @@ DQ
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <stackView autoresizesSubviews="NO" distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HDm-gl-ima">
-                        <rect key="frame" x="278" y="20" width="230" height="40"/>
+                        <rect key="frame" x="279" y="20" width="229" height="40"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="248" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="482">
+                            <textField focusRingType="none" horizontalHuggingPriority="248" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="482">
                                 <rect key="frame" x="-2" y="13" width="84" height="14"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Error Message" id="1233">
                                     <font key="font" metaFont="smallSystem"/>
@@ -1923,7 +1923,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="363">
-                                <rect key="frame" x="155" y="3" width="82" height="32"/>
+                                <rect key="frame" x="155" y="3" width="81" height="32"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="1232">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1988,7 +1988,7 @@ DQ
                                         <stackView distribution="fillProportionally" orientation="horizontal" alignment="centerY" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oXo-VU-g3d">
                                             <rect key="frame" x="0.0" y="160" width="424" height="40"/>
                                             <subviews>
-                                                <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="369">
+                                                <textField focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="369">
                                                     <rect key="frame" x="-2" y="12" width="74" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="Et4-Jc-5C1"/>
@@ -1999,7 +1999,7 @@ DQ
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="367">
+                                                <textField focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="367">
                                                     <rect key="frame" x="70" y="10" width="354" height="21"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1234">
                                                         <font key="font" metaFont="system"/>
@@ -2026,7 +2026,7 @@ DQ
                                         <stackView distribution="fillProportionally" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vbq-8Y-MDd">
                                             <rect key="frame" x="0.0" y="0.0" width="424" height="140"/>
                                             <subviews>
-                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="370">
+                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="370">
                                                     <rect key="frame" x="-2" y="124" width="74" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="FFa-JJ-6gX"/>
@@ -2040,25 +2040,25 @@ DQ
                                                 <scrollView horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="372">
                                                     <rect key="frame" x="70" y="0.0" width="354" height="140"/>
                                                     <clipView key="contentView" drawsBackground="NO" id="PoJ-om-QHr">
-                                                        <rect key="frame" x="1" y="1" width="337" height="138"/>
+                                                        <rect key="frame" x="1" y="1" width="352" height="138"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" allowsUndo="YES" usesRuler="YES" spellingCorrection="YES" smartInsertDelete="YES" id="366">
-                                                                <rect key="frame" x="0.0" y="0.0" width="337" height="138"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="352" height="138"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                <size key="minSize" width="337" height="138"/>
+                                                                <size key="minSize" width="352" height="138"/>
                                                                 <size key="maxSize" width="714" height="10000000"/>
                                                                 <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                             </textView>
                                                         </subviews>
                                                     </clipView>
-                                                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="1268">
+                                                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="1268">
                                                         <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
-                                                    <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="1267">
+                                                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="1267">
                                                         <rect key="frame" x="338" y="1" width="15" height="138"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
@@ -2108,7 +2108,7 @@ DQ
                     <stackView distribution="fill" orientation="horizontal" alignment="bottom" spacing="21" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oUu-Ii-Ekd">
                         <rect key="frame" x="180" y="20" width="246" height="20"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="249" verticalHuggingPriority="748" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="694">
+                            <textField focusRingType="none" horizontalHuggingPriority="249" verticalHuggingPriority="748" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="694">
                                 <rect key="frame" x="-2" y="0.0" width="84" height="14"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Error Message" id="1239">
                                     <font key="font" metaFont="smallSystem"/>
@@ -2190,7 +2190,7 @@ Gw
                                     <rect key="frame" x="17" y="12" width="104" height="25"/>
                                     <popUpButtonCell key="cell" type="push" title="User" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="393" id="1242">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="menu"/>
+                                        <font key="font" metaFont="message"/>
                                         <menu key="menu" title="OtherViews" id="387">
                                             <items>
                                                 <menuItem title="User" state="on" id="393"/>
@@ -2202,7 +2202,7 @@ Gw
                                         </menu>
                                     </popUpButtonCell>
                                 </popUpButton>
-                                <textField horizontalHuggingPriority="248" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="377">
+                                <textField focusRingType="none" horizontalHuggingPriority="248" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="377">
                                     <rect key="frame" x="231" y="16" width="232" height="21"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="1240">
                                         <font key="font" metaFont="system"/>
@@ -2214,7 +2214,7 @@ Gw
                                     <rect key="frame" x="122" y="12" width="105" height="25"/>
                                     <popUpButtonCell key="cell" type="push" title="Matches" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="396" id="1241">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="menu"/>
+                                        <font key="font" metaFont="message"/>
                                         <menu key="menu" title="OtherViews" id="379">
                                             <items>
                                                 <menuItem title="Matches" state="on" id="396"/>
@@ -2239,9 +2239,9 @@ Gw
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i5A-U5-WC1">
-                        <rect key="frame" x="303" y="20" width="202" height="50"/>
+                        <rect key="frame" x="304" y="20" width="201" height="50"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="246" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="900">
+                            <textField focusRingType="none" horizontalHuggingPriority="246" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="900">
                                 <rect key="frame" x="-2" y="18" width="84" height="14"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Error Message" id="1245">
                                     <font key="font" metaFont="smallSystem"/>
@@ -2251,10 +2251,6 @@ Gw
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="392">
                                 <rect key="frame" x="83" y="3" width="76" height="42"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="EiP-5r-eQi"/>
-                                    <constraint firstAttribute="height" constant="30" id="zRH-pr-YsD"/>
-                                </constraints>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="1243">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2262,19 +2258,23 @@ Gw
 Gw
 </string>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="EiP-5r-eQi"/>
+                                    <constraint firstAttribute="height" constant="30" id="zRH-pr-YsD"/>
+                                </constraints>
                                 <connections>
                                     <action selector="buttonPressed:" target="399" id="909"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="394">
-                                <rect key="frame" x="155" y="3" width="54" height="42"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="270-be-zS3"/>
-                                </constraints>
+                                <rect key="frame" x="155" y="3" width="53" height="42"/>
                                 <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="1244">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="270-be-zS3"/>
+                                </constraints>
                                 <connections>
                                     <action selector="buttonPressed:" target="399" id="910"/>
                                 </connections>
@@ -2402,11 +2402,11 @@ Gw
                             <scrollView horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1004">
                                 <rect key="frame" x="0.0" y="25" width="272" height="124"/>
                                 <clipView key="contentView" drawsBackground="NO" id="7ql-6Z-wSl">
-                                    <rect key="frame" x="1" y="1" width="259" height="122"/>
+                                    <rect key="frame" x="1" y="1" width="270" height="122"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <outlineView appearanceType="darkAqua" verticalHuggingPriority="750" allowsExpansionToolTips="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="1005" id="1002">
-                                            <rect key="frame" x="0.0" y="0.0" width="259" height="122"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="270" height="122"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2433,12 +2433,12 @@ Gw
                                     </subviews>
                                     <nil key="backgroundColor"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="1270">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="1270">
                                     <rect key="frame" x="-100" y="-100" width="343" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="1269">
-                                    <rect key="frame" x="260" y="1" width="11" height="122"/>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="1269">
+                                    <rect key="frame" x="257" y="1" width="14" height="122"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

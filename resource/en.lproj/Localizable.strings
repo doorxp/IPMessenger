@@ -36,9 +36,7 @@ Replace it?";
 "RecvDlg.AttachDirOverwrite.Title"		= "Save";
 "RecvDlg.AttachDirOverwrite.OK"			= "Replace";
 "RecvDlg.AttachDirOverwrite.Cancel"		= "Cancel";
-"RecvDlg.AttachDirOverwrite.Msg"		= "Folder \"%@\" already exists.
-Replace it?
-Overwrite of a folder deletes all the existing files under the present folder.";
+"RecvDlg.AttachDirOverwrite.Msg"		= "Folder \"%@\" already exists.\nReplace it?\nOverwrite of a folder deletes all the existing files under the present folder.";
 "RecvDlg.Attach.NoPermission.Title"		= "Error in removing exist file/dir.";
 "RecvDlg.Attach.NoPermission.OK"		= "OK";
 "RecvDlg.Attach.NoPermission.Msg"		= "No permissions for \"%@\".";
@@ -48,13 +46,11 @@ Overwrite of a folder deletes all the existing files under the present folder.";
 "RecvDlg.AttachSheet.Start"				= "Preparing download...";
 "RecvDlg.AttachSheet.Finish"			= "Download complete.";
 "RecvDlg.CloseWithAttach.Title"			= "Attachment remaining.";
-"RecvDlg.CloseWithAttach.Msg"			= "Files not downloaded exist.
-Do you want close the window?";
+"RecvDlg.CloseWithAttach.Msg"			= "Files not downloaded exist.\nDo you want close the window?";
 "RecvDlg.CloseWithAttach.OK"			= "Close";
 "RecvDlg.CloseWithAttach.Cancel"		= "Cancel";
 "RecvDlg.CloseWithSeal.Title"			= "Seal not Opened.";
-"RecvDlg.CloseWithSeal.Msg"				= "Seal not opened yet.
-Do you want close the window?";
+"RecvDlg.CloseWithSeal.Msg"				= "Seal not opened yet.\nDo you want close the window?";
 "RecvDlg.CloseWithSeal.OK"				= "Close";
 "RecvDlg.CloseWithSeal.Cancel"			= "Cancel";
 "RecvDlg.DownloadError.Title"			= "Download Error.";
@@ -118,20 +114,16 @@ Release and send now?";
 "Err.UDPSocketBind.ok"		= "Quit";
 "Err.UDPSocketBind.alt"		= "Change Port No.";
 "Err.TCPSocketOpen.title"	= "Network initialization error";
-"Err.TCPSocketOpen.msg"		= "TCP Socket create error.
-Function for attachments is turned off.";
+"Err.TCPSocketOpen.msg"		= "TCP Socket create error.\nFunction for attachments is turned off.";
 "Err.TCPSocketOpen.ok"		= "OK";
 "Err.TCPSocketBind.title"	= "Network initialization error (bind)";
-"Err.TCPSocketBind.msg"		= "Port No. %d (TCP) is already used.
-Function for attachments is turned off.";
+"Err.TCPSocketBind.msg"		= "Port No. %d (TCP) is already used.\nFunction for attachments is turned off.";
 "Err.TCPSocketBind.ok"		= "OK";
 "Err.TCPSocketListen.title"	= "Network initialization error (listen)";
-"Err.TCPSocketListen.msg"	= "Attachment Server initialization error.
-Function for attachments is turned off.";
+"Err.TCPSocketListen.msg"	= "Attachment Server initialization error.\nFunction for attachments is turned off.";
 "Err.TCPSocketListen.ok"	= "OK";
 "Err.NetCheck.title"		= "Network Error";
-"Err.NetCheck.msg"			= "Network address not found.
-May not be connected to a network.";
+"Err.NetCheck.msg"			= "Network address not found.\nMay not be connected to a network.";
 
 /* Preference Panel */
     /* Password Modify */
@@ -150,8 +142,7 @@ May not be connected to a network.";
 "Pref.Absence.NoMessage"	= "No message.";
 "Pref.Absence.ExistTitle"	= "Definition already exists";
 "Pref.AbsenceReset.Title"	= "Reset abence definitions";
-"Pref.AbsenceReset.Msg"		= "Do you want to reinitialize absence definitions?
-All definitions you customized will be lost.";
+"Pref.AbsenceReset.Msg"		= "Do you want to reinitialize absence definitions?\nAll definitions you customized will be lost.";
 "Pref.AbsenceReset.OK"		= "Reset";
 "Pref.AbsenceReset.Cancel"	= "Cancel";
 	/* Absence Default Value */
@@ -170,8 +161,7 @@ All definitions you customized will be lost.";
 "Pref.Absence.Def6.Title"	= "Edo";
 "Pref.Absence.Def6.Message"	= "Edo tokorobarai wo mousi watasu!";
 "Pref.Absence.Def7.Title"	= "Priest";
-"Pref.Absence.Def7.Message"	= "I am tired of life...
-Please don't look for me...";
+"Pref.Absence.Def7.Message"	= "I am tired of life...\nPlease don't look for me...";
 	/* Refuse List */
 "Pref.Refuse.Error.NoInput"	= "No input";
 	/* Log */
@@ -186,16 +176,11 @@ Please don't look for me...";
 "Log.Conv.StdLog"			= "Standerd Log";
 "Log.Conv.AltLog"			= "Alternate Log";
 "Log.Conv.Title"			= "%@ Conversion";
-"Log.Conv.Message"			= "Character encoding was changed.
-%@ file have to be converted.
-Are you sure you want to convert the log file?
-
-If you choose \"No\", current log file will be back up.";
+"Log.Conv.Message"			= "Character encoding was changed.\n%@ file have to be converted.\nAre you sure you want to convert the log file?\n\nIf you choose \"No\", current log file will be back up.";
 "Log.Conv.OK"				= "Convert";
 "Log.Conv.Cancel"			= "No";
 "Log.ConvFail.Title"		= "Log conversion failed";
-"Log.ConvFail.Message"		= "A new empty log file will be created.
-Current log file will be back up.";
+"Log.ConvFail.Message"		= "A new empty log file will be created.\nCurrent log file will be back up.";
 "Log.ConvFail.OK"			= "OK";
 "Log.Backup.Title"			= "Original Log File Backup";
 "Log.Backup.OK"				= "Close";

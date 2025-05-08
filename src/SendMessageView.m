@@ -10,6 +10,7 @@
 #import "AttachmentServer.h"
 #import "SendControl.h"
 #import "DebugLog.h"
+#import <UniformTypeIdentifiers/UTCoreTypes.h>
 
 @implementation SendMessageView
 
@@ -21,7 +22,7 @@
 		duringDragging = NO;
 		// ファイルのドラッグを受け付ける
 		if ([AttachmentServer isAvailable]) {
-			[self registerForDraggedTypes:@[NSFilenamesPboardType]];
+			[self registerForDraggedTypes:@[NSPasteboardTypeFileURL]];
 		}
 	}
 	return self;
@@ -79,12 +80,21 @@
 
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
 {
-	NSPasteboard* 	pBoard	= [sender draggingPasteboard];
-	NSArray*		files	= [pBoard propertyListForType:NSFilenamesPboardType];
-	id				control	= [[self window] delegate];
-	for (id file in files) {
-		[control appendAttachmentByPath:file];
-	}
+    NSPasteboard*     pBoard    = [sender draggingPasteboard];
+    NSArray *fileURLs = [pBoard readObjectsForClasses:@[NSURL.class]
+                                                     options:@{NSPasteboardURLReadingFileURLsOnlyKey: @YES}];
+    id control    = [[self window] delegate];
+    
+    for (NSURL *fileURL in fileURLs) {
+        // 检查文件类型
+        [control appendAttachmentByPath:fileURL.path];
+        
+    }
+//    NSArray*		files	= [pBoard propertyListForType:NSPasteboardTypeFileURL];
+//	id				control	= [[self window] delegate];
+//	for (id file in files) {
+//		[control appendAttachmentByPath:file];
+//	}
 	duringDragging = NO;
 	[self setNeedsDisplay:YES];
 }

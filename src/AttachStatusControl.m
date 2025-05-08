@@ -90,7 +90,7 @@ static NSString* ATTACHPNL_POS_Y	= @"AttachStatusPanelOriginY";
 
 - (IBAction)checkboxChanged:(id)sender {
 	if (sender == self.dispAlwaysCheck) {
-		[self.panel setHidesOnDeactivate:([self.dispAlwaysCheck state] == NSOffState)];
+        [self.panel setHidesOnDeactivate:([self.dispAlwaysCheck state] == NSControlStateValueOff)];
 	} else {
 		ERR(@"Unknown Checkbox Changed(%@)", sender);
 	}

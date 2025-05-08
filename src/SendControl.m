@@ -36,7 +36,7 @@ static NSDate*				lastTimeOfEntrySent	= nil;
 static NSMutableDictionary*	userListColumns		= nil;
 static NSRecursiveLock*		userListColsLock	= nil;
 
-@interface SendControl()<NSSplitViewDelegate>
+@interface SendControl()<NSSplitViewDelegate, NSDrawerDelegate>
 - (void)updateSearchFieldPlaceholder;
 @end
 
@@ -202,7 +202,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		[self.passwordCheck setEnabled:state];
 		// 封書チェックのチェックがはずされた場合は鍵のチェックも外す
 		if (!state) {
-			[self.passwordCheck setState:NSOffState];
+            [self.passwordCheck setState:NSControlStateValueOff];
 		}
 	}
 	// 鍵チェックボックス
@@ -489,8 +489,6 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[self.attachTable reloadData];
 	[self setAttachHeader];
     
-    self.attachDrawer.delegate = (id)self;
-  
 	[self.attachDrawer open:self];
     
   
@@ -498,17 +496,19 @@ static NSRecursiveLock*		userListColsLock	= nil;
 }
 
 - (void)drawerWillOpen:(NSNotification *)notification {
-    self.attachDrawer.contentView.wantsLayer = true;
+    NSSplitViewController *contr = nil;
+    self.attachDrawer.contentView.wantsLayer = false;
     self.attachDrawer.contentView.layer.backgroundColor = self.window.backgroundColor.CGColor;
-    NSView *frame = self.attachDrawer.contentView.superview;
-    frame.wantsLayer = true;
-    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
+//    NSView *frame = self.attachDrawer.contentView.superview;
+//    frame.wantsLayer = true;
+//    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
 }
 
 - (void)drawerDidOpen:(NSNotification *)notification {
-    NSView *frame = self.attachDrawer.contentView.superview;
-    frame.wantsLayer = true;
-    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
+//    NSView *frame = self.attachDrawer.contentView.superview;
+//    frame.wantsLayer = true;
+//    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
+
 }
 
 /*----------------------------------------------------------------------------*
@@ -518,8 +518,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 - (IBAction)searchMenuItemSelected:(id)sender
 {
 	if ([sender isKindOfClass:[NSMenuItem class]]) {
-		NSInteger	newSt	= ([sender state] == NSOnState) ? NSOffState : NSOnState;
-		BOOL		newVal	= (BOOL)(newSt == NSOnState);
+        NSInteger	newSt	= ([sender state] == NSControlStateValueOn) ? NSControlStateValueOff : NSControlStateValueOn;
+        BOOL		newVal	= (BOOL)(newSt == NSControlStateValueOn);
 		Config*		cfg		= [Config sharedConfig];
 
 		[sender setState:newSt];
@@ -570,14 +570,14 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		[userListColumns setObject:col forKey:identifier];
 		[userListColsLock unlock];
 		[self.userTable removeTableColumn:col];
-		[sender setState:NSOffState];
+        [sender setState:NSControlStateValueOff];
 		[[Config sharedConfig] setSendWindowUserListColumn:identifier hidden:YES];
 	} else {
 		// ないので追加する
 		[userListColsLock lock];
 		[self.userTable addTableColumn:[userListColumns objectForKey:identifier]];
 		[userListColsLock unlock];
-		[sender setState:NSOnState];
+        [sender setState:NSControlStateValueOn];
 		[[Config sharedConfig] setSendWindowUserListColumn:identifier hidden:NO];
 	}
 }
@@ -857,7 +857,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 
 	// 封書チェックをデフォルト判定
 	if (config.sealCheckDefault) {
-		[self.sealCheck setState:NSOnState];
+        [self.sealCheck setState:NSControlStateValueOn];
 		[self.passwordCheck setEnabled:YES];
 	}
 
@@ -897,12 +897,12 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[self.users sortUsingDescriptors:[self.userTable sortDescriptors]];
 
 	// 検索フィールドのメニュー設定
-	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_USER] setState:config.sendSearchByUserName ? NSOnState : NSOffState];
-	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_GROUP] setState:config.sendSearchByGroupName ? NSOnState : NSOffState];
-	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_HOST] setState:config.sendSearchByHostName ? NSOnState : NSOffState];
-	[[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_LOGON] setState:config.sendSearchByLogOnName ? NSOnState : NSOffState];
-    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_ALPHA] setState:config.sendSearchByUserAlpha?NSOnState:NSOffState];
-    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_PINYING] setState:config.sendSearchByPinying?NSOnState:NSOffState];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_USER] setState:config.sendSearchByUserName ? NSControlStateValueOn : NSControlStateValueOff];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_GROUP] setState:config.sendSearchByGroupName ? NSControlStateValueOn : NSControlStateValueOff];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_HOST] setState:config.sendSearchByHostName ? NSControlStateValueOn : NSControlStateValueOff];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_LOGON] setState:config.sendSearchByLogOnName ? NSControlStateValueOn : NSControlStateValueOff];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_ALPHA] setState:config.sendSearchByUserAlpha?NSControlStateValueOn:NSControlStateValueOff];
+    [[self.searchMenu itemWithTag:_SEARCH_MENUITEM_TAG_PINYING] setState:config.sendSearchByPinying?NSControlStateValueOn:NSControlStateValueOff];
 //    _SEARCH_MENUITEM_TAG_PINYING
     
 	[[self.searchField cell] setSearchMenuTemplate:self.searchMenu];

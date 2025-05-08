@@ -733,7 +733,7 @@
 	}
 	// アップデート：自動チェック
 	else if (sender == updateCheckAutoCheck) {
-		BOOL check = ([updateCheckAutoCheck state] == NSOnState);
+        BOOL check = ([updateCheckAutoCheck state] == NSControlStateValueOn);
 		config.updateAutomaticCheck = check;
 		[updateTypeMatrix setEnabled:check];
 	}

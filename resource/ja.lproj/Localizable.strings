@@ -31,14 +31,11 @@
 "RecvDlg.AttachFileOverwrite.Title"		= "同名のファイルが存在します";
 "RecvDlg.AttachFileOverwrite.OK"		= "OK";
 "RecvDlg.AttachFileOverwrite.Cancel"	= "キャンセル";
-"RecvDlg.AttachFileOverwrite.Msg"		= "ファイル \"%@\" は既に存在します。
-上書きしてもよろしいですか？";
+"RecvDlg.AttachFileOverwrite.Msg"		= "ファイル \"%@\" は既に存在します。\n上書きしてもよろしいですか？";
 "RecvDlg.AttachDirOverwrite.Title"		= "同名のフォルダが存在します";
 "RecvDlg.AttachDirOverwrite.OK"			= "OK";
 "RecvDlg.AttachDirOverwrite.Cancel"		= "キャンセル";
-"RecvDlg.AttachDirOverwrite.Msg"		= "フォルダ \"%@\" は既に存在します。
-上書きしてもよろしいですか？
-フォルダを上書きすると、現在のフォルダ配下の全ての既存ファイルは削除されます。";
+"RecvDlg.AttachDirOverwrite.Msg"		= "フォルダ \"%@\" は既に存在します。\n上書きしてもよろしいですか？\nフォルダを上書きすると、現在のフォルダ配下の全ての既存ファイルは削除されます。";
 "RecvDlg.Attach.NoPermission.Title"		= "既存ファイルの削除に失敗しました";
 "RecvDlg.Attach.NoPermission.OK"		= "OK";
 "RecvDlg.Attach.NoPermission.Msg"		= "\"%@\"に対する適切なアクセス権がありません。";
@@ -48,13 +45,11 @@
 "RecvDlg.AttachSheet.Start"				= "ダウンロード準備中...";
 "RecvDlg.AttachSheet.Finish"			= "ダウンロード完了";
 "RecvDlg.CloseWithAttach.Title"			= "添付ファイルが残っています";
-"RecvDlg.CloseWithAttach.Msg"			= "ダウンロードしていない受信添付ファイルがあります。
-ウィンドウを閉じてもよろしいですか？";
+"RecvDlg.CloseWithAttach.Msg"			= "ダウンロードしていない受信添付ファイルがあります。ウィンドウを閉じてもよろしいですか？";
 "RecvDlg.CloseWithAttach.OK"			= "閉じる";
 "RecvDlg.CloseWithAttach.Cancel"		= "キャンセル";
 "RecvDlg.CloseWithSeal.Title"			= "封書未開封";
-"RecvDlg.CloseWithSeal.Msg"				= "封書を開いていません。
-ウィンドウを閉じてもよろしいですか？";
+"RecvDlg.CloseWithSeal.Msg"				= "封書を開いていません。ウィンドウを閉じてもよろしいですか？";
 "RecvDlg.CloseWithSeal.OK"				= "閉じる";
 "RecvDlg.CloseWithSeal.Cancel"			= "キャンセル";
 "RecvDlg.DownloadError.Title"			= "添付ファイルダウンロード失敗";
@@ -82,8 +77,7 @@
 "SendDlg.AbsenceOff.Title"				= "不在モード中";
 "SendDlg.AbsenceOff.OK"					= "解除して送信";
 "SendDlg.AbsenceOff.Cancel"				= "キャンセル";
-"SendDlg.AbsenceOff.Msg"				= "不在通知モード（%@）になっています。
-解除して送信しますか？";
+"SendDlg.AbsenceOff.Msg"				= "不在通知モード（%@）になっています。解除して送信しますか？";
 "SendDlg.Attach.Header"					= "添付ファイル（%d）";
 /* Send Retry out Confirm */
 "Send.Retry.Title"			= "メッセージを再送しますか？";
@@ -116,20 +110,16 @@
 "Err.UDPSocketBind.ok"		= "終了";
 "Err.UDPSocketBind.alt"		= "ポート番号変更";
 "Err.TCPSocketOpen.title"	= "ネットワーク初期化エラー";
-"Err.TCPSocketOpen.msg"		= "TCP ソケット生成エラーです。
-添付ファイルの送信機能は利用できません。";
+"Err.TCPSocketOpen.msg"		= "TCP ソケット生成エラーです。添付ファイルの送信機能は利用できません。";
 "Err.TCPSocketOpen.ok"		= "OK";
 "Err.TCPSocketBind.title"	= "ネットワーク初期化エラー（バインドエラー）";
-"Err.TCPSocketBind.msg"		= "ポート番号 %d （TCP）は既に他のプログラムによって使用されています。
-添付ファイルの送信機能は利用できません。";
+"Err.TCPSocketBind.msg"		= "ポート番号 %d （TCP）は既に他のプログラムによって使用されています。添付ファイルの送信機能は利用できません。";
 "Err.TCPSocketBind.ok"		= "OK";
 "Err.TCPSocketListen.title"	= "ネットワーク初期化エラー（listen)";
-"Err.TCPSocketListen.msg"	= "添付ファイル送信サーバの初期化に失敗しました。
-添付ファイルの送信機能は利用できません。";
+"Err.TCPSocketListen.msg"	= "添付ファイル送信サーバの初期化に失敗しました。添付ファイルの送信機能は利用できません。";
 "Err.TCPSocketListen.ok"	= "OK";
 "Err.NetCheck.title"		= "ネットワーク情報取得エラー";
-"Err.NetCheck.msg"			= "アドレスの取得に失敗しました。
-ネットワークに接続していない可能性があります。";
+"Err.NetCheck.msg"			= "アドレスの取得に失敗しました。ネットワークに接続していない可能性があります。";
 
 /* Preference Panel */
 	/* Password Modify */
@@ -148,8 +138,7 @@
 "Pref.Absence.NoMessage"	= "メッセージが入力されていません。";
 "Pref.Absence.ExistTitle"	= "既に登録されている不在定義です。";
 "Pref.AbsenceReset.Title"	= "不在モード定義のリセット";
-"Pref.AbsenceReset.Msg"		= "不在モードの定義を初期状態にリセットします。
-リセットすると全てのカスタマイズされた不在モード定義は失われます。";
+"Pref.AbsenceReset.Msg"		= "不在モードの定義を初期状態にリセットします。リセットすると全てのカスタマイズされた不在モード定義は失われます。";
 "Pref.AbsenceReset.OK"		= "リセット";
 "Pref.AbsenceReset.Cancel"	= "キャンセル";
 	/* Absence Default Value */
@@ -168,8 +157,7 @@
 "Pref.Absence.Def6.Title"	= "江戸";
 "Pref.Absence.Def6.Message"	= "江戸所払いを申し渡す！";
 "Pref.Absence.Def7.Title"	= "出家";
-"Pref.Absence.Def7.Message"	= "人生に疲れました...
-探さないでください...";
+"Pref.Absence.Def7.Message"	= "人生に疲れました...探さないでください...";
 	/* Refuse List */
 "Pref.Refuse.Error.NoInput"	= "文字列が入力されていません。";
 	/* Log */
@@ -184,11 +172,7 @@
 "Log.Conv.StdLog"			= "標準ログ";
 "Log.Conv.AltLog"			= "重要ログ";
 "Log.Conv.Title"			= "%@の変換";
-"Log.Conv.Message"			= "ログファイルの文字コードが変更になりました。
-現在の%@ファイルは変換する必要があります。
-変換してよろしいですか。
-
-\"いいえ\"を選ぶと、現在のログファイルはバックアップされてログファイルが新しくなります。";
+"Log.Conv.Message"			= "ログファイルの文字コードが変更になりました。\n現在の%@ファイルは変換する必要があります。\n変換してよろしいですか。\n\n\"いいえ\"を選ぶと、現在のログファイルはバックアップされてログファイルが新しくなります。";
 "Log.Conv.OK"				= "変換する";
 "Log.Conv.Cancel"			= "いいえ";
 "Log.ConvFail.Title"		= "ログファイルの変換に失敗しました。";

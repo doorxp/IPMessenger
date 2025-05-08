@@ -236,25 +236,25 @@
 	if (oldIdx == -1) {
 		oldIdx = -2;
 	}
-	[[_absenceMenu				itemAtIndex:oldIdx + 2] setState:NSOffState];
-	[[_absenceMenuForDock		itemAtIndex:oldIdx + 2] setState:NSOffState];
-	[[_absenceMenuForStatusBar	itemAtIndex:oldIdx + 2] setState:NSOffState];
+    [[_absenceMenu				itemAtIndex:oldIdx + 2] setState:NSControlStateValueOff];
+	[[_absenceMenuForDock		itemAtIndex:oldIdx + 2] setState:NSControlStateValueOff];
+	[[_absenceMenuForStatusBar	itemAtIndex:oldIdx + 2] setState:NSControlStateValueOff];
 
 	// 選択された項目にチェックを入れる
-	[[_absenceMenu				itemAtIndex:newIdx + 2] setState:NSOnState];
-	[[_absenceMenuForDock		itemAtIndex:newIdx + 2] setState:NSOnState];
-	[[_absenceMenuForStatusBar	itemAtIndex:newIdx + 2] setState:NSOnState];
+    [[_absenceMenu				itemAtIndex:newIdx + 2] setState:NSControlStateValueOn];
+	[[_absenceMenuForDock		itemAtIndex:newIdx + 2] setState:NSControlStateValueOn];
+	[[_absenceMenuForStatusBar	itemAtIndex:newIdx + 2] setState:NSControlStateValueOn];
 
 	// 選択された項目によってアイコンを変更する
 	if (newIdx < 0) {
 		[NSApp setApplicationIconImage:_iconNormal];
-		[_statusBarItem setImage:_iconSmallNormal];
+        _statusBarItem.button.image = _iconSmallNormal;
 	} else {
 		[NSApp setApplicationIconImage:_iconAbsence];
-		[_statusBarItem setImage:_iconSmallAbsence];
+        _statusBarItem.button.image = _iconSmallAbsence;
 	}
 
-	[sender setState:NSOnState];
+    [sender setState:NSControlStateValueOn];
 
 	config.absenceIndex = newIdx;
 	[[MessageCenter sharedCenter] broadcastAbsence];
@@ -273,11 +273,16 @@
 	if (_statusBarItem == nil) {
 		// ステータスバーアイテムの初期化
 		self.statusBarItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-		[_statusBarItem setTitle:@""];
-		[_statusBarItem setImage:_iconSmallNormal];
-		[_statusBarItem setAlternateImage:_iconSmallAlaternate];
+        _statusBarItem.button.title = @"";
+        _statusBarItem.button.image = _iconNormal;
+        _statusBarItem.button.alternateImage = _iconSmallAlaternate;
+        _statusBarItem.button.cell.highlighted = true;
+        
+//		[_statusBarItem setTitle:@""];
+//		[_statusBarItem setImage:_iconSmallNormal];
+//		[_statusBarItem setAlternateImage:_iconSmallAlaternate];
 		[_statusBarItem setMenu:_statusBarMenu];
-		[_statusBarItem setHighlightMode:YES];
+//		[_statusBarItem setHighlightMode:YES];
 	}
 }
 
@@ -306,8 +311,8 @@
 
 // 謝辞の表示
 - (IBAction)showAcknowledgement:(id)sender {
-	NSString* path = [[NSBundle mainBundle] pathForResource:@"Acknowledgement" ofType:@"pdf"];
-	[[NSWorkspace sharedWorkspace] openFile:path];
+	NSURL* url = [[NSBundle mainBundle] URLForResource:@"Acknowledgement" withExtension:@"pdf"];
+	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 // Nibファイルロード完了時
@@ -367,9 +372,9 @@
 - (void) openLog:(id)sender{
 	Config*	config	= [Config sharedConfig];
 	// ログファイルのフルパスを取得する
-	NSString *filePath = [config.standardLogFile stringByExpandingTildeInPath];
+	NSURL *filePath = [NSURL fileURLWithPath:[config.standardLogFile stringByExpandingTildeInPath]];
 	// デフォルトのアプリでログを開く
-	[[NSWorkspace sharedWorkspace] openFile : filePath];
+	[[NSWorkspace sharedWorkspace] openURL : filePath];
 }
 
 // アプリ終了前確認
@@ -515,7 +520,8 @@
 		[_iconToggleTimer invalidate];
 		self.iconToggleTimer = nil;
 		[NSApp setApplicationIconImage:((config.inAbsence) ? _iconAbsence : _iconNormal)];
-		[_statusBarItem setImage:((config.inAbsence) ? _iconSmallAbsence : _iconSmallNormal)];
+        _statusBarItem.button.image = ((config.inAbsence) ? _iconSmallAbsence : _iconSmallNormal);
+//		[_statusBarItem setImage:((config.inAbsence) ? _iconSmallAbsence : _iconSmallNormal)];
 	}
 	[_receiveQueueLock unlock];
 	// 新規送信ウィンドウのオープン
@@ -576,7 +582,8 @@
 		if (_statusBarItem == nil) {
 			[self initStatusBar];
 		}
-		[_statusBarItem setImage:img2];
+//		[_statusBarItem setImage:img2];
+        _statusBarItem.button.image = img2;
 	}
 	// Dockアイコン
 	[NSApp setApplicationIconImage:img1];

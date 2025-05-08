@@ -1,0 +1,93 @@
+
+/* Class = "NSBox"; title = "Message from..."; ObjectID = "11"; */
+"11.title" = "Message from...";
+
+/* Class = "NSWindow"; title = "Received Message"; ObjectID = "14"; */
+"14.title" = "Received Message";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Save message to Alternate Log File"; ObjectID = "19"; */
+"19.ibShadowedToolTip" = "Save message to Alternate Log File";
+
+/* Class = "NSWindow"; title = "Input password"; ObjectID = "41"; */
+"41.title" = "Input password";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Open/Close Attachments Drawer"; ObjectID = "119"; */
+"119.ibShadowedToolTip" = "Open/Close Attachments Drawer";
+
+/* Class = "NSWindow"; title = "Download panel"; ObjectID = "127"; */
+"127.title" = "Download panel";
+
+/* Class = "NSTableColumn"; headerCell.title = "Attachments"; ObjectID = "147"; */
+"147.headerCell.title" = "Attachments";
+
+/* Class = "NSTextFieldCell"; title = "Sunday, September 2, 2001 at 9:47:12 AM"; ObjectID = "185"; */
+"185.title" = "Sunday, September 2, 2001 at 9:47:12 AM";
+
+/* Class = "NSTextFieldCell"; title = "UserName"; ObjectID = "186"; */
+"186.title" = "UserName";
+
+/* Class = "NSButtonCell"; title = "Reply"; ObjectID = "187"; */
+"187.title" = "Reply";
+
+/* Class = "NSButtonCell"; title = "Quote"; ObjectID = "188"; */
+"188.title" = "Quote";
+
+/* Class = "NSButtonCell"; title = "Open"; ObjectID = "191"; */
+"191.title" = "Open";
+
+/* Class = "NSTextFieldCell"; title = "Message is locked. Please enter password."; ObjectID = "193"; */
+"193.title" = "Message is locked. Please enter password.";
+
+/* Class = "NSButtonCell"; title = "OK"; ObjectID = "194"; */
+"194.title" = "OK";
+
+/* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "196"; */
+"196.title" = "Cancel";
+
+/* Class = "NSTextFieldCell"; title = "Error Message"; ObjectID = "197"; */
+"197.title" = "Error Message";
+
+/* Class = "NSButtonCell"; title = "↓"; ObjectID = "198"; */
+"198.title" = "↓";
+
+/* Class = "NSTextFieldCell"; title = "Preparing Download..."; ObjectID = "199"; */
+"199.title" = "Preparing Download...";
+
+/* Class = "NSTextFieldCell"; title = "File Name"; ObjectID = "200"; */
+"200.title" = "File Name";
+
+/* Class = "NSTextFieldCell"; title = "100 %"; ObjectID = "201"; */
+"201.title" = "100 %";
+
+/* Class = "NSButtonCell"; title = "STOP"; ObjectID = "202"; */
+"202.title" = "STOP";
+
+/* Class = "NSTextFieldCell"; title = "Finished files :"; ObjectID = "203"; */
+"203.title" = "Finished files :";
+
+/* Class = "NSTextFieldCell"; title = "Finished folders :"; ObjectID = "204"; */
+"204.title" = "Finished folders :";
+
+/* Class = "NSTextFieldCell"; title = "0"; ObjectID = "205"; */
+"205.title" = "0";
+
+/* Class = "NSTextFieldCell"; title = "0"; ObjectID = "206"; */
+"206.title" = "0";
+
+/* Class = "NSTextFieldCell"; title = "Size :"; ObjectID = "207"; */
+"207.title" = "Size :";
+
+/* Class = "NSTextFieldCell"; title = "0/0"; ObjectID = "208"; */
+"208.title" = "0/0";
+
+/* Class = "NSTextFieldCell"; title = "Average speed :"; ObjectID = "209"; */
+"209.title" = "Average speed :";
+
+/* Class = "NSTextFieldCell"; title = "0 KB/s"; ObjectID = "210"; */
+"210.title" = "0 KB/s";
+
+/* Class = "NSTextFieldCell"; title = "9"; ObjectID = "211"; */
+"211.title" = "9";
+
+/* Class = "NSBox"; title = "Box"; ObjectID = "eil-Rc-QF6"; */
+"eil-Rc-QF6.title" = "Box";
