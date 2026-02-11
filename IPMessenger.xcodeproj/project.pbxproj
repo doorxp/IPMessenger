@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -200,24 +200,16 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		F743AAE911C1003A003B098E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolder = Frameworks;
 			files = (
 				1D8B922D21BE1472002D9FD3 /* Sparkle.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D1893062536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1D1893072536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
-		1D1893082536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1D1893092536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
-		1D18930A2536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
-		1D18930B2536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
-		1D18930C2536EA3F00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/SendWindow.nib; sourceTree = "<group>"; };
 		1D18930D2536EA4300C62361 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D1D518114F208F800528526 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		1D8B91FE21BE0ED6002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
@@ -229,13 +221,7 @@
 		1D8B920521BE1256002D9FD3 /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = framework/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		1DF8A8672DCC81D10034E4BC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1DF8A8692DCC828D0034E4BC /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
-		1DF8A86B2DCC8CE80034E4BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/NoticeDialog.strings"; sourceTree = "<group>"; };
-		1DF8A86C2DCC8CE80034E4BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PortChangeDialog.strings"; sourceTree = "<group>"; };
-		1DF8A86D2DCC8CE80034E4BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ReceiveWindow.strings"; sourceTree = "<group>"; };
-		1DF8A86E2DCC8CE80034E4BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SendWindow.strings"; sourceTree = "<group>"; };
-		1DF8A86F2DCC8CE80034E4BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
-		1DF8A8702DCC8CE80034E4BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LogConvertDialog.strings"; sourceTree = "<group>"; };
-		1DF8A8752DCC8CE90034E4BC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		1DFBF2652F3C5C0A007AC04B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5472138C19384A45000FA01B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5472139019384BF6000FA01B /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
@@ -321,7 +307,6 @@
 /* Begin PBXFrameworksBuildPhase section */
 		F73453640C454622001D5375 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				1DF8A8572DCC81D10034E4BC /* Foundation.framework in Frameworks */,
 				1D8B922B21BE125E002D9FD3 /* Sparkle.framework in Frameworks */,
@@ -331,7 +316,6 @@
 				5472138E19384A4B000FA01B /* Cocoa.framework in Frameworks */,
 				5472138D19384A45000FA01B /* Security.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -578,7 +562,6 @@
 /* Begin PBXHeadersBuildPhase section */
 		F73453190C454622001D5375 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				F734531A0C454622001D5375 /* SendControl.h in Headers */,
 				F734531B0C454622001D5375 /* AppControl.h in Headers */,
@@ -611,7 +594,6 @@
 				F7196E9013842A5300BE747B /* LogConvertController.h in Headers */,
 				F77D69641397A95B00BA58D6 /* SendHeaderView.h in Headers */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
@@ -645,10 +627,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2620;
 			};
 			buildConfigurationList = F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */;
-			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -658,6 +639,7 @@
 				"zh-Hans",
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* IPMessenger */;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -763,7 +745,6 @@
 /* Begin PBXResourcesBuildPhase section */
 		F73453370C454622001D5375 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				F734533D0C454622001D5375 /* IPMsg.icns in Resources */,
 				F734533E0C454622001D5375 /* IPMsgAbsence.icns in Resources */,
@@ -785,14 +766,12 @@
 				F794E5BA13855BCC003FB780 /* LogConvertDialog.xib in Resources */,
 				F7C81E72138D7A2E00E329B5 /* Acknowledgement.pdf in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F73453460C454622001D5375 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				5472139219384BF6000FA01B /* pinyin.c in Sources */,
 				F73453470C454622001D5375 /* main.m in Sources */,
@@ -825,7 +804,6 @@
 				F7196E9113842A5300BE747B /* LogConvertController.m in Sources */,
 				F77D69651397A95B00BA58D6 /* SendHeaderView.m in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -847,8 +825,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1D8B920321BE0ED7002D9FD3 /* Base */,
-				1D1893072536EA3E00C62361 /* ja */,
-				1DF8A8702DCC8CE80034E4BC /* zh-Hans */,
 			);
 			name = LogConvertDialog.xib;
 			sourceTree = "<group>";
@@ -857,8 +833,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1D8B920221BE0ED7002D9FD3 /* Base */,
-				1D1893082536EA3E00C62361 /* ja */,
-				1DF8A86F2DCC8CE80034E4BC /* zh-Hans */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -868,7 +842,7 @@
 			children = (
 				1D1893062536EA3E00C62361 /* ja */,
 				1D18930D2536EA4300C62361 /* en */,
-				1DF8A8752DCC8CE90034E4BC /* zh-Hans */,
+				1DFBF2652F3C5C0A007AC04B /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -877,8 +851,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1D8B91FE21BE0ED6002D9FD3 /* Base */,
-				1D1893092536EA3F00C62361 /* ja */,
-				1DF8A86B2DCC8CE80034E4BC /* zh-Hans */,
 			);
 			name = NoticeDialog.nib;
 			sourceTree = "<group>";
@@ -887,8 +859,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1D8B91FF21BE0ED6002D9FD3 /* Base */,
-				1D18930A2536EA3F00C62361 /* ja */,
-				1DF8A86C2DCC8CE80034E4BC /* zh-Hans */,
 			);
 			name = PortChangeDialog.nib;
 			sourceTree = "<group>";
@@ -897,8 +867,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1D8B920021BE0ED6002D9FD3 /* Base */,
-				1D18930B2536EA3F00C62361 /* ja */,
-				1DF8A86D2DCC8CE80034E4BC /* zh-Hans */,
 			);
 			name = ReceiveWindow.nib;
 			sourceTree = "<group>";
@@ -907,8 +875,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1D8B920121BE0ED7002D9FD3 /* Base */,
-				1D18930C2536EA3F00C62361 /* ja */,
-				1DF8A86E2DCC8CE80034E4BC /* zh-Hans */,
 			);
 			name = SendWindow.nib;
 			sourceTree = "<group>";
@@ -916,7 +882,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F734530D0C4545F7001D5375 /* Debug */ = {
+		F734530D0C4545F7001D5375 /* Debug configuration for PBXProject "IPMessenger" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -953,10 +919,11 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
-		F734530E0C4545F7001D5375 /* Release */ = {
+		F734530E0C4545F7001D5375 /* Release configuration for PBXProject "IPMessenger" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -991,10 +958,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Release;
 		};
-		F73453670C454622001D5375 /* Debug */ = {
+		F73453670C454622001D5375 /* Debug configuration for PBXNativeTarget "IPMessenger" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1028,7 +996,7 @@
 			};
 			name = Debug;
 		};
-		F73453680C454622001D5375 /* Release */ = {
+		F73453680C454622001D5375 /* Release configuration for PBXNativeTarget "IPMessenger" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1065,19 +1033,17 @@
 		F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F734530D0C4545F7001D5375 /* Debug */,
-				F734530E0C4545F7001D5375 /* Release */,
+				F734530D0C4545F7001D5375 /* Debug configuration for PBXProject "IPMessenger" */,
+				F734530E0C4545F7001D5375 /* Release configuration for PBXProject "IPMessenger" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 		F73453660C454622001D5375 /* Build configuration list for PBXNativeTarget "IPMessenger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F73453670C454622001D5375 /* Debug */,
-				F73453680C454622001D5375 /* Release */,
+				F73453670C454622001D5375 /* Debug configuration for PBXNativeTarget "IPMessenger" */,
+				F73453680C454622001D5375 /* Release configuration for PBXNativeTarget "IPMessenger" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */

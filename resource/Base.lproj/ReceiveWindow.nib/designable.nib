@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -55,7 +55,7 @@
                             <rect key="frame" x="4" y="5" width="327" height="69"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="9">
+                                <textField focusRingType="none" verticalHuggingPriority="750" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="9">
                                     <rect key="frame" x="130" y="53" width="68" height="15"/>
                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="UserName" id="186">
                                         <font key="font" metaFont="cellTitle"/>
@@ -69,7 +69,7 @@
                                         <rect key="frame" x="4" y="5" width="325" height="26"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="5">
                                                 <rect key="frame" x="49" y="6" width="228" height="14"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Sunday, September 2, 2001 at 9:47:12 AM" id="185">
                                                     <dateFormatter key="formatter" dateStyle="full" timeStyle="medium" id="16"/>
@@ -80,13 +80,13 @@
                                             </textField>
                                             <button toolTip="Save message to Alternate Log File" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="19">
                                                 <rect key="frame" x="276" y="-4" width="32" height="33"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="19" secondAttribute="height" multiplier="1:1" id="ygF-6G-QgK"/>
-                                                </constraints>
                                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="AltLog" imagePosition="only" alignment="center" enabled="NO" borderStyle="border" inset="2" id="190">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="label"/>
                                                 </buttonCell>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="19" secondAttribute="height" multiplier="1:1" id="ygF-6G-QgK"/>
+                                                </constraints>
                                                 <connections>
                                                     <action selector="writeAlternateLog:" target="-2" id="24"/>
                                                     <outlet property="nextKeyView" destination="119" id="174"/>
@@ -124,7 +124,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="327" height="174"/>
                                     <clipView key="contentView" copiesOnScroll="NO" id="ixa-aP-Ca5">
                                         <rect key="frame" x="1" y="1" width="310" height="172"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92" customClass="ReceiveMessageView">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="110"/>
@@ -142,7 +142,7 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                 </scrollView>
-                                <button horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="37">
+                                <button imageHugsTitle="YES" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="37">
                                     <rect key="frame" x="0.0" y="-1" width="327" height="176"/>
                                     <buttonCell key="cell" type="smallSquare" title="Open" bezelStyle="smallSquare" alignment="center" borderStyle="border" inset="2" id="191">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -197,7 +197,7 @@ DQ
                                                 <outlet property="nextKeyView" destination="12" id="82"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12">
+                                        <button imageHugsTitle="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="12">
                                             <rect key="frame" x="100" y="-2" width="68" height="32"/>
                                             <buttonCell key="cell" type="push" title="Reply" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="187">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -263,32 +263,32 @@ DQ
             <rect key="contentRect" x="344" y="584" width="370" height="202"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
             <value key="minSize" type="size" width="370" height="202"/>
-            <value key="maxSize" type="size" width="350" height="202"/>
+            <value key="maxSize" type="size" width="370" height="202"/>
             <view key="contentView" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42">
-                <rect key="frame" x="0.0" y="0.0" width="370" height="202"/>
+                <rect key="frame" x="0.0" y="0.0" width="370" height="203"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <stackView autoresizesSubviews="NO" distribution="equalSpacing" orientation="vertical" alignment="centerX" spacing="5" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" translatesAutoresizingMaskIntoConstraints="NO" id="4FL-0D-jlN">
-                        <rect key="frame" x="20" y="71" width="330" height="59"/>
+                        <rect key="frame" x="20" y="71" width="330" height="60"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="39">
-                                <rect key="frame" x="49" y="45" width="233" height="14"/>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="39">
+                                <rect key="frame" x="49" y="46" width="233" height="14"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Message is locked. Please enter password." id="193">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="65">
-                                <rect key="frame" x="123" y="26" width="84" height="14"/>
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="65">
+                                <rect key="frame" x="123" y="27" width="84" height="14"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Error Message" id="197">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="43" customClass="NSSecureTextField">
-                                <rect key="frame" x="10" y="0.0" width="310" height="21"/>
+                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="43" customClass="NSSecureTextField">
+                                <rect key="frame" x="10" y="0.0" width="310" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="center" drawsBackground="YES" id="195">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -310,11 +310,8 @@ DQ
                     <stackView autoresizesSubviews="NO" distribution="fillEqually" orientation="horizontal" alignment="centerY" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Zdu-bv-q9E">
                         <rect key="frame" x="194" y="20" width="136" height="31"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="51">
+                            <button imageHugsTitle="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="51">
                                 <rect key="frame" x="-7" y="-7" width="76" height="43"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="31" id="opX-Fi-Vm1"/>
-                                </constraints>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="196">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -322,11 +319,14 @@ DQ
 Gw
 </string>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="opX-Fi-Vm1"/>
+                                </constraints>
                                 <connections>
                                     <action selector="cancelPwdSheet:" target="-2" id="58"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="40">
+                            <button imageHugsTitle="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="40">
                                 <rect key="frame" x="67" y="-1" width="76" height="32"/>
                                 <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="194">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -426,7 +426,7 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                     </tableHeaderView>
                 </scrollView>
-                <button fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="104">
+                <button imageHugsTitle="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="104">
                     <rect key="frame" x="154" y="229" width="38" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="bevel" title="↓" bezelStyle="regularSquare" imagePosition="above" alignment="center" enabled="NO" borderStyle="border" id="198">
@@ -450,8 +450,8 @@ DQ
                 <rect key="frame" x="0.0" y="0.0" width="649" height="338"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="152">
-                        <rect key="frame" x="546" y="20" width="70" height="32"/>
+                    <button imageHugsTitle="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="152">
+                        <rect key="frame" x="547" y="20" width="69" height="32"/>
                         <buttonCell key="cell" type="push" title="STOP" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="202">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -463,7 +463,7 @@ DQ
                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="10" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" translatesAutoresizingMaskIntoConstraints="NO" id="PKD-YP-6Xp">
                         <rect key="frame" x="40" y="67" width="589" height="199"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="132">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="132">
                                 <rect key="frame" x="-2" y="183" width="149" height="16"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Preparing Download..." id="199">
                                     <font key="font" metaFont="systemBold"/>
@@ -471,7 +471,7 @@ DQ
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="134">
+                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="134">
                                 <rect key="frame" x="-2" y="159" width="56" height="14"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="File Name" id="200">
                                     <font key="font" metaFont="smallSystem"/>
@@ -488,7 +488,7 @@ DQ
                                         <progressIndicator wantsLayer="YES" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="130">
                                             <rect key="frame" x="0.0" y="0.0" width="545" height="12"/>
                                         </progressIndicator>
-                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="151">
+                                        <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="151">
                                             <rect key="frame" x="551" y="-1" width="40" height="14"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="100 %" id="201">
                                                 <font key="font" metaFont="smallSystemBold"/>
@@ -513,7 +513,7 @@ DQ
                                     <stackView distribution="fill" orientation="vertical" alignment="trailing" spacing="25" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="we4-Zs-W1n">
                                         <rect key="frame" x="0.0" y="0.0" width="83" height="127"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="749" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="159">
+                                            <textField focusRingType="none" verticalHuggingPriority="749" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="159">
                                                 <rect key="frame" x="11" y="114" width="74" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Finished files :" id="203">
                                                     <font key="font" metaFont="label"/>
@@ -521,7 +521,7 @@ DQ
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="160">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="160">
                                                 <rect key="frame" x="-2" y="76" width="87" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Finished folders :" id="204">
                                                     <font key="font" metaFont="label"/>
@@ -529,7 +529,7 @@ DQ
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="163">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="163">
                                                 <rect key="frame" x="54" y="38" width="31" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Size :" id="207">
                                                     <font key="font" metaFont="label"/>
@@ -537,7 +537,7 @@ DQ
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="169">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="169">
                                                 <rect key="frame" x="3" y="0.0" width="82" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Average speed :" id="209">
                                                     <font key="font" metaFont="label"/>
@@ -562,7 +562,7 @@ DQ
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="25" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="aMi-s0-xzj">
                                         <rect key="frame" x="91" y="0.0" width="32" height="127"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="161">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="161">
                                                 <rect key="frame" x="-2" y="114" width="11" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="0" id="205">
                                                     <font key="font" metaFont="label"/>
@@ -570,7 +570,7 @@ DQ
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="162">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="162">
                                                 <rect key="frame" x="-2" y="76" width="11" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="0" id="206">
                                                     <font key="font" metaFont="label"/>
@@ -578,7 +578,7 @@ DQ
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="164">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="164">
                                                 <rect key="frame" x="-2" y="38" width="20" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="0/0" id="208">
                                                     <font key="font" metaFont="label"/>
@@ -586,7 +586,7 @@ DQ
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="170">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="170">
                                                 <rect key="frame" x="-2" y="0.0" width="36" height="13"/>
                                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="0 KB/s" id="210">
                                                     <font key="font" metaFont="label"/>
