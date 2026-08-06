@@ -31,6 +31,10 @@
 #define _SEARCH_MENUITEM_TAG_HOST		(4)
 #define _SEARCH_MENUITEM_TAG_LOGON		(5)
 
+static const CGFloat kSendWindowMaximumWidth = 660;
+static const CGFloat kSendWindowScreenWidthRatio = 0.85;
+static const CGFloat kSendWindowScreenHeightRatio = 0.90;
+
 static NSImage*				attachmentImage		= nil;
 static NSDate*				lastTimeOfEntrySent	= nil;
 static NSMutableDictionary*	userListColumns		= nil;
@@ -493,7 +497,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	NSSplitViewItem *attachmentItem = [NSSplitViewItem splitViewItemWithViewController:attachmentController];
 	attachmentItem.canCollapse = YES;
 	attachmentItem.minimumThickness = 180.0;
-	attachmentItem.maximumThickness = 600.0;
+	attachmentItem.maximumThickness = 300.0;
 	attachmentItem.preferredThicknessFraction = 0.28;
 	attachmentItem.holdingPriority = NSLayoutPriorityDefaultLow;
 
@@ -882,17 +886,28 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	int				i;
 
 	// ウィンドウ位置、サイズ決定
-	int sw	= [[NSScreen mainScreen] visibleFrame].size.width;
-	int sh	= [[NSScreen mainScreen] visibleFrame].size.height;
-	int ww	= [self.window frame].size.width;
-	int wh	= [self.window frame].size.height;
-    
-	frame.origin.x = (sw - ww) / 2 + (rand() % (sw / 4)) - sw / 8;
-	frame.origin.y = (sh - wh) / 2 + (rand() % (sh / 4)) - sh / 8;
-	if ((size.width != 0) || (size.height != 0)) {
+	NSScreen* screen = self.window.screen ?: [NSScreen mainScreen];
+	NSRect visibleFrame = screen.visibleFrame;
+	if ((size.width > 0) && (size.height > 0)) {
 		frame.size.width	= size.width;
 		frame.size.height	= size.height;
 	}
+
+	// 古い設定に画面幅いっぱいの値が残っていても、送信ウインドウを
+	// 読みやすい幅で復元する。ユーザーによる通常のリサイズは保存される。
+	CGFloat maximumWidth = MIN(kSendWindowMaximumWidth,
+	                           NSWidth(visibleFrame) * kSendWindowScreenWidthRatio);
+	CGFloat maximumHeight = NSHeight(visibleFrame) * kSendWindowScreenHeightRatio;
+	frame.size.width = MIN(MAX(frame.size.width, self.window.minSize.width), maximumWidth);
+	frame.size.height = MIN(MAX(frame.size.height, self.window.minSize.height), maximumHeight);
+
+	CGFloat horizontalJitter = NSWidth(visibleFrame) / 8.0;
+	CGFloat verticalJitter = NSHeight(visibleFrame) / 8.0;
+	frame.origin.x = NSMidX(visibleFrame) - NSWidth(frame) / 2.0
+	               + ((CGFloat)rand() / RAND_MAX - 0.5) * horizontalJitter;
+	frame.origin.y = NSMidY(visibleFrame) - NSHeight(frame) / 2.0
+	               + ((CGFloat)rand() / RAND_MAX - 0.5) * verticalJitter;
+	frame = [self.window constrainFrameRect:frame toScreen:screen];
 	[self.window setFrame:frame display:NO];
     
 

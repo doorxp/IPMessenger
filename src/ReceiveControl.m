@@ -18,6 +18,8 @@
 #import "AttachmentFile.h"
 #import "Attachment.h"
 #import "DebugLog.h"
+
+static const CGFloat kReceiveWindowWidth = 500.0;
 #import "AppControl.h"
 #include <unistd.h>
 
@@ -924,16 +926,15 @@
 	NSRect	frame	= [self.window frame];
 
 	// ウィンドウ位置、サイズ決定
-	int sw	= [[NSScreen mainScreen] visibleFrame].size.width;
-	int sh	= [[NSScreen mainScreen] visibleFrame].size.height;
-	int ww	= [self.window frame].size.width;
-	int wh	= [self.window frame].size.height;
-	frame.origin.x = (sw - ww) / 2 + (rand() % (sw / 4)) - sw / 8;
-	frame.origin.y = (sh - wh) / 2 + (rand() % (sh / 4)) - sh / 8;
-	if ((size.width != 0) || (size.height != 0)) {
-		frame.size.width	= size.width;
+	NSScreen* screen = self.window.screen ?: [NSScreen mainScreen];
+	NSRect visibleFrame = screen.visibleFrame;
+	frame.size.width = kReceiveWindowWidth;
+	if (size.height > 0) {
 		frame.size.height	= size.height;
 	}
+	frame.origin.x = NSMidX(visibleFrame) - NSWidth(frame) / 2.0;
+	frame.origin.y = NSMidY(visibleFrame) - NSHeight(frame) / 2.0;
+	frame = [self.window constrainFrameRect:frame toScreen:screen];
 	[self.window setFrame:frame display:NO];
 
 	// 引用チェックをデフォルト判定
