@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D6B287A30245C39009DBD2A /* NoticeDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287130245C39009DBD2A /* NoticeDialog.nib */; };
-		1D6B287B30245C39009DBD2A /* PortChangeDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287230245C39009DBD2A /* PortChangeDialog.nib */; };
-		1D6B287C30245C39009DBD2A /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287030245C39009DBD2A /* MainMenu.nib */; };
-		1D6B287D30245C39009DBD2A /* ReceiveWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287330245C39009DBD2A /* ReceiveWindow.nib */; };
-		1D6B287E30245C39009DBD2A /* SendWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287430245C39009DBD2A /* SendWindow.nib */; };
+		1D6B287A30245C39009DBD2A /* NoticeDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287130245C39009DBD2A /* NoticeDialog.xib */; };
+		1D6B287B30245C39009DBD2A /* PortChangeDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287230245C39009DBD2A /* PortChangeDialog.xib */; };
+		1D6B287C30245C39009DBD2A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287030245C39009DBD2A /* MainMenu.xib */; };
+		1D6B287D30245C39009DBD2A /* ReceiveWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287330245C39009DBD2A /* ReceiveWindow.xib */; };
+		1D6B287E30245C39009DBD2A /* SendWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287430245C39009DBD2A /* SendWindow.xib */; };
 		1D6B288E30245C5A009DBD2A /* LogConvertDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B288730245C5A009DBD2A /* LogConvertDialog.xib */; };
 		1D8B922B21BE125E002D9FD3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D8B921621BE1256002D9FD3 /* Sparkle.framework */; };
 		1D8B922D21BE1472002D9FD3 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1D8B921621BE1256002D9FD3 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -212,37 +212,30 @@
 
 /* Begin PBXFileReference section */
 		1D1893062536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1D18930D2536EA4300C62361 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D1D518114F208F800528526 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		1D6B287530245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
-		1D6B287630245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/SendWindow.nib; sourceTree = "<group>"; };
-		1D6B287730245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
-		1D6B287830245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1D6B287930245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
-		1D6B288030245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/ReceiveWindow.nib"; sourceTree = "<group>"; };
-		1D6B288130245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/SendWindow.nib"; sourceTree = "<group>"; };
-		1D6B288230245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/PortChangeDialog.nib"; sourceTree = "<group>"; };
-		1D6B288330245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.nib"; sourceTree = "<group>"; };
-		1D6B288530245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/NoticeDialog.nib"; sourceTree = "<group>"; };
-		1D6B288830245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
-		1D6B288930245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/SendWindow.nib; sourceTree = "<group>"; };
-		1D6B288A30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
-		1D6B288B30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1D6B288C30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
-		1D6B288D30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
-		1D6B289030245D1A009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
-		1D6B289130245D25009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/LogConvertDialog.xib"; sourceTree = "<group>"; };
-		1D6B28943024692B009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1D6B28A430246933009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
-		1D6B28A53024693A009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
-		1D6B28A63024693F009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
-		1D6B28A730246946009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/SendWindow.nib; sourceTree = "<group>"; };
+		1D6B287530245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/ReceiveWindow.strings; sourceTree = "<group>"; };
+		1D6B287630245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/SendWindow.strings; sourceTree = "<group>"; };
+		1D6B287730245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/PortChangeDialog.strings; sourceTree = "<group>"; };
+		1D6B287830245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		1D6B287930245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/NoticeDialog.strings; sourceTree = "<group>"; };
+		1D6B289030245D1A009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LogConvertDialog.strings; sourceTree = "<group>"; };
+		1D6B28943024692B009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1D6B28A430246933009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/NoticeDialog.xib; sourceTree = "<group>"; };
+		1D6B28A53024693A009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PortChangeDialog.xib; sourceTree = "<group>"; };
+		1D6B28A63024693F009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ReceiveWindow.xib; sourceTree = "<group>"; };
+		1D6B28A730246946009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SendWindow.xib; sourceTree = "<group>"; };
 		1D6B28A83024694B009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
 		1D6B28A930246973009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1D6B28D130246C82009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LogConvertDialog.strings"; sourceTree = "<group>"; };
+		1D6B28D230246C82009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ReceiveWindow.strings"; sourceTree = "<group>"; };
+		1D6B28D330246C82009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		1D6B28D430246C82009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/NoticeDialog.strings"; sourceTree = "<group>"; };
+		1D6B28D530246C82009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SendWindow.strings"; sourceTree = "<group>"; };
+		1D6B28D630246C82009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PortChangeDialog.strings"; sourceTree = "<group>"; };
+		1D6B28D730246C82009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1D8B920521BE1256002D9FD3 /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = framework/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		1DF8A8672DCC81D10034E4BC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1DF8A8692DCC828D0034E4BC /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
-		1DFBF2652F3C5C0A007AC04B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5472138C19384A45000FA01B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5472139019384BF6000FA01B /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
@@ -559,11 +552,11 @@
 		F775679303CEBF6500141840 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
-				1D6B287030245C39009DBD2A /* MainMenu.nib */,
-				1D6B287130245C39009DBD2A /* NoticeDialog.nib */,
-				1D6B287230245C39009DBD2A /* PortChangeDialog.nib */,
-				1D6B287330245C39009DBD2A /* ReceiveWindow.nib */,
-				1D6B287430245C39009DBD2A /* SendWindow.nib */,
+				1D6B287030245C39009DBD2A /* MainMenu.xib */,
+				1D6B287130245C39009DBD2A /* NoticeDialog.xib */,
+				1D6B287230245C39009DBD2A /* PortChangeDialog.xib */,
+				1D6B287330245C39009DBD2A /* ReceiveWindow.xib */,
+				1D6B287430245C39009DBD2A /* SendWindow.xib */,
 				1D6B288730245C5A009DBD2A /* LogConvertDialog.xib */,
 			);
 			name = Nibs;
@@ -663,12 +656,11 @@
 			};
 			buildConfigurationList = F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */;
 			compatibilityVersion = "Xcode 12.0";
-			developmentRegion = en;
+			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				Base,
 				ja,
-				en,
 				"zh-Hans",
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* IPMessenger */;
@@ -783,12 +775,12 @@
 				F734533E0C454622001D5375 /* IPMsgAbsence.icns in Resources */,
 				F734533F0C454622001D5375 /* IPMsgAbsenceReverse.icns in Resources */,
 				F73453400C454622001D5375 /* IPMsgReverse.icns in Resources */,
-				1D6B287A30245C39009DBD2A /* NoticeDialog.nib in Resources */,
+				1D6B287A30245C39009DBD2A /* NoticeDialog.xib in Resources */,
 				1D6B288E30245C5A009DBD2A /* LogConvertDialog.xib in Resources */,
-				1D6B287B30245C39009DBD2A /* PortChangeDialog.nib in Resources */,
-				1D6B287C30245C39009DBD2A /* MainMenu.nib in Resources */,
-				1D6B287D30245C39009DBD2A /* ReceiveWindow.nib in Resources */,
-				1D6B287E30245C39009DBD2A /* SendWindow.nib in Resources */,
+				1D6B287B30245C39009DBD2A /* PortChangeDialog.xib in Resources */,
+				1D6B287C30245C39009DBD2A /* MainMenu.xib in Resources */,
+				1D6B287D30245C39009DBD2A /* ReceiveWindow.xib in Resources */,
+				1D6B287E30245C39009DBD2A /* SendWindow.xib in Resources */,
 				F73453420C454622001D5375 /* AltLog.icns in Resources */,
 				F73453430C454622001D5375 /* Attach.icns in Resources */,
 				F73453440C454622001D5375 /* AttachS.tiff in Resources */,
@@ -857,68 +849,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1D6B287030245C39009DBD2A /* MainMenu.nib */ = {
+		1D6B287030245C39009DBD2A /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D6B288B30245C5A009DBD2A /* en */,
-				1D6B287830245C39009DBD2A /* ja */,
-				1D6B288330245C47009DBD2A /* zh-Hans */,
 				1D6B28943024692B009DBD2A /* Base */,
+				1D6B287830245C39009DBD2A /* ja */,
+				1D6B28D330246C82009DBD2A /* zh-Hans */,
 			);
-			name = MainMenu.nib;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
-		1D6B287130245C39009DBD2A /* NoticeDialog.nib */ = {
+		1D6B287130245C39009DBD2A /* NoticeDialog.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D6B288D30245C5A009DBD2A /* en */,
-				1D6B287930245C39009DBD2A /* ja */,
-				1D6B288530245C47009DBD2A /* zh-Hans */,
 				1D6B28A430246933009DBD2A /* Base */,
+				1D6B287930245C39009DBD2A /* ja */,
+				1D6B28D430246C82009DBD2A /* zh-Hans */,
 			);
-			name = NoticeDialog.nib;
+			name = NoticeDialog.xib;
 			sourceTree = "<group>";
 		};
-		1D6B287230245C39009DBD2A /* PortChangeDialog.nib */ = {
+		1D6B287230245C39009DBD2A /* PortChangeDialog.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D6B288A30245C5A009DBD2A /* en */,
-				1D6B287730245C39009DBD2A /* ja */,
-				1D6B288230245C47009DBD2A /* zh-Hans */,
 				1D6B28A53024693A009DBD2A /* Base */,
+				1D6B287730245C39009DBD2A /* ja */,
+				1D6B28D630246C82009DBD2A /* zh-Hans */,
 			);
-			name = PortChangeDialog.nib;
+			name = PortChangeDialog.xib;
 			sourceTree = "<group>";
 		};
-		1D6B287330245C39009DBD2A /* ReceiveWindow.nib */ = {
+		1D6B287330245C39009DBD2A /* ReceiveWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D6B288830245C5A009DBD2A /* en */,
-				1D6B287530245C39009DBD2A /* ja */,
-				1D6B288030245C47009DBD2A /* zh-Hans */,
 				1D6B28A63024693F009DBD2A /* Base */,
+				1D6B287530245C39009DBD2A /* ja */,
+				1D6B28D230246C82009DBD2A /* zh-Hans */,
 			);
-			name = ReceiveWindow.nib;
+			name = ReceiveWindow.xib;
 			sourceTree = "<group>";
 		};
-		1D6B287430245C39009DBD2A /* SendWindow.nib */ = {
+		1D6B287430245C39009DBD2A /* SendWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D6B288930245C5A009DBD2A /* en */,
-				1D6B287630245C39009DBD2A /* ja */,
-				1D6B288130245C47009DBD2A /* zh-Hans */,
 				1D6B28A730246946009DBD2A /* Base */,
+				1D6B287630245C39009DBD2A /* ja */,
+				1D6B28D530246C82009DBD2A /* zh-Hans */,
 			);
-			name = SendWindow.nib;
+			name = SendWindow.xib;
 			sourceTree = "<group>";
 		};
 		1D6B288730245C5A009DBD2A /* LogConvertDialog.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D6B288C30245C5A009DBD2A /* en */,
-				1D6B289030245D1A009DBD2A /* ja */,
-				1D6B289130245D25009DBD2A /* zh-Hans */,
 				1D6B28A83024694B009DBD2A /* Base */,
+				1D6B289030245D1A009DBD2A /* ja */,
+				1D6B28D130246C82009DBD2A /* zh-Hans */,
 			);
 			name = LogConvertDialog.xib;
 			sourceTree = "<group>";
@@ -928,8 +914,7 @@
 			children = (
 				1D6B28A930246973009DBD2A /* Base */,
 				1D1893062536EA3E00C62361 /* ja */,
-				1D18930D2536EA4300C62361 /* en */,
-				1DFBF2652F3C5C0A007AC04B /* zh-Hans */,
+				1D6B28D730246C82009DBD2A /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
