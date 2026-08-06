@@ -92,7 +92,12 @@
 		[NSApp activateIgnoringOtherApps:YES];
 	}
     
-    self.lastDockDraggedWindow = [[SendControl alloc] initWithSendMessage:nil recvMessage:nil];
+    if(self.lastDockDraggedWindow == nil) {
+        self.lastDockDraggedWindow = [[SendControl alloc] initWithSendMessage:nil recvMessage:nil];
+    }
+    else {
+        [self.lastDockDraggedWindow.window orderFront:nil];
+    }
 }
 
 // メッセージ受信時処理
@@ -546,17 +551,10 @@
     
 	for (i = 0; i < [wins count]; i++) {
 		NSWindow* win = [wins objectAtIndex:i];
-//		[win orderFront:self];
-//		if ([[win delegate] isKindOfClass:[ReceiveControl class]] ||
-//			[[win delegate] isKindOfClass:[SendControl class]]) {
 		if ([win isVisible]) {
 			noWin = NO;
 			break;
 		}
-        
-//        if([win.delegate isKindOfClass:SendControl.class]) {
-//            sender = win;
-//        }
 	}
     
     if(noWin) {

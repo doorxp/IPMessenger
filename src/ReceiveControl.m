@@ -18,10 +18,10 @@
 #import "AttachmentFile.h"
 #import "Attachment.h"
 #import "DebugLog.h"
-
-static const CGFloat kReceiveWindowWidth = 500.0;
 #import "AppControl.h"
 #include <unistd.h>
+
+static const CGFloat kReceiveWindowWidth = 500.0;
 
 @interface ReceiveControl ()
 - (void)installAttachmentSplitView;
