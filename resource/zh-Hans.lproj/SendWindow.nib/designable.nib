@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -46,7 +47,7 @@
                             <customView autoresizesSubviews="NO" verticalHuggingPriority="752" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="243" customClass="SendHeaderView" propertyAccessControl="none">
                                 <rect key="frame" x="0.0" y="421" width="641" height="50"/>
                                 <subviews>
-                                    <searchField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="244">
+                                    <searchField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="244">
                                         <rect key="frame" x="20" y="10" width="601" height="30"/>
                                         <searchFieldCell key="cell" controlSize="large" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="搜索用户" bezelStyle="round" id="245">
                                             <font key="font" metaFont="system"/>
@@ -80,7 +81,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="6d1-Oj-U09">
                                                         <rect key="frame" x="1" y="1" width="551" height="161"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" autosaveName="SendWindow.UserList" rowHeight="24" headerView="216" id="23">
                                                                 <rect key="frame" x="0.0" y="0.0" width="551" height="133"/>
@@ -205,7 +206,7 @@
                                                 <stackView autoresizesSubviews="NO" distribution="fill" orientation="vertical" alignment="centerX" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zId-rZ-shq">
                                                     <rect key="frame" x="549" y="70" width="60" height="55"/>
                                                     <subviews>
-                                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="285">
+                                                        <textField autoresizesSubviews="NO" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="285">
                                                             <rect key="frame" x="15" y="41" width="30" height="14"/>
                                                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="成员" bezelStyle="round" id="286">
                                                                 <font key="font" metaFont="smallSystem"/>
@@ -213,7 +214,7 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                         </textField>
-                                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" preferredMaxLayoutWidth="0.0" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="72">
+                                                        <textField autoresizesSubviews="NO" focusRingType="none" verticalHuggingPriority="750" preferredMaxLayoutWidth="0.0" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="72">
                                                             <rect key="frame" x="-2" y="23" width="64" height="15"/>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" title="000 / 000" id="201">
                                                                 <font key="font" metaFont="cellTitle"/>
@@ -255,7 +256,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <clipView key="contentView" autoresizesSubviews="NO" id="LaR-B9-33P">
                                             <rect key="frame" x="1" y="1" width="639" height="201"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <customView autoresizesSubviews="NO" horizontalHuggingPriority="249" verticalHuggingPriority="749" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="112" customClass="SendMessageView">
                                                     <rect key="frame" x="0.0" y="0.0" width="736" height="276"/>

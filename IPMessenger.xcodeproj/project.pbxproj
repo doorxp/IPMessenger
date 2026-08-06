@@ -232,6 +232,13 @@
 		1D6B288D30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
 		1D6B289030245D1A009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
 		1D6B289130245D25009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/LogConvertDialog.xib"; sourceTree = "<group>"; };
+		1D6B28943024692B009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		1D6B28A430246933009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
+		1D6B28A53024693A009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
+		1D6B28A63024693F009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
+		1D6B28A730246946009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/SendWindow.nib; sourceTree = "<group>"; };
+		1D6B28A83024694B009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
+		1D6B28A930246973009DBD2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D8B920521BE1256002D9FD3 /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = framework/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		1DF8A8672DCC81D10034E4BC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1DF8A8692DCC828D0034E4BC /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
@@ -856,6 +863,7 @@
 				1D6B288B30245C5A009DBD2A /* en */,
 				1D6B287830245C39009DBD2A /* ja */,
 				1D6B288330245C47009DBD2A /* zh-Hans */,
+				1D6B28943024692B009DBD2A /* Base */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -866,6 +874,7 @@
 				1D6B288D30245C5A009DBD2A /* en */,
 				1D6B287930245C39009DBD2A /* ja */,
 				1D6B288530245C47009DBD2A /* zh-Hans */,
+				1D6B28A430246933009DBD2A /* Base */,
 			);
 			name = NoticeDialog.nib;
 			sourceTree = "<group>";
@@ -876,6 +885,7 @@
 				1D6B288A30245C5A009DBD2A /* en */,
 				1D6B287730245C39009DBD2A /* ja */,
 				1D6B288230245C47009DBD2A /* zh-Hans */,
+				1D6B28A53024693A009DBD2A /* Base */,
 			);
 			name = PortChangeDialog.nib;
 			sourceTree = "<group>";
@@ -886,6 +896,7 @@
 				1D6B288830245C5A009DBD2A /* en */,
 				1D6B287530245C39009DBD2A /* ja */,
 				1D6B288030245C47009DBD2A /* zh-Hans */,
+				1D6B28A63024693F009DBD2A /* Base */,
 			);
 			name = ReceiveWindow.nib;
 			sourceTree = "<group>";
@@ -896,6 +907,7 @@
 				1D6B288930245C5A009DBD2A /* en */,
 				1D6B287630245C39009DBD2A /* ja */,
 				1D6B288130245C47009DBD2A /* zh-Hans */,
+				1D6B28A730246946009DBD2A /* Base */,
 			);
 			name = SendWindow.nib;
 			sourceTree = "<group>";
@@ -906,6 +918,7 @@
 				1D6B288C30245C5A009DBD2A /* en */,
 				1D6B289030245D1A009DBD2A /* ja */,
 				1D6B289130245D25009DBD2A /* zh-Hans */,
+				1D6B28A83024694B009DBD2A /* Base */,
 			);
 			name = LogConvertDialog.xib;
 			sourceTree = "<group>";
@@ -913,6 +926,7 @@
 		F7E66CC41361ABC80014B3D7 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				1D6B28A930246973009DBD2A /* Base */,
 				1D1893062536EA3E00C62361 /* ja */,
 				1D18930D2536EA4300C62361 /* en */,
 				1DFBF2652F3C5C0A007AC04B /* zh-Hans */,
