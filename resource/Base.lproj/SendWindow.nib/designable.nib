@@ -499,7 +499,7 @@ DQ
                 <constraint firstItem="Ebr-m5-kL2" firstAttribute="top" secondItem="104" secondAttribute="top" id="fzi-Bq-wjF"/>
                 <constraint firstAttribute="bottom" secondItem="164" secondAttribute="bottom" id="s9l-fO-neK"/>
             </constraints>
-            <point key="canvasLocation" x="61" y="339"/>
+            <point key="canvasLocation" x="120" y="317"/>
         </customView>
         <menu id="247" userLabel="SearchMenu">
             <items>

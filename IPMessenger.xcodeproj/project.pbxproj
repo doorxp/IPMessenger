@@ -628,6 +628,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					F73453180C454622001D5375 = {
+						LastSwiftMigration = 2620;
+					};
+				};
 			};
 			buildConfigurationList = F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */;
 			developmentRegion = en;
@@ -965,6 +970,7 @@
 		F73453670C454622001D5375 /* Debug configuration for PBXNativeTarget "IPMessenger" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -992,6 +998,8 @@
 				PRODUCT_NAME = IPMessenger;
 				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -999,6 +1007,7 @@
 		F73453680C454622001D5375 /* Release configuration for PBXNativeTarget "IPMessenger" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -1023,6 +1032,7 @@
 				PRODUCT_NAME = IPMessenger;
 				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
+				SWIFT_VERSION = 6.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
