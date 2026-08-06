@@ -622,6 +622,7 @@
 			buildPhases = (
 				F73453190C454622001D5375 /* Headers */,
 				F73453370C454622001D5375 /* Resources */,
+				1D6B28E030246F00009DBD2A /* Build Localized MainMenu */,
 				F73453460C454622001D5375 /* Sources */,
 				F73453640C454622001D5375 /* Frameworks */,
 				F743AAE911C1003A003B098E /* CopyFiles */,
@@ -794,6 +795,33 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1D6B28E030246F00009DBD2A /* Build Localized MainMenu */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/resource/Base.lproj/MainMenu.xib",
+				"$(SRCROOT)/resource/ja.lproj/MainMenu.strings",
+				"$(SRCROOT)/resource/zh-Hans.lproj/MainMenu.strings",
+				"$(SRCROOT)/resource/build-localized-main-menu.sh",
+			);
+			name = "Build Localized MainMenu";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/ja.lproj/MainMenu.nib",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/zh-Hans.lproj/MainMenu.nib",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"${SRCROOT}/resource/build-localized-main-menu.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F73453460C454622001D5375 /* Sources */ = {
@@ -1009,6 +1037,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 57FN4;
@@ -1046,6 +1075,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "-";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 57FN4;
