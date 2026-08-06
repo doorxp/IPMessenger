@@ -36,8 +36,12 @@ static NSDate*				lastTimeOfEntrySent	= nil;
 static NSMutableDictionary*	userListColumns		= nil;
 static NSRecursiveLock*		userListColsLock	= nil;
 
-@interface SendControl()<NSSplitViewDelegate, NSDrawerDelegate>
+@interface SendControl()<NSSplitViewDelegate>
 - (void)updateSearchFieldPlaceholder;
+- (void)installAttachmentSplitView;
+- (void)updateAttachmentPanePlacement;
+- (void)showAttachmentPane;
+- (IBAction)toggleAttachmentPane:(id)sender;
 @end
 
 
@@ -72,6 +76,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	if (![NSBundle.mainBundle loadNibNamed:@"SendWindow" owner:self topLevelObjects:nil]) {
 		return nil;
 	}
+	[self installAttachmentSplitView];
 
 	// 引用メッセージの設定
 	if (msg) {
@@ -467,6 +472,78 @@ static NSRecursiveLock*		userListColsLock	= nil;
  * 添付ファイル
  *----------------------------------------------------------------------------*/
 
+- (void)installAttachmentSplitView {
+	id legacyDrawer = self.attachDrawer;
+	NSView *attachmentView = [legacyDrawer contentView];
+	NSView *mainView = self.window.contentView;
+	if (!attachmentView || !mainView) {
+		return;
+	}
+
+	[legacyDrawer setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+	[legacyDrawer close];
+	self.attachDrawer = nil;
+
+	NSViewController *mainController = [[NSViewController alloc] init];
+	mainController.view = mainView;
+	NSViewController *attachmentController = [[NSViewController alloc] init];
+	attachmentController.view = attachmentView;
+
+	NSSplitViewItem *mainItem = [NSSplitViewItem splitViewItemWithViewController:mainController];
+	NSSplitViewItem *attachmentItem = [NSSplitViewItem splitViewItemWithViewController:attachmentController];
+	attachmentItem.canCollapse = YES;
+	attachmentItem.minimumThickness = 180.0;
+	attachmentItem.maximumThickness = 600.0;
+	attachmentItem.preferredThicknessFraction = 0.28;
+	attachmentItem.holdingPriority = NSLayoutPriorityDefaultLow;
+
+	NSSplitViewController *splitController = [[NSSplitViewController alloc] init];
+	splitController.splitView.vertical = YES;
+	[splitController addSplitViewItem:mainItem];
+	[splitController addSplitViewItem:attachmentItem];
+	self.window.contentViewController = splitController;
+	self.attachmentSplitViewController = splitController;
+	self.attachmentSplitItem = attachmentItem;
+	attachmentItem.collapsed = YES;
+
+	self.attachButton.target = self;
+	self.attachButton.action = @selector(toggleAttachmentPane:);
+}
+
+- (void)showAttachmentPane {
+	[self updateAttachmentPanePlacement];
+	self.attachmentSplitItem.animator.collapsed = NO;
+}
+
+- (void)updateAttachmentPanePlacement {
+	NSScreen *screen = self.window.screen ?: NSScreen.mainScreen;
+	if (!screen || self.attachmentSplitViewController.splitViewItems.count != 2) {
+		return;
+	}
+
+	NSRect visibleFrame = screen.visibleFrame;
+	NSRect windowFrame = self.window.frame;
+	CGFloat leftSpace = NSMinX(windowFrame) - NSMinX(visibleFrame);
+	CGFloat rightSpace = NSMaxX(visibleFrame) - NSMaxX(windowFrame);
+	BOOL shouldBeOnLeft = leftSpace > rightSpace;
+	NSUInteger currentIndex = [self.attachmentSplitViewController.splitViewItems indexOfObject:self.attachmentSplitItem];
+	NSUInteger wantedIndex = shouldBeOnLeft ? 0 : 1;
+	if (currentIndex == wantedIndex || currentIndex == NSNotFound) {
+		return;
+	}
+
+	[self.attachmentSplitViewController removeSplitViewItem:self.attachmentSplitItem];
+	[self.attachmentSplitViewController insertSplitViewItem:self.attachmentSplitItem atIndex:wantedIndex];
+}
+
+- (IBAction)toggleAttachmentPane:(id)sender {
+	if (self.attachmentSplitItem.collapsed) {
+		[self showAttachmentPane];
+	} else {
+		self.attachmentSplitItem.animator.collapsed = YES;
+	}
+}
+
 - (void)appendAttachmentByPath:(NSString*)path {
 	AttachmentFile*	file;
 	Attachment*		attach;
@@ -489,27 +566,11 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[self.attachTable reloadData];
 	[self setAttachHeader];
     
-	[self.attachDrawer open:self];
+	[self showAttachmentPane];
     
   
     
 }
-
-//- (void)drawerWillOpen:(NSNotification *)notification {
-//    NSSplitViewController *contr = nil;
-//    self.attachDrawer.contentView.wantsLayer = false;
-//    self.attachDrawer.contentView.layer.backgroundColor = self.window.backgroundColor.CGColor;
-////    NSView *frame = self.attachDrawer.contentView.superview;
-////    frame.wantsLayer = true;
-////    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
-//}
-//
-//- (void)drawerDidOpen:(NSNotification *)notification {
-////    NSView *frame = self.attachDrawer.contentView.superview;
-////    frame.wantsLayer = true;
-////    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
-//
-//}
 
 /*----------------------------------------------------------------------------*
  * その他

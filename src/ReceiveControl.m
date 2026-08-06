@@ -21,6 +21,16 @@
 #import "AppControl.h"
 #include <unistd.h>
 
+@interface ReceiveControl ()
+- (void)installAttachmentSplitView;
+- (void)updateAttachmentPanePlacement;
+- (void)expandWindowForAttachmentPane;
+- (void)restoreWindowAfterHidingAttachmentPane;
+- (void)showAttachmentPane;
+- (void)hideAttachmentPane;
+- (IBAction)toggleAttachmentPane:(id)sender;
+@end
+
 /*============================================================================*
  * クラス実装
  *============================================================================*/
@@ -44,6 +54,7 @@
 	if (![NSBundle.mainBundle loadNibNamed:@"ReceiveWindow" owner:self topLevelObjects:nil]) {
 		return nil;
 	}
+	[self installAttachmentSplitView];
 
 	// ログ出力
 	if (config.standardLogEnabled) {
@@ -163,6 +174,134 @@
  * ウィンドウ表示
  *----------------------------------------------------------------------------*/
 
+- (void)installAttachmentSplitView {
+	id legacyDrawer = self.attachDrawer;
+	NSView *attachmentView = [legacyDrawer contentView];
+	NSView *mainView = self.window.contentView;
+	if (!attachmentView || !mainView) {
+		return;
+	}
+
+	[legacyDrawer setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+	[legacyDrawer close];
+	self.attachDrawer = nil;
+
+	NSViewController *mainController = [[NSViewController alloc] init];
+	mainController.view = mainView;
+	NSViewController *attachmentController = [[NSViewController alloc] init];
+	attachmentController.view = attachmentView;
+
+	NSSplitViewItem *mainItem = [NSSplitViewItem splitViewItemWithViewController:mainController];
+	NSSplitViewItem *attachmentItem = [NSSplitViewItem splitViewItemWithViewController:attachmentController];
+	attachmentItem.canCollapse = YES;
+	attachmentItem.minimumThickness = 100.0;
+	attachmentItem.maximumThickness = 600.0;
+	attachmentItem.preferredThicknessFraction = 0.20;
+	attachmentItem.holdingPriority = NSLayoutPriorityDefaultLow;
+    
+    mainItem.preferredThicknessFraction = 0.80;
+    mainItem.holdingPriority = NSLayoutPriorityDefaultHigh;
+
+	NSSplitViewController *splitController = [[NSSplitViewController alloc] init];
+	splitController.splitView.vertical = YES;
+	[splitController addSplitViewItem:mainItem];
+	[splitController addSplitViewItem:attachmentItem];
+	self.window.contentViewController = splitController;
+	self.attachmentSplitViewController = splitController;
+	self.attachmentSplitItem = attachmentItem;
+	attachmentItem.collapsed = YES;
+
+	self.attachButton.target = self;
+	self.attachButton.action = @selector(toggleAttachmentPane:);
+}
+
+- (void)showAttachmentPane {
+	[self updateAttachmentPanePlacement];
+	if (self.attachmentSplitItem.collapsed) {
+		[self expandWindowForAttachmentPane];
+	}
+	self.attachmentSplitItem.animator.collapsed = NO;
+}
+
+- (void)updateAttachmentPanePlacement {
+	NSScreen *screen = self.window.screen ?: NSScreen.mainScreen;
+	if (!screen || self.attachmentSplitViewController.splitViewItems.count != 2) {
+		return;
+	}
+
+	NSRect visibleFrame = screen.visibleFrame;
+	NSRect windowFrame = self.window.frame;
+	CGFloat leftSpace = NSMinX(windowFrame) - NSMinX(visibleFrame);
+	CGFloat rightSpace = NSMaxX(visibleFrame) - NSMaxX(windowFrame);
+	BOOL shouldBeOnLeft = leftSpace > rightSpace;
+	NSUInteger currentIndex = [self.attachmentSplitViewController.splitViewItems indexOfObject:self.attachmentSplitItem];
+	NSUInteger wantedIndex = shouldBeOnLeft ? 0 : 1;
+	if (currentIndex == wantedIndex || currentIndex == NSNotFound) {
+		return;
+	}
+
+	[self.attachmentSplitViewController removeSplitViewItem:self.attachmentSplitItem];
+	[self.attachmentSplitViewController insertSplitViewItem:self.attachmentSplitItem atIndex:wantedIndex];
+}
+
+- (void)expandWindowForAttachmentPane {
+	NSScreen *screen = self.window.screen ?: NSScreen.mainScreen;
+	if (!screen || self.attachmentWindowExpansion > 0.0) {
+		return;
+	}
+
+	NSRect frame = self.window.frame;
+	NSRect visibleFrame = screen.visibleFrame;
+	BOOL attachmentOnLeft = [self.attachmentSplitViewController.splitViewItems
+		indexOfObject:self.attachmentSplitItem] == 0;
+	CGFloat availableSpace = attachmentOnLeft
+		? NSMinX(frame) - NSMinX(visibleFrame)
+		: NSMaxX(visibleFrame) - NSMaxX(frame);
+	// Expanding the original width by 25% makes it 80% of the new total width.
+	CGFloat desiredExpansion = NSWidth(frame) * 0.25;
+	CGFloat expansion = MIN(desiredExpansion, MAX(0.0, availableSpace));
+	if (expansion <= 0.0) {
+		return;
+	}
+
+	if (attachmentOnLeft) {
+		frame.origin.x -= expansion;
+	}
+	frame.size.width += expansion;
+	self.attachmentWindowExpansion = expansion;
+	[self.window setFrame:frame display:YES animate:YES];
+}
+
+- (void)hideAttachmentPane {
+	self.attachmentSplitItem.animator.collapsed = YES;
+	[self restoreWindowAfterHidingAttachmentPane];
+}
+
+- (void)restoreWindowAfterHidingAttachmentPane {
+	CGFloat expansion = self.attachmentWindowExpansion;
+	if (expansion <= 0.0) {
+		return;
+	}
+
+	NSRect frame = self.window.frame;
+	BOOL attachmentOnLeft = [self.attachmentSplitViewController.splitViewItems
+		indexOfObject:self.attachmentSplitItem] == 0;
+	frame.size.width = MAX(self.window.minSize.width, frame.size.width - expansion);
+	if (attachmentOnLeft) {
+		frame.origin.x += expansion;
+	}
+	self.attachmentWindowExpansion = 0.0;
+	[self.window setFrame:frame display:YES animate:YES];
+}
+
+- (IBAction)toggleAttachmentPane:(id)sender {
+	if (self.attachmentSplitItem.collapsed) {
+		[self showAttachmentPane];
+	} else {
+		[self hideAttachmentPane];
+	}
+}
+
 - (void)showWindow {
 	NSWindow* orgKeyWin = [NSApp keyWindow];
 	if (orgKeyWin) {
@@ -176,7 +315,7 @@
 		[self.window makeKeyAndOrderFront:self];
 	}
 	if (([[self.recvMsg attachments] count] > 0) && ![self.recvMsg sealed]) {
-		[self.attachDrawer open];
+		[self showAttachmentPane];
 	}
 }
 
@@ -338,8 +477,7 @@
 		[self setAttachHeader];
 		[self.attachTable setEnabled:YES];
 		if ([[self.recvMsg attachments] count] <= 0) {
-//			[attachDrawer performSelectorOnMainThread:@selector(close:) withObject:self waitUntilDone:YES];
-			[self.attachDrawer close];
+			[self hideAttachmentPane];
 			[self.attachButton setEnabled:NO];
 		}
         self.downloader = nil;
@@ -439,7 +577,7 @@
 		[self.altLogButton setEnabled:[Config sharedConfig].alternateLogEnabled];
 		if ([[self.recvMsg attachments] count] > 0) {
 			[self.attachButton setEnabled:YES];
-			[self.attachDrawer open];
+			[self showAttachmentPane];
 		}
 
 		// 封書開封通知送信
@@ -480,7 +618,7 @@
 	[self.altLogButton setEnabled:[Config sharedConfig].alternateLogEnabled];
 	if ([[self.recvMsg attachments] count] > 0) {
 		[self.attachButton setEnabled:YES];
-		[self.attachDrawer open];
+		[self showAttachmentPane];
 	}
 
 	// ログ出力
@@ -845,7 +983,7 @@
         }];
         
         
-		[self.attachDrawer open];
+		[self showAttachmentPane];
 		return NO;
 	}
 	if (!self.pleaseCloseMe && ![self.replyButton isEnabled]) {

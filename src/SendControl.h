@@ -17,7 +17,9 @@
 
 @interface SendControl : NSObject
 
-@property(nonatomic, strong)IBOutlet NSDrawer*        attachDrawer;        // 添付ファイルDrawer
+@property(nonatomic, strong)IBOutlet id               attachDrawer;        // 旧Nib移行用の一時Outlet
+@property(nonatomic, strong)NSSplitViewController*    attachmentSplitViewController;
+@property(nonatomic, strong)NSSplitViewItem*          attachmentSplitItem;
 @property(nonatomic, strong)IBOutlet NSWindow*        window;                // 送信ウィンドウ
 @property(nonatomic, strong)IBOutlet NSSplitView*    splitView;
 @property(nonatomic, strong)IBOutlet NSView*        splitSubview1;
@@ -31,7 +33,7 @@
 @property(nonatomic, strong)IBOutlet NSButton*        sealCheck;            // 封書チェックボックス
 @property(nonatomic, strong)IBOutlet NSTextView*    messageArea;        // メッセージ入力欄
 @property(nonatomic, strong)IBOutlet NSButton*        sendButton;            // 送信ボタン
-@property(nonatomic, strong)IBOutlet NSButton*        attachButton;        // 添付ファイルDrawerトグルボタン
+@property(nonatomic, strong)IBOutlet NSButton*        attachButton;        // 添付ファイル欄トグルボタン
 
 @property(nonatomic, strong)IBOutlet NSTableView*    attachTable;        // 添付ファイル一覧
 @property(nonatomic, strong)IBOutlet NSButton*        attachAddButton;    // 添付追加ボタン

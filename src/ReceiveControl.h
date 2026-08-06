@@ -27,7 +27,10 @@
 @property(nonatomic, strong) IBOutlet NSButton*                sealButton;                    // 封書ボタン（メッセージ部のカバー）
 @property(nonatomic, strong) IBOutlet NSTextView*            messageArea;                // メッセージ部
 @property(nonatomic, strong) IBOutlet NSButton*                attachButton;                // 添付ボタン
-@property(nonatomic, strong) IBOutlet NSDrawer*                attachDrawer;                // 添付ファイルDrawer
+@property(nonatomic, strong) IBOutlet id                       attachDrawer;                // 旧Nib移行用の一時Outlet
+@property(nonatomic, strong) NSSplitViewController*            attachmentSplitViewController;
+@property(nonatomic, strong) NSSplitViewItem*                  attachmentSplitItem;
+@property(nonatomic, readwrite) CGFloat                        attachmentWindowExpansion;
 @property(nonatomic, strong) IBOutlet NSTableView*            attachTable;                // 添付ファイル一覧
 @property(nonatomic, strong) IBOutlet NSButton*                attachSaveButton;            // 添付保存ボタン
 @property(nonatomic, strong) IBOutlet NSPanel*                pwdSheet;                    // パスワード入力パネル（シート）
