@@ -70,6 +70,7 @@
     self.iconNormalReverse=nil;
     self.iconAbsence=nil;
     self.iconAbsenceReverse=nil;
+	self.applicationDockMenuCache=nil;
 //	[receiveQueue release];
 //	[receiveQueueLock release];
 //	[iconToggleTimer release];
@@ -300,6 +301,14 @@
 	[self applicationShouldHandleReopen:NSApp hasVisibleWindows:NO];
 }
 
+// Dockアイコンのコンテキストメニュー
+- (NSMenu*)applicationDockMenu:(NSApplication*)sender {
+    // Return the exact menu connected to NSApplication in MainMenu.nib.
+    // Do not move its items to another menu: AppKit may use the NIB outlet
+    // directly instead of this delegate callback.
+    return self.applicationDockMenuCache ?: self.absenceMenuForDock.supermenu;
+}
+
 /*----------------------------------------------------------------------------*
  * その他
  *----------------------------------------------------------------------------*/
@@ -318,6 +327,12 @@
 // Nibファイルロード完了時
 - (void)awakeFromNib {
 	Config* config = [Config sharedConfig];
+
+	// Keep a strong reference to the original localized Dock menu. The same
+	// object remains connected to NSApplication, so both AppKit lookup paths
+	// see the complete menu and its existing actions/outlets.
+	self.applicationDockMenuCache = self.absenceMenuForDock.supermenu;
+
 	// メニュー設定
 	[_sendWindowListUserMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoUserNamePropertyIdentifier]];
 	[_sendWindowListGroupMenuItem setState:![config sendWindowUserListColumnHidden:kIPMsgUserInfoGroupNamePropertyIdentifier]];

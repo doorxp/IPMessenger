@@ -42,6 +42,7 @@
 
 @property(nonatomic, strong) IBOutlet NSMenu*        statusBarMenu;                    // ステータスバー用のメニュー
 @property(nonatomic, strong) NSStatusItem*            statusBarItem;                    // ステータスアイテムのインスタンス
+@property(nonatomic, strong) NSMenu*                 applicationDockMenuCache;          // NIBからロードしたDockメニュー
 
 @property(nonatomic, readwrite) int                    activatedFlag;                    // アプリケーションアクティベートフラグ
 
@@ -85,6 +86,9 @@
 - (IBAction)gotoHomePage:(id)sender;
 - (IBAction)showAcknowledgement:(id)sender;
 - (IBAction)openLog:(id)sender;
+
+// Dock 图标右键菜单
+- (NSMenu*)applicationDockMenu:(NSApplication*)sender;
 
 - (void)checkLogConversion:(BOOL)aStdLog path:(NSString*)aPath;
 

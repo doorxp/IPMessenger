@@ -3,10 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 90;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D6B287A30245C39009DBD2A /* NoticeDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287130245C39009DBD2A /* NoticeDialog.nib */; };
+		1D6B287B30245C39009DBD2A /* PortChangeDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287230245C39009DBD2A /* PortChangeDialog.nib */; };
+		1D6B287C30245C39009DBD2A /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287030245C39009DBD2A /* MainMenu.nib */; };
+		1D6B287D30245C39009DBD2A /* ReceiveWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287330245C39009DBD2A /* ReceiveWindow.nib */; };
+		1D6B287E30245C39009DBD2A /* SendWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B287430245C39009DBD2A /* SendWindow.nib */; };
+		1D6B288E30245C5A009DBD2A /* LogConvertDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D6B288730245C5A009DBD2A /* LogConvertDialog.xib */; };
 		1D8B922B21BE125E002D9FD3 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D8B921621BE1256002D9FD3 /* Sparkle.framework */; };
 		1D8B922D21BE1472002D9FD3 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1D8B921621BE1256002D9FD3 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1DF8A8572DCC81D10034E4BC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F799D16C10EE73C900773B8C /* Foundation.framework */; };
@@ -81,19 +87,13 @@
 		F743AB1311C10B7A003B098E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = F743AB1211C10B79003B098E /* dsa_pub.pem */; };
 		F77D69641397A95B00BA58D6 /* SendHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = F77D69621397A95B00BA58D6 /* SendHeaderView.h */; };
 		F77D69651397A95B00BA58D6 /* SendHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F77D69631397A95B00BA58D6 /* SendHeaderView.m */; };
-		F794E5BA13855BCC003FB780 /* LogConvertDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = F794E5B913855BCC003FB780 /* LogConvertDialog.xib */; };
 		F7BC02BD1382522900EDBC81 /* LogConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = F7BC02BB1382522900EDBC81 /* LogConverter.h */; };
 		F7BC02BE1382522900EDBC81 /* LogConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = F7BC02BC1382522900EDBC81 /* LogConverter.m */; };
 		F7C81E72138D7A2E00E329B5 /* Acknowledgement.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F7C81E71138D7A2E00E329B5 /* Acknowledgement.pdf */; };
 		F7E66CA71361A9120014B3D7 /* menu_alternate.png in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CA41361A9120014B3D7 /* menu_alternate.png */; };
 		F7E66CA81361A9120014B3D7 /* menu_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CA51361A9120014B3D7 /* menu_highlight.png */; };
 		F7E66CA91361A9120014B3D7 /* menu_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CA61361A9120014B3D7 /* menu_normal.png */; };
-		F7E66CC31361ABBA0014B3D7 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CC11361ABBA0014B3D7 /* MainMenu.nib */; };
 		F7E66CCE1361ABC80014B3D7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CC41361ABC80014B3D7 /* Localizable.strings */; };
-		F7E66CCF1361ABC80014B3D7 /* NoticeDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CC61361ABC80014B3D7 /* NoticeDialog.nib */; };
-		F7E66CD01361ABC80014B3D7 /* PortChangeDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CC81361ABC80014B3D7 /* PortChangeDialog.nib */; };
-		F7E66CD11361ABC80014B3D7 /* ReceiveWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CCA1361ABC80014B3D7 /* ReceiveWindow.nib */; };
-		F7E66CD21361ABC80014B3D7 /* SendWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = F7E66CCC1361ABC80014B3D7 /* SendWindow.nib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,11 +200,13 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		F743AAE911C1003A003B098E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolder = Frameworks;
+			dstSubfolderSpec = 10;
 			files = (
 				1D8B922D21BE1472002D9FD3 /* Sparkle.framework in CopyFiles */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -212,12 +214,24 @@
 		1D1893062536EA3E00C62361 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D18930D2536EA4300C62361 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1D1D518114F208F800528526 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		1D8B91FE21BE0ED6002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
-		1D8B91FF21BE0ED6002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
-		1D8B920021BE0ED6002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
-		1D8B920121BE0ED7002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/SendWindow.nib; sourceTree = "<group>"; };
-		1D8B920221BE0ED7002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Base; path = Base.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1D8B920321BE0ED7002D9FD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
+		1D6B287530245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
+		1D6B287630245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/SendWindow.nib; sourceTree = "<group>"; };
+		1D6B287730245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
+		1D6B287830245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		1D6B287930245C39009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
+		1D6B288030245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/ReceiveWindow.nib"; sourceTree = "<group>"; };
+		1D6B288130245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/SendWindow.nib"; sourceTree = "<group>"; };
+		1D6B288230245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/PortChangeDialog.nib"; sourceTree = "<group>"; };
+		1D6B288330245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.nib"; sourceTree = "<group>"; };
+		1D6B288530245C47009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "zh-Hans"; path = "zh-Hans.lproj/NoticeDialog.nib"; sourceTree = "<group>"; };
+		1D6B288830245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/ReceiveWindow.nib; sourceTree = "<group>"; };
+		1D6B288930245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/SendWindow.nib; sourceTree = "<group>"; };
+		1D6B288A30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/PortChangeDialog.nib; sourceTree = "<group>"; };
+		1D6B288B30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		1D6B288C30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
+		1D6B288D30245C5A009DBD2A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/NoticeDialog.nib; sourceTree = "<group>"; };
+		1D6B289030245D1A009DBD2A /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/LogConvertDialog.xib; sourceTree = "<group>"; };
+		1D6B289130245D25009DBD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/LogConvertDialog.xib"; sourceTree = "<group>"; };
 		1D8B920521BE1256002D9FD3 /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = framework/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		1DF8A8672DCC81D10034E4BC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1DF8A8692DCC828D0034E4BC /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
@@ -307,6 +321,7 @@
 /* Begin PBXFrameworksBuildPhase section */
 		F73453640C454622001D5375 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 				1DF8A8572DCC81D10034E4BC /* Foundation.framework in Frameworks */,
 				1D8B922B21BE125E002D9FD3 /* Sparkle.framework in Frameworks */,
@@ -316,6 +331,7 @@
 				5472138E19384A4B000FA01B /* Cocoa.framework in Frameworks */,
 				5472138D19384A45000FA01B /* Security.framework in Frameworks */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -536,12 +552,12 @@
 		F775679303CEBF6500141840 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
-				F7E66CC61361ABC80014B3D7 /* NoticeDialog.nib */,
-				F7E66CC81361ABC80014B3D7 /* PortChangeDialog.nib */,
-				F7E66CCA1361ABC80014B3D7 /* ReceiveWindow.nib */,
-				F7E66CCC1361ABC80014B3D7 /* SendWindow.nib */,
-				F7E66CC11361ABBA0014B3D7 /* MainMenu.nib */,
-				F794E5B913855BCC003FB780 /* LogConvertDialog.xib */,
+				1D6B287030245C39009DBD2A /* MainMenu.nib */,
+				1D6B287130245C39009DBD2A /* NoticeDialog.nib */,
+				1D6B287230245C39009DBD2A /* PortChangeDialog.nib */,
+				1D6B287330245C39009DBD2A /* ReceiveWindow.nib */,
+				1D6B287430245C39009DBD2A /* SendWindow.nib */,
+				1D6B288730245C5A009DBD2A /* LogConvertDialog.xib */,
 			);
 			name = Nibs;
 			sourceTree = "<group>";
@@ -562,6 +578,7 @@
 /* Begin PBXHeadersBuildPhase section */
 		F73453190C454622001D5375 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 				F734531A0C454622001D5375 /* SendControl.h in Headers */,
 				F734531B0C454622001D5375 /* AppControl.h in Headers */,
@@ -594,6 +611,7 @@
 				F7196E9013842A5300BE747B /* LogConvertController.h in Headers */,
 				F77D69641397A95B00BA58D6 /* SendHeaderView.h in Headers */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
@@ -615,6 +633,8 @@
 				1D8B922F21BE1472002D9FD3 /* PBXTargetDependency */,
 			);
 			name = IPMessenger;
+			packageProductDependencies = (
+			);
 			productInstallPath = "$(HOME)/Applications";
 			productName = IPMessenger;
 			productReference = F734536F0C454622001D5375 /* IPMessenger.app */;
@@ -635,6 +655,7 @@
 				};
 			};
 			buildConfigurationList = F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */;
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -644,7 +665,6 @@
 				"zh-Hans",
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* IPMessenger */;
-			preferredProjectObjectVersion = 90;
 			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -750,11 +770,18 @@
 /* Begin PBXResourcesBuildPhase section */
 		F73453370C454622001D5375 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 				F734533D0C454622001D5375 /* IPMsg.icns in Resources */,
 				F734533E0C454622001D5375 /* IPMsgAbsence.icns in Resources */,
 				F734533F0C454622001D5375 /* IPMsgAbsenceReverse.icns in Resources */,
 				F73453400C454622001D5375 /* IPMsgReverse.icns in Resources */,
+				1D6B287A30245C39009DBD2A /* NoticeDialog.nib in Resources */,
+				1D6B288E30245C5A009DBD2A /* LogConvertDialog.xib in Resources */,
+				1D6B287B30245C39009DBD2A /* PortChangeDialog.nib in Resources */,
+				1D6B287C30245C39009DBD2A /* MainMenu.nib in Resources */,
+				1D6B287D30245C39009DBD2A /* ReceiveWindow.nib in Resources */,
+				1D6B287E30245C39009DBD2A /* SendWindow.nib in Resources */,
 				F73453420C454622001D5375 /* AltLog.icns in Resources */,
 				F73453430C454622001D5375 /* Attach.icns in Resources */,
 				F73453440C454622001D5375 /* AttachS.tiff in Resources */,
@@ -762,21 +789,17 @@
 				F7E66CA71361A9120014B3D7 /* menu_alternate.png in Resources */,
 				F7E66CA81361A9120014B3D7 /* menu_highlight.png in Resources */,
 				F7E66CA91361A9120014B3D7 /* menu_normal.png in Resources */,
-				F7E66CC31361ABBA0014B3D7 /* MainMenu.nib in Resources */,
 				F7E66CCE1361ABC80014B3D7 /* Localizable.strings in Resources */,
-				F7E66CCF1361ABC80014B3D7 /* NoticeDialog.nib in Resources */,
-				F7E66CD01361ABC80014B3D7 /* PortChangeDialog.nib in Resources */,
-				F7E66CD11361ABC80014B3D7 /* ReceiveWindow.nib in Resources */,
-				F7E66CD21361ABC80014B3D7 /* SendWindow.nib in Resources */,
-				F794E5BA13855BCC003FB780 /* LogConvertDialog.xib in Resources */,
 				F7C81E72138D7A2E00E329B5 /* Acknowledgement.pdf in Resources */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F73453460C454622001D5375 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
 			files = (
 				5472139219384BF6000FA01B /* pinyin.c in Sources */,
 				F73453470C454622001D5375 /* main.m in Sources */,
@@ -809,6 +832,7 @@
 				F7196E9113842A5300BE747B /* LogConvertController.m in Sources */,
 				F77D69651397A95B00BA58D6 /* SendHeaderView.m in Sources */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -826,20 +850,64 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F794E5B913855BCC003FB780 /* LogConvertDialog.xib */ = {
+		1D6B287030245C39009DBD2A /* MainMenu.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1D8B920321BE0ED7002D9FD3 /* Base */,
-			);
-			name = LogConvertDialog.xib;
-			sourceTree = "<group>";
-		};
-		F7E66CC11361ABBA0014B3D7 /* MainMenu.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D8B920221BE0ED7002D9FD3 /* Base */,
+				1D6B288B30245C5A009DBD2A /* en */,
+				1D6B287830245C39009DBD2A /* ja */,
+				1D6B288330245C47009DBD2A /* zh-Hans */,
 			);
 			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		1D6B287130245C39009DBD2A /* NoticeDialog.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D6B288D30245C5A009DBD2A /* en */,
+				1D6B287930245C39009DBD2A /* ja */,
+				1D6B288530245C47009DBD2A /* zh-Hans */,
+			);
+			name = NoticeDialog.nib;
+			sourceTree = "<group>";
+		};
+		1D6B287230245C39009DBD2A /* PortChangeDialog.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D6B288A30245C5A009DBD2A /* en */,
+				1D6B287730245C39009DBD2A /* ja */,
+				1D6B288230245C47009DBD2A /* zh-Hans */,
+			);
+			name = PortChangeDialog.nib;
+			sourceTree = "<group>";
+		};
+		1D6B287330245C39009DBD2A /* ReceiveWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D6B288830245C5A009DBD2A /* en */,
+				1D6B287530245C39009DBD2A /* ja */,
+				1D6B288030245C47009DBD2A /* zh-Hans */,
+			);
+			name = ReceiveWindow.nib;
+			sourceTree = "<group>";
+		};
+		1D6B287430245C39009DBD2A /* SendWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D6B288930245C5A009DBD2A /* en */,
+				1D6B287630245C39009DBD2A /* ja */,
+				1D6B288130245C47009DBD2A /* zh-Hans */,
+			);
+			name = SendWindow.nib;
+			sourceTree = "<group>";
+		};
+		1D6B288730245C5A009DBD2A /* LogConvertDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D6B288C30245C5A009DBD2A /* en */,
+				1D6B289030245D1A009DBD2A /* ja */,
+				1D6B289130245D25009DBD2A /* zh-Hans */,
+			);
+			name = LogConvertDialog.xib;
 			sourceTree = "<group>";
 		};
 		F7E66CC41361ABC80014B3D7 /* Localizable.strings */ = {
@@ -852,42 +920,10 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		F7E66CC61361ABC80014B3D7 /* NoticeDialog.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D8B91FE21BE0ED6002D9FD3 /* Base */,
-			);
-			name = NoticeDialog.nib;
-			sourceTree = "<group>";
-		};
-		F7E66CC81361ABC80014B3D7 /* PortChangeDialog.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D8B91FF21BE0ED6002D9FD3 /* Base */,
-			);
-			name = PortChangeDialog.nib;
-			sourceTree = "<group>";
-		};
-		F7E66CCA1361ABC80014B3D7 /* ReceiveWindow.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D8B920021BE0ED6002D9FD3 /* Base */,
-			);
-			name = ReceiveWindow.nib;
-			sourceTree = "<group>";
-		};
-		F7E66CCC1361ABC80014B3D7 /* SendWindow.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1D8B920121BE0ED7002D9FD3 /* Base */,
-			);
-			name = SendWindow.nib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F734530D0C4545F7001D5375 /* Debug configuration for PBXProject "IPMessenger" */ = {
+		F734530D0C4545F7001D5375 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -928,7 +964,7 @@
 			};
 			name = Debug;
 		};
-		F734530E0C4545F7001D5375 /* Release configuration for PBXProject "IPMessenger" */ = {
+		F734530E0C4545F7001D5375 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -967,7 +1003,7 @@
 			};
 			name = Release;
 		};
-		F73453670C454622001D5375 /* Debug configuration for PBXNativeTarget "IPMessenger" */ = {
+		F73453670C454622001D5375 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -1004,7 +1040,7 @@
 			};
 			name = Debug;
 		};
-		F73453680C454622001D5375 /* Release configuration for PBXNativeTarget "IPMessenger" */ = {
+		F73453680C454622001D5375 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -1043,17 +1079,19 @@
 		F734530C0C4545F7001D5375 /* Build configuration list for PBXProject "IPMessenger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F734530D0C4545F7001D5375 /* Debug configuration for PBXProject "IPMessenger" */,
-				F734530E0C4545F7001D5375 /* Release configuration for PBXProject "IPMessenger" */,
+				F734530D0C4545F7001D5375 /* Debug */,
+				F734530E0C4545F7001D5375 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 		F73453660C454622001D5375 /* Build configuration list for PBXNativeTarget "IPMessenger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F73453670C454622001D5375 /* Debug configuration for PBXNativeTarget "IPMessenger" */,
-				F73453680C454622001D5375 /* Release configuration for PBXNativeTarget "IPMessenger" */,
+				F73453670C454622001D5375 /* Debug */,
+				F73453680C454622001D5375 /* Release */,
 			);
+			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
