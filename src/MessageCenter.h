@@ -42,7 +42,7 @@ typedef struct
  * クラス定義
  *============================================================================*/
 
-@interface MessageCenter : NSObject
+@interface MessageCenter : NSObject <NSXPCListenerDelegate>
 {
 	// 送受信関連
 	int						sockUDP;			// ソケットディスクリプタ
@@ -74,7 +74,7 @@ typedef struct
 @property(nonatomic, strong)  NSLock*                    sockLock;            // ソケット送信排他ロック
 @property(nonatomic, strong)  NSMutableDictionary*    sendList;            // 応答待ちメッセージ一覧（再送用）
 // 受信サーバ関連
-@property(nonatomic, strong)  NSConnection*            serverConnection;    // メッセージ受信スレッドとのコネクション
+@property(nonatomic, strong)  NSXPCListener*           serverConnectionListener; // メッセージ受信スレッドとのXPCリスナー
 @property(nonatomic, strong)  NSLock*                    serverLock;            // サーバ待ち合わせ用ロック
 
 // ファクトリ

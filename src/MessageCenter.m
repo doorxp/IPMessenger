@@ -51,6 +51,36 @@ typedef enum
 
 } _NetUpdateState;
 
+@protocol MessageCenterXPCProtocol
+- (void)processReceivedData:(NSData *)data sourceAddress:(NSData *)address;
+@end
+
+@interface MessageCenter (XPCExport) <MessageCenterXPCProtocol>
+@end
+
+@interface MessageCenterXPCAdapter : NSObject <MessageCenterXPCProtocol>
+@property(nonatomic, strong) MessageCenter *target;
+- (instancetype)initWithTarget:(MessageCenter *)target;
+@end
+
+@implementation MessageCenterXPCAdapter
+- (instancetype)initWithTarget:(MessageCenter *)target {
+	if ((self = [super init])) {
+		_target = target;
+	}
+	return self;
+}
+- (void)processReceivedData:(NSData *)data sourceAddress:(NSData *)address {
+	if ([NSThread isMainThread]) {
+		[_target processReceivedData:data sourceAddress:address];
+	} else {
+		dispatch_sync(dispatch_get_main_queue(), ^{
+			[self.target processReceivedData:data sourceAddress:address];
+		});
+	}
+}
+@end
+
 /*============================================================================*
  * プライベートメソッド
  *============================================================================*/
@@ -58,7 +88,8 @@ typedef enum
 @interface MessageCenter()
 - (NSData*)entryMessageData;
 - (void)shutdownServer;
-- (void)serverThread:(NSArray*)portArray;
+- (void)serverThread:(NSXPCListenerEndpoint*)endpoint;
+- (void)processReceivedData:(NSData *)data sourceAddress:(NSData *)address;
 - (BOOL)updateHostName;
 - (_NetUpdateState)updateIPAddress;
 - (_NetUpdateState)updatePrimaryNIC;
@@ -125,7 +156,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	sockUDP				= -1;
 	self.sockLock			= [[NSLock alloc] init];
     self.sendList			= [[NSMutableDictionary alloc] init];
-    self.serverConnection	= nil;
+    self.serverConnectionListener = nil;
     self.serverLock			= [[NSLock alloc] init];
 	serverShutdown		= FALSE;
 	runLoopSource		= nil;
@@ -268,15 +299,22 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 
 	// 受信スレッド起動
 	{
-		NSPort*		port1	= [NSPort port];
-		NSPort*		port2	= [NSPort port];
-		NSArray*	array	= [NSArray arrayWithObjects:port2, port1, nil];
-		self.serverConnection	= [[NSConnection alloc] initWithReceivePort:port1 sendPort:port2];
-		[_serverConnection setRootObject:self];
-		[NSThread detachNewThreadSelector:@selector(serverThread:) toTarget:self withObject:array];
+		self.serverConnectionListener = [NSXPCListener anonymousListener];
+		self.serverConnectionListener.delegate = self;
+		[self.serverConnectionListener resume];
+		[NSThread detachNewThreadSelector:@selector(serverThread:) toTarget:self
+							  withObject:self.serverConnectionListener.endpoint];
 	}
 
 	return self;
+}
+
+- (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
+{
+	newConnection.exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MessageCenterXPCProtocol)];
+	newConnection.exportedObject = [[MessageCenterXPCAdapter alloc] initWithTarget:self];
+	[newConnection resume];
+	return YES;
 }
 
 // 解放
@@ -284,7 +322,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 {
 //	[sockLock release];
 //	[sendList release];
-//	[serverConnection release];
+//	[serverConnectionListener release];
 //	[serverLock release];
 	if (sockUDP != -1) {
 		close(sockUDP);
@@ -641,7 +679,7 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
  *----------------------------------------------------------------------------*/
 
 // 受信後実処理
-- (void)processReceiveMessage
+- (void)processReceivedData:(NSData *)data sourceAddress:(NSData *)address
 {
 	Config*				config	= nil;
 	RecvMessage*		msg		= nil;
@@ -651,23 +689,20 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 	struct sockaddr_in*	from;
 	NSInteger					packetNo;
 	NSString*			appendix;
-	char				buff[MAX_SOCKBUF];	// 受信バッファ
-	ssize_t					len;
 	struct sockaddr_in	addr;
-	socklen_t			addrLen = sizeof(addr);
-
-	// 受信
-	len = recvfrom(sockUDP, buff, MAX_SOCKBUF, 0, (struct sockaddr*)&addr, &addrLen);
-	if (len == -1) {
-		ERR(@"recvFrom error(sock=%d)", sockUDP);
+	if (address.length != sizeof(addr) || data.length == 0 || data.length > MAX_SOCKBUF) {
+		ERR(@"invalid received packet(data=%lu,address=%lu)",
+			(unsigned long)data.length, (unsigned long)address.length);
 		return;
 	}
-    TRC(@"recv %zd bytes", len);
+	[address getBytes:&addr length:sizeof(addr)];
+	const char *buff = data.bytes;
+    TRC(@"recv %lu bytes", (unsigned long)data.length);
 
 	// 解析
-	msg = [RecvMessage messageWithBuffer:buff length:len from:addr];
+	msg = [RecvMessage messageWithBuffer:buff length:data.length from:addr];
 	if (!msg) {
-		ERR(@"Receive Buffer parse error(%s)", buff);
+		ERR(@"Receive Buffer parse error");
 		return;
 	}
 	TRC(@"recvdata parsed");
@@ -902,16 +937,19 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 }
 
 // メッセージ受信スレッド
-- (void)serverThread:(NSArray*)portArray
+- (void)serverThread:(NSXPCListenerEndpoint*)endpoint
 {
 	
     @autoreleasepool {
 	fd_set				fdSet;
 	struct timeval		tv;
 	int					ret;
-	NSConnection*		conn = [[NSConnection alloc] initWithReceivePort:[portArray objectAtIndex:0]
-																sendPort:[portArray objectAtIndex:1]];
-	id					proxy = [conn rootProxy];
+	NSXPCConnection*	conn = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
+	conn.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(MessageCenterXPCProtocol)];
+	[conn resume];
+	id<MessageCenterXPCProtocol> proxy = [conn synchronousRemoteObjectProxyWithErrorHandler:^(NSError *error) {
+		ERR(@"Message receiver XPC error: %@", error);
+	}];
 
 	[self.serverLock lock];
 
@@ -930,13 +968,27 @@ static void _DynamicStoreCallback(SCDynamicStoreRef	store,
 			// タイムアウト
 			continue;
 		}
+		char buff[MAX_SOCKBUF];
+		struct sockaddr_in addr;
+		socklen_t addrLen = sizeof(addr);
+		ssize_t len = recvfrom(sockUDP, buff, sizeof(buff), MSG_DONTWAIT,
+						   (struct sockaddr *)&addr, &addrLen);
+		if (len < 0) {
+			if (errno != EINTR && errno != EAGAIN && errno != EWOULDBLOCK) {
+				ERR(@"recvfrom error(sock=%d, errno=%d)", sockUDP, errno);
+			}
+			continue;
+		}
+		NSData *packet = [NSData dataWithBytes:buff length:(NSUInteger)len];
+		NSData *sourceAddress = [NSData dataWithBytes:&addr length:addrLen];
 		@try {
-			[proxy processReceiveMessage];
+			[proxy processReceivedData:packet sourceAddress:sourceAddress];
 		} @catch (NSException* exception) {
 			ERR(@"%@", exception);
 		}
 	}
 	DBG(@"MessageRecvThread end.");
+	[conn invalidate];
 
 	[self.serverLock unlock];
     }

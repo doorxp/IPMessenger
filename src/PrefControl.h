@@ -12,7 +12,7 @@
  * クラス定義
  *============================================================================*/
 
-@interface PrefControl : NSObject
+@interface PrefControl : NSObject<NSControlTextEditingDelegate>
 {
 	IBOutlet NSPanel*			panel;
 	// 全般

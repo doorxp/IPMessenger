@@ -495,21 +495,21 @@ static NSRecursiveLock*		userListColsLock	= nil;
     
 }
 
-- (void)drawerWillOpen:(NSNotification *)notification {
-    NSSplitViewController *contr = nil;
-    self.attachDrawer.contentView.wantsLayer = false;
-    self.attachDrawer.contentView.layer.backgroundColor = self.window.backgroundColor.CGColor;
-//    NSView *frame = self.attachDrawer.contentView.superview;
-//    frame.wantsLayer = true;
-//    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
-}
-
-- (void)drawerDidOpen:(NSNotification *)notification {
-//    NSView *frame = self.attachDrawer.contentView.superview;
-//    frame.wantsLayer = true;
-//    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
-
-}
+//- (void)drawerWillOpen:(NSNotification *)notification {
+//    NSSplitViewController *contr = nil;
+//    self.attachDrawer.contentView.wantsLayer = false;
+//    self.attachDrawer.contentView.layer.backgroundColor = self.window.backgroundColor.CGColor;
+////    NSView *frame = self.attachDrawer.contentView.superview;
+////    frame.wantsLayer = true;
+////    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
+//}
+//
+//- (void)drawerDidOpen:(NSNotification *)notification {
+////    NSView *frame = self.attachDrawer.contentView.superview;
+////    frame.wantsLayer = true;
+////    frame.layer.backgroundColor = self.window.backgroundColor.CGColor;
+//
+//}
 
 /*----------------------------------------------------------------------------*
  * その他

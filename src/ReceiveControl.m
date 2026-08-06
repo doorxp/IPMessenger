@@ -406,7 +406,7 @@
 	// 送信ダイアログ作成
 	//sendCtl =
     
-    AppControl *appCtl = [NSApp delegate];
+    AppControl *appCtl = (AppControl *)[NSApp delegate];
     appCtl.lastDockDraggedWindow = [[SendControl alloc] initWithSendMessage:quotMsg recvMessage:self.recvMsg];
 }
 

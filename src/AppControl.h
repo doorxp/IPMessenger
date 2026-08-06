@@ -21,7 +21,7 @@
 
 @interface AppControl : NSObject
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
-<NSApplicationDelegate>
+<NSApplicationDelegate, NSMenuItemValidation>
 #endif
 
 @property(nonatomic, strong) IBOutlet NSMenu*        absenceMenu;                    // 不在メニュー

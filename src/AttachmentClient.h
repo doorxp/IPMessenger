@@ -56,7 +56,7 @@ typedef enum
  * クラス定義
  *============================================================================*/
 
-@interface AttachmentClient : NSObject {
+@interface AttachmentClient : NSObject <NSXPCListenerDelegate> {
 	// ダウンロード管理変数
 
 	BOOL				stop;			// ダウンロード中止フラグ
@@ -72,7 +72,7 @@ typedef enum
 @property(nonatomic, strong)  NSMutableArray*        targets;        // ダウンロード対象添付ファイルリスト
 @property(nonatomic, strong)  NSLock*                lock;            // ダウンロード処理中ロック
 @property(nonatomic, strong)  NSString*            savePath;        // 保存先パス
-@property(nonatomic, strong)  NSConnection*        connection;        // ダウンロードスレッドとのコネクション
+@property(nonatomic, strong)  NSXPCListener*       connectionListener; // ダウンロードスレッドとのXPCリスナー
 // ステータス管理変数
 @property(nonatomic, strong)  NSDate*                startDate;        // 開始時刻
 @property(nonatomic, strong)  NSString*            currentFile;    // ダウンロード中ファイル／ディレクトリ名
@@ -108,4 +108,3 @@ typedef enum
 - (unsigned)averageSpeed;
 @property(nonatomic, retain) id	listener;
 @end
-

@@ -16,7 +16,7 @@
  * クラス定義
  *============================================================================*/
 
-@interface ReceiveControl : NSObject <AttachmentClientListener>
+@interface ReceiveControl : NSObject <AttachmentClientListener, NSMenuItemValidation>
 @property(nonatomic, strong) IBOutlet NSWindow*                window;                        // ウィンドウ
 @property(nonatomic, strong) IBOutlet NSBox*                    infoBox;                    // ヘッダ部BOX
 @property(nonatomic, strong) IBOutlet NSTextField*            userNameLabel;                // 送信元ユーザ名ラベル

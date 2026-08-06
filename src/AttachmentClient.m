@@ -40,6 +40,35 @@
 
 @end
 
+// NSXPCConnection invokes exported objects on a private queue. Preserve the
+// legacy behaviour of delivering UI callbacks on the main thread.
+@interface AttachmentClientListenerXPCAdapter : NSObject <AttachmentClientListener>
+@property(nonatomic, strong) id<AttachmentClientListener> target;
+- (instancetype)initWithTarget:(id<AttachmentClientListener>)target;
+@end
+
+@implementation AttachmentClientListenerXPCAdapter
+- (instancetype)initWithTarget:(id<AttachmentClientListener>)target {
+	if ((self = [super init])) {
+		_target = target;
+	}
+	return self;
+}
+#define FORWARD_ATTACHMENT_CALLBACK(call) \
+	do { if ([NSThread isMainThread]) { [_target call]; } \
+	else { dispatch_sync(dispatch_get_main_queue(), ^{ [self.target call]; }); } } while (0)
+- (void)downloadWillStart { FORWARD_ATTACHMENT_CALLBACK(downloadWillStart); }
+- (void)downloadDidFinished:(DownloadResult)result { FORWARD_ATTACHMENT_CALLBACK(downloadDidFinished:result); }
+- (void)downloadIndexOfTargetChanged { FORWARD_ATTACHMENT_CALLBACK(downloadIndexOfTargetChanged); }
+- (void)downloadFileChanged { FORWARD_ATTACHMENT_CALLBACK(downloadFileChanged); }
+- (void)downloadNumberOfFileChanged { FORWARD_ATTACHMENT_CALLBACK(downloadNumberOfFileChanged); }
+- (void)downloadNumberOfDirectoryChanged { FORWARD_ATTACHMENT_CALLBACK(downloadNumberOfDirectoryChanged); }
+- (void)downloadTotalSizeChanged { FORWARD_ATTACHMENT_CALLBACK(downloadTotalSizeChanged); }
+- (void)downloadDownloadedSizeChanged { FORWARD_ATTACHMENT_CALLBACK(downloadDownloadedSizeChanged); }
+- (void)downloadPercentageChanged { FORWARD_ATTACHMENT_CALLBACK(downloadPercentageChanged); }
+#undef FORWARD_ATTACHMENT_CALLBACK
+@end
+
 /*============================================================================*
  * クラス実装
  *============================================================================*/
@@ -79,7 +108,7 @@
 //	[lock release];
 //	[startDate release];
 //	[savePath release];
-//	[connection release];
+//	[connectionListener release];
 //    self.listener = nil;
 //	[super dealloc];
 //}
@@ -111,16 +140,23 @@
 // ダウンロード開始
 - (void)startDownload:(id<AttachmentClientListener>)obj {
 	if ([self.lock tryLock]) {
-		NSPort*		port1 = [NSPort port];
-		NSPort*		port2 = [NSPort port];
-		NSArray*	array = [NSArray arrayWithObjects:port2, port1, nil];
-		self.connection	= [[NSConnection alloc] initWithReceivePort:port1 sendPort:port2];
+		self.listener = obj;
+		self.connectionListener = [NSXPCListener anonymousListener];
+		self.connectionListener.delegate = self;
+		[self.connectionListener resume];
 		stop		= NO;
-		[self.connection setRootObject:obj];
-		[NSThread detachNewThreadSelector:@selector(downloadThread:) toTarget:self withObject:array];
+		[NSThread detachNewThreadSelector:@selector(downloadThread:) toTarget:self
+							  withObject:self.connectionListener.endpoint];
 	} else {
 		WRN(@"try lock err.");
 	}
+}
+
+- (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
+	newConnection.exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(AttachmentClientListener)];
+	newConnection.exportedObject = [[AttachmentClientListenerXPCAdapter alloc] initWithTarget:self.listener];
+	[newConnection resume];
+	return YES;
 }
 
 // ダウンロード停止
@@ -180,15 +216,16 @@
  *----------------------------------------------------------------------------*/
 
 // 添付ダウンロードスレッド
-- (void)downloadThread:(id)portArray {
+- (void)downloadThread:(NSXPCListenerEndpoint *)endpoint {
     @autoreleasepool {
 	NSInteger					num 	= [_targets count];
 	DownloadResult		result	= DL_SUCCESS;
-	NSConnection*		conn	= [[NSConnection alloc] initWithReceivePort:[portArray objectAtIndex:0]
-																   sendPort:[portArray objectAtIndex:1]];
-	self.listener = [conn rootProxy];
-    
-	[_listener setProtocolForProxy:@protocol(AttachmentClientListener)];
+	NSXPCConnection*	conn = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
+	conn.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(AttachmentClientListener)];
+	[conn resume];
+	self.listener = [conn synchronousRemoteObjectProxyWithErrorHandler:^(NSError *error) {
+		ERR(@"Attachment callback XPC error: %@", error);
+	}];
 
 	DBG(@"start download thread.");
 
@@ -308,6 +345,10 @@
             result = DL_STOP;
         }
         [_listener downloadDidFinished:result];
+		[conn invalidate];
+		self.listener = nil;
+		[self.connectionListener invalidate];
+		self.connectionListener = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.lock unlock];
         });
