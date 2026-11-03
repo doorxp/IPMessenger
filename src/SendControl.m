@@ -40,11 +40,16 @@ static NSDate*				lastTimeOfEntrySent	= nil;
 static NSMutableDictionary*	userListColumns		= nil;
 static NSRecursiveLock*		userListColsLock	= nil;
 
-@interface SendControl()<NSSplitViewDelegate>
+@interface SendControl()<NSSplitViewDelegate, NSTextViewDelegate>
 - (void)updateSearchFieldPlaceholder;
 - (void)installAttachmentSplitView;
 - (void)updateAttachmentPanePlacement;
 - (void)showAttachmentPane;
+- (void)clearPendingAttachments;
+- (void)clearMessageContent;
+- (void)dismissAttachmentPaneAfterSendingWithCompletion:(void (^)(void))completion;
+- (void)updateSendButtonState;
+- (void)updateAttachmentDeleteButtonState;
 - (IBAction)toggleAttachmentPane:(id)sender;
 @end
 
@@ -81,6 +86,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 		return nil;
 	}
 	[self installAttachmentSplitView];
+	self.messageArea.delegate = self;
 
 	// 引用メッセージの設定
 	if (msg) {
@@ -113,6 +119,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			[self.userTable scrollRowToVisible:index];
 		}
 	}
+	[self updateSendButtonState];
 
 	// ウィンドウマネージャへの登録
 	if (self.receiveMessage) {
@@ -197,6 +204,8 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			[self.attachments removeObjectAtIndex:selIdx];
 			[self.attachTable reloadData];
 			[self setAttachHeader];
+			[self updateAttachmentDeleteButtonState];
+			[self updateSendButtonState];
 		}
 	} else {
 		ERR(@"unknown button pressed(%@)", sender);
@@ -315,8 +324,10 @@ static NSRecursiveLock*		userListColsLock	= nil;
 			[[receiveWin window] performClose:self];
 		}
 	}
-	// 自ウィンドウを消去
-	[self.window performClose:self];
+	// 添付欄を閉じて内容を消去してから自ウィンドウを閉じる
+	[self dismissAttachmentPaneAfterSendingWithCompletion:^{
+		[self.window performClose:self];
+	}];
 }
 
 // 選択ユーザ一覧の更新
@@ -454,16 +465,28 @@ static NSRecursiveLock*		userListColsLock	= nil;
 - (void)tableViewSelectionDidChange:(NSNotification*)aNotification {
 	NSTableView* table = [aNotification object];
 	if (table == self.userTable) {
-		NSInteger selectNum = [self.userTable numberOfSelectedRows];
 		// 選択ユーザ一覧更新
 		[self updateSelectedUsers];
-		// １つ以上のユーザが選択されていない場合は送信ボタンが押下不可
-		[self.sendButton setEnabled:(selectNum > 0)];
+		[self updateSendButtonState];
 	} else if (table == self.attachTable) {
-		[self.attachDelButton setEnabled:([self.attachTable numberOfSelectedRows] > 0)];
+		[self updateAttachmentDeleteButtonState];
 	} else {
 		ERR(@"Unknown TableView(%@)", table);
 	}
+}
+
+- (void)updateSendButtonState {
+	BOOL hasRecipient = ([self.userTable numberOfSelectedRows] > 0);
+	BOOL hasContent = ([[self.messageArea string] length] > 0 || [self.attachments count] > 0);
+	[self.sendButton setEnabled:(hasRecipient && hasContent)];
+}
+
+- (void)updateAttachmentDeleteButtonState {
+	[self.attachDelButton setEnabled:([self.attachTable numberOfSelectedRows] > 0)];
+}
+
+- (void)textDidChange:(NSNotification *)notification {
+	[self updateSendButtonState];
 }
 
 // ソートの変更
@@ -548,6 +571,41 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	}
 }
 
+- (void)clearPendingAttachments {
+	self.attachments = [[NSMutableArray alloc] init];
+	self.attachmentsDic = [[NSMutableDictionary alloc] init];
+	[self.attachTable reloadData];
+	[self setAttachHeader];
+	[self updateAttachmentDeleteButtonState];
+	[self updateSendButtonState];
+}
+
+- (void)clearMessageContent {
+	[self.messageArea setString:@""];
+	[self updateSendButtonState];
+}
+
+- (void)dismissAttachmentPaneAfterSendingWithCompletion:(void (^)(void))completion {
+	[self.sendButton setEnabled:NO];
+
+	void (^finish)(void) = ^{
+		[self clearPendingAttachments];
+		[self clearMessageContent];
+		if (completion) {
+			completion();
+		}
+	};
+
+	if ([self.attachments count] == 0 || !self.attachmentSplitItem || self.attachmentSplitItem.collapsed) {
+		finish();
+		return;
+	}
+
+	[NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+		self.attachmentSplitItem.animator.collapsed = YES;
+	} completionHandler:finish];
+}
+
 - (void)appendAttachmentByPath:(NSString*)path {
 	AttachmentFile*	file;
 	Attachment*		attach;
@@ -569,6 +627,11 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	[self.attachmentsDic setObject:attach forKey:path];
 	[self.attachTable reloadData];
 	[self setAttachHeader];
+	NSInteger row = [self.attachments count] - 1;
+	[self.attachTable selectRowIndexes:[NSIndexSet indexSetWithIndex:row]
+	              byExtendingSelection:NO];
+	[self updateAttachmentDeleteButtonState];
+	[self updateSendButtonState];
     
 	[self showAttachmentPane];
     
@@ -698,6 +761,7 @@ static NSRecursiveLock*		userListColsLock	= nil;
 	}
 	[self.selectedUsersLock unlock];
 	[self updateSelectedUsers];
+	[self updateSendButtonState];
 }
 
 - (IBAction)searchUser:(id)sender
@@ -1019,6 +1083,10 @@ static NSRecursiveLock*		userListColsLock	= nil;
 - (void)windowWillClose:(NSNotification*)aNotification {
 	[[WindowManager sharedManager] removeReplyWindowForKey:self.receiveMessage];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	AppControl *appControl = (AppControl *)[NSApp delegate];
+	if (appControl.lastDockDraggedWindow == self) {
+		appControl.lastDockDraggedWindow = nil;
+	}
     // なぜか解放されないので手動で
     self.attachDrawer = nil;
 }

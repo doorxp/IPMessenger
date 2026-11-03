@@ -308,14 +308,10 @@ static const CGFloat kReceiveWindowWidth = 500.0;
 	NSWindow* orgKeyWin = [NSApp keyWindow];
 	if (orgKeyWin) {
 		if ([[orgKeyWin delegate] isKindOfClass:[SendControl class]]) {
-			[self.window orderFront:self];
 			[orgKeyWin orderFront:self];
-		} else {
-			[self.window makeKeyAndOrderFront:self];
 		}
-	} else {
-		[self.window makeKeyAndOrderFront:self];
 	}
+    [self.window makeKeyAndOrderFront:self];
 	if (([[self.recvMsg attachments] count] > 0) && ![self.recvMsg sealed]) {
 		[self showAttachmentPane];
 	}

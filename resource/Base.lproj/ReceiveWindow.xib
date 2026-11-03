@@ -124,7 +124,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="327" height="174"/>
                                     <clipView key="contentView" copiesOnScroll="NO" id="ixa-aP-Ca5">
                                         <rect key="frame" x="1" y="1" width="325" height="172"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="92" customClass="ReceiveMessageView">
                                                 <rect key="frame" x="0.0" y="0.0" width="326" height="110"/>

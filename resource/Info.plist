@@ -63,5 +63,7 @@
 	<string>http://192.168.1.129:8889/downloads/Feige-Downloads_files/upload/update.xml.php</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>SUPublicEDKey</key>
+	<string>oHkaeQ0FETI0PMOz77JsqsjBekzENecCN24ikR8rcLA=</string>
 </dict>
 </plist>
