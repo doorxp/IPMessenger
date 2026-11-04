@@ -79,6 +79,7 @@
 		F73453590C454622001D5375 /* AttachmentServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F51E8DF30326721501A80003 /* AttachmentServer.m */; };
 		F734535A0C454622001D5375 /* Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F51E8DFC0326754901A80003 /* Attachment.m */; };
 		F734535C0C454622001D5375 /* AttachmentClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F53330F00369A757012E428F /* AttachmentClient.m */; };
+		A11CB0010000000000000001 /* AttachmentCallbackRelay.m in Sources */ = {isa = PBXBuildFile; fileRef = A11CB0010000000000000002 /* AttachmentCallbackRelay.m */; };
 		F734535D0C454622001D5375 /* DebugLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F57BE9FD037DF9E901F89D99 /* DebugLog.m */; };
 		F734535E0C454622001D5375 /* NSStringIPMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A78373037E820401C10C8C /* NSStringIPMessenger.m */; };
 		F734535F0C454622001D5375 /* AttachStatusControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F5411AE60387AF0001B5C499 /* AttachStatusControl.m */; };
@@ -285,6 +286,8 @@
 		F52F17710344A90101A80003 /* DebugLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugLog.h; sourceTree = "<group>"; };
 		F53330EF0369A757012E428F /* AttachmentClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentClient.h; sourceTree = "<group>"; };
 		F53330F00369A757012E428F /* AttachmentClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentClient.m; sourceTree = "<group>"; };
+		A11CB0010000000000000002 /* AttachmentCallbackRelay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentCallbackRelay.m; sourceTree = "<group>"; };
+		A11CB0010000000000000003 /* AttachmentCallbackRelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCallbackRelay.h; sourceTree = "<group>"; };
 		F538AD5A0275CC1401A86404 /* IPMsg.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = IPMsg.icns; sourceTree = "<group>"; };
 		F538AD5B0275CC1401A86404 /* IPMsgAbsence.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = IPMsgAbsence.icns; sourceTree = "<group>"; };
 		F5411AE50387AF0001B5C499 /* AttachStatusControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachStatusControl.h; sourceTree = "<group>"; };
@@ -458,6 +461,8 @@
 				F51E8DF30326721501A80003 /* AttachmentServer.m */,
 				F53330EF0369A757012E428F /* AttachmentClient.h */,
 				F53330F00369A757012E428F /* AttachmentClient.m */,
+				A11CB0010000000000000003 /* AttachmentCallbackRelay.h */,
+				A11CB0010000000000000002 /* AttachmentCallbackRelay.m */,
 			);
 			name = Attachment;
 			sourceTree = "<group>";
@@ -822,6 +827,7 @@
 				F73453590C454622001D5375 /* AttachmentServer.m in Sources */,
 				F734535A0C454622001D5375 /* Attachment.m in Sources */,
 				F734535C0C454622001D5375 /* AttachmentClient.m in Sources */,
+				A11CB0010000000000000001 /* AttachmentCallbackRelay.m in Sources */,
 				F734535D0C454622001D5375 /* DebugLog.m in Sources */,
 				F734535E0C454622001D5375 /* NSStringIPMessenger.m in Sources */,
 				F734535F0C454622001D5375 /* AttachStatusControl.m in Sources */,
@@ -1020,13 +1026,14 @@
 				GCC_PREPROCESSOR_DEFINITIONS = IPMSG_DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = resource/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 7.0.1;
+				MARKETING_VERSION = 7.0.2;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = IPMessenger;
@@ -1055,13 +1062,14 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = resource/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 7.0.1;
+				MARKETING_VERSION = 7.0.2;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = IPMessenger;
 				PRODUCT_NAME = IPMessenger;

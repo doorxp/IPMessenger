@@ -16,6 +16,7 @@
 #import "Config.h"
 #import "NSStringIPMessenger.h"
 #import "DebugLog.h"
+#import "SocketTransfer.h"
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -836,7 +837,7 @@ typedef struct {
 			break;
 		}
 		// データ送信
-		if (send(sock, [data bytes], [data length], 0) < 0) {
+		if (!IPMsgSendAll(sock, [data bytes], [data length])) {
 			ERR(@"sendFileData:Send Error(path=%@)", file.path);
 			[fileHandle closeFile];
 			return NO;

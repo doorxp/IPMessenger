@@ -15,6 +15,8 @@
 #import "MessageCenter.h"
 #import "NSStringIPMessenger.h"
 #import "DebugLog.h"
+#import "SocketTransfer.h"
+#import "AttachmentCallbackRelay.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -38,35 +40,6 @@
 - (void)newFileDownloadStart:(NSString*)fileName;
 - (void)newDataDownload:(unsigned long long)size;
 
-@end
-
-// NSXPCConnection invokes exported objects on a private queue. Preserve the
-// legacy behaviour of delivering UI callbacks on the main thread.
-@interface AttachmentClientListenerXPCAdapter : NSObject <AttachmentClientListener>
-@property(nonatomic, strong) id<AttachmentClientListener> target;
-- (instancetype)initWithTarget:(id<AttachmentClientListener>)target;
-@end
-
-@implementation AttachmentClientListenerXPCAdapter
-- (instancetype)initWithTarget:(id<AttachmentClientListener>)target {
-	if ((self = [super init])) {
-		_target = target;
-	}
-	return self;
-}
-#define FORWARD_ATTACHMENT_CALLBACK(call) \
-	do { if ([NSThread isMainThread]) { [_target call]; } \
-	else { dispatch_sync(dispatch_get_main_queue(), ^{ [self.target call]; }); } } while (0)
-- (void)downloadWillStart { FORWARD_ATTACHMENT_CALLBACK(downloadWillStart); }
-- (void)downloadDidFinished:(DownloadResult)result { FORWARD_ATTACHMENT_CALLBACK(downloadDidFinished:result); }
-- (void)downloadIndexOfTargetChanged { FORWARD_ATTACHMENT_CALLBACK(downloadIndexOfTargetChanged); }
-- (void)downloadFileChanged { FORWARD_ATTACHMENT_CALLBACK(downloadFileChanged); }
-- (void)downloadNumberOfFileChanged { FORWARD_ATTACHMENT_CALLBACK(downloadNumberOfFileChanged); }
-- (void)downloadNumberOfDirectoryChanged { FORWARD_ATTACHMENT_CALLBACK(downloadNumberOfDirectoryChanged); }
-- (void)downloadTotalSizeChanged { FORWARD_ATTACHMENT_CALLBACK(downloadTotalSizeChanged); }
-- (void)downloadDownloadedSizeChanged { FORWARD_ATTACHMENT_CALLBACK(downloadDownloadedSizeChanged); }
-- (void)downloadPercentageChanged { FORWARD_ATTACHMENT_CALLBACK(downloadPercentageChanged); }
-#undef FORWARD_ATTACHMENT_CALLBACK
 @end
 
 /*============================================================================*
@@ -140,23 +113,14 @@
 // ダウンロード開始
 - (void)startDownload:(id<AttachmentClientListener>)obj {
 	if ([self.lock tryLock]) {
-		self.listener = obj;
-		self.connectionListener = [NSXPCListener anonymousListener];
-		self.connectionListener.delegate = self;
-		[self.connectionListener resume];
+		self.callbackRelay = [[AttachmentCallbackRelay alloc] initWithTarget:obj];
+		self.listener = self.callbackRelay;
 		stop		= NO;
 		[NSThread detachNewThreadSelector:@selector(downloadThread:) toTarget:self
-							  withObject:self.connectionListener.endpoint];
+							  withObject:nil];
 	} else {
 		WRN(@"try lock err.");
 	}
-}
-
-- (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
-	newConnection.exportedInterface = [NSXPCInterface interfaceWithProtocol:@protocol(AttachmentClientListener)];
-	newConnection.exportedObject = [[AttachmentClientListenerXPCAdapter alloc] initWithTarget:self.listener];
-	[newConnection resume];
-	return YES;
 }
 
 // ダウンロード停止
@@ -216,16 +180,10 @@
  *----------------------------------------------------------------------------*/
 
 // 添付ダウンロードスレッド
-- (void)downloadThread:(NSXPCListenerEndpoint *)endpoint {
+- (void)downloadThread:(id)param {
     @autoreleasepool {
 	NSInteger					num 	= [_targets count];
 	DownloadResult		result	= DL_SUCCESS;
-	NSXPCConnection*	conn = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
-	conn.remoteObjectInterface = [NSXPCInterface interfaceWithProtocol:@protocol(AttachmentClientListener)];
-	[conn resume];
-	self.listener = [conn synchronousRemoteObjectProxyWithErrorHandler:^(NSError *error) {
-		ERR(@"Attachment callback XPC error: %@", error);
-	}];
 
 	DBG(@"start download thread.");
 
@@ -345,10 +303,8 @@
             result = DL_STOP;
         }
         [_listener downloadDidFinished:result];
-		[conn invalidate];
 		self.listener = nil;
-		[self.connectionListener invalidate];
-		self.connectionListener = nil;
+		self.callbackRelay = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.lock unlock];
         });
@@ -551,52 +507,24 @@
 
 // ソケット受信
 - (DownloadResult)receiveFrom:(int)sock to:(void*)ptr maxLength:(unsigned long long)len {
-
-	int				timeout	= 0;	// タイムアウト回数
-	fd_set			fdSet;			// ソケット監視用
-	struct timeval	tv;				// ソケット監視用
-	unsigned		recvSize = 0;	// 受信データサイズ
-	int				ret;
-	ssize_t				size;
-	for (timeout = 0; (timeout < 40) && !stop; timeout++) {
-		if (stop) {
-			WRN(@"user cancel(stop)");
-			return DL_STOP;
-		}
-		FD_ZERO(&fdSet);
-		FD_SET(sock, &fdSet);
-		tv.tv_sec	= 0;
-		tv.tv_usec	= 500000;
-		// ソケット監視
-		ret = select(sock + 1, &fdSet, NULL, NULL, &tv);
-		if (ret == 0) {
-			// 受信なし
-			DBG(@"timeout(sock=%d,count=%d)", sock, timeout);
-			continue;
-		}
-		if (ret < 0) {
-			// 受信エラー
-			ERR(@"socket error(select).");
-			return DL_SOCKET_ERROR;
-		}
-		// 正常受信
-		timeout = -1;
-		size = recv(sock, &(((char*)ptr)[recvSize]), len - recvSize, 0);
-		if (size < 0) {
-            ERR(@"socket error(recv=%zd,maybe disconnected.)", size);
-			return DL_DISCONNECTED;
-		}
-		recvSize += size;
-		if (recvSize < len) {
-			continue;
-		}
-
+	IPMsgSocketResult result = IPMsgReceiveAll(sock, ptr, (size_t)len,
+	                                           (const volatile unsigned char *)&stop);
+	switch (result) {
+	case IPMsgSocketSuccess:
 		return DL_SUCCESS;
+	case IPMsgSocketStopped:
+		return DL_STOP;
+	case IPMsgSocketTimeout:
+		WRN(@"receive timeout(sock=%d)", sock);
+		return DL_TIMEOUT;
+	case IPMsgSocketError:
+		ERR(@"socket error(select).");
+		return DL_SOCKET_ERROR;
+	case IPMsgSocketDisconnected:
+		ERR(@"socket disconnected before receiving expected data.");
+		return DL_DISCONNECTED;
 	}
-
-	WRN(@"receive timeout(%dsec,sock=%d)", timeout/2, sock);
-
-	return DL_TIMEOUT;
+	return DL_INTERNAL_ERROR;
 }
 
 /*----------------------------------------------------------------------------*

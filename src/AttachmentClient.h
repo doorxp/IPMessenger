@@ -12,6 +12,7 @@
 @class RecvMessage;
 @class Attachment;
 @class AttachmentClient;
+@class AttachmentCallbackRelay;
 
 /*============================================================================*
  * 定数定義
@@ -56,7 +57,7 @@ typedef enum
  * クラス定義
  *============================================================================*/
 
-@interface AttachmentClient : NSObject <NSXPCListenerDelegate> {
+@interface AttachmentClient : NSObject {
 	// ダウンロード管理変数
 
 	BOOL				stop;			// ダウンロード中止フラグ
@@ -72,7 +73,7 @@ typedef enum
 @property(nonatomic, strong)  NSMutableArray*        targets;        // ダウンロード対象添付ファイルリスト
 @property(nonatomic, strong)  NSLock*                lock;            // ダウンロード処理中ロック
 @property(nonatomic, strong)  NSString*            savePath;        // 保存先パス
-@property(nonatomic, strong)  NSXPCListener*       connectionListener; // ダウンロードスレッドとのXPCリスナー
+@property(nonatomic, strong)  AttachmentCallbackRelay* callbackRelay; // UI callback target retained independently of the XPC proxy
 // ステータス管理変数
 @property(nonatomic, strong)  NSDate*                startDate;        // 開始時刻
 @property(nonatomic, strong)  NSString*            currentFile;    // ダウンロード中ファイル／ディレクトリ名
